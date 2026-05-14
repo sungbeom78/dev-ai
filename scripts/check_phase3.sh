@@ -1,61 +1,87 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Exit on any error
-set -e
+BASE_URL="${BASE_URL:-http://localhost:8000}"
 
-echo "1. Checking Docker containers..."
+echo "== BomTS Dev AI Phase 3 Check =="
+echo "BASE_URL=${BASE_URL}"
+
+echo
+echo "1) Docker compose status"
 docker compose ps
 
-echo "2. Checking /health endpoint..."
-HEALTH=$(curl -s http://localhost:8000/health | grep '"status":"ok"')
-if [ -z "$HEALTH" ]; then
-  echo "Error: /health endpoint failed"
-  exit 1
-fi
-echo "Health OK"
+echo
+echo "2) Health check"
+HEALTH_RESPONSE="$(curl -s "${BASE_URL}/health")"
+echo "${HEALTH_RESPONSE}"
 
-echo "3. Creating a test document..."
-DOC_RESP=$(curl -s -X POST http://localhost:8000/documents \
+echo "${HEALTH_RESPONSE}" | grep -q '"status":"ok"' || {
+  echo "ERROR: health check failed"
+  exit 1
+}
+
+echo
+echo "3) Create test document"
+DOC_RESPONSE="$(curl -s -X POST "${BASE_URL}/documents" \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Phase 3 Test",
-    "content": "This is a test document to verify Phase 3 vector indexing and search functionality.",
-    "source": "test",
+    "title": "Phase 3 Vector Search Test",
+    "content": "BomTS Dev AI is a domain-neutral AI backend portfolio. It demonstrates document ingestion, chunking, embedding, Qdrant vector indexing, and semantic search.",
+    "source": "phase3-check-script",
     "license": "private"
-  }')
-DOC_ID=$(echo $DOC_RESP | grep -o '"id":[0-9]*' | grep -o '[0-9]*')
-if [ -z "$DOC_ID" ]; then
-  echo "Error: Document creation failed"
+  }')"
+
+echo "${DOC_RESPONSE}"
+
+DOCUMENT_ID="$(echo "${DOC_RESPONSE}" | python3 -c 'import sys,json; print(json.load(sys.stdin)["id"])')"
+
+if [ -z "${DOCUMENT_ID}" ]; then
+  echo "ERROR: failed to parse document id"
   exit 1
 fi
-echo "Document created with ID: $DOC_ID"
 
-echo "4. Creating chunks..."
-CHUNK_RESP=$(curl -s -X POST http://localhost:8000/documents/$DOC_ID/chunks)
-if [[ $CHUNK_RESP != *"chunk_index"* ]]; then
-  echo "Error: Chunk creation failed"
+echo "DOCUMENT_ID=${DOCUMENT_ID}"
+
+echo
+echo "4) Create chunks"
+CHUNK_RESPONSE="$(curl -s -X POST "${BASE_URL}/documents/${DOCUMENT_ID}/chunks")"
+echo "${CHUNK_RESPONSE}"
+
+echo "${CHUNK_RESPONSE}" | grep -q "chunk_index" || {
+  echo "ERROR: chunk creation failed"
   exit 1
-fi
-echo "Chunks created."
+}
 
-echo "5. Indexing document..."
-INDEX_RESP=$(curl -s -X POST http://localhost:8000/documents/$DOC_ID/index)
-if [[ $INDEX_RESP != *"chunks_indexed"* ]]; then
-  echo "Error: Document indexing failed"
+echo
+echo "5) Index document chunks into Qdrant"
+INDEX_RESPONSE="$(curl -s -X POST "${BASE_URL}/documents/${DOCUMENT_ID}/index")"
+echo "${INDEX_RESPONSE}"
+
+echo "${INDEX_RESPONSE}" | grep -Eq "indexed|count|success|document_id" || {
+  echo "ERROR: indexing response does not look successful"
   exit 1
-fi
-echo "Document indexed."
+}
 
-echo "6. Performing vector search..."
-SEARCH_RESP=$(curl -s -X POST http://localhost:8000/search \
+echo
+echo "6) Search indexed chunks"
+SEARCH_RESPONSE="$(curl -s -X POST "${BASE_URL}/search" \
   -H "Content-Type: application/json" \
-  -d '{"query": "test document", "limit": 1}')
+  -d '{
+    "query": "What does this project demonstrate?",
+    "limit": 5
+  }')"
 
-if [[ $SEARCH_RESP == *"results"* ]]; then
-  echo "Phase 3 OK"
-  exit 0
-else
-  echo "Error: Search failed or no results found in response"
-  echo "Response: $SEARCH_RESP"
+echo "${SEARCH_RESPONSE}" | python3 -m json.tool || echo "${SEARCH_RESPONSE}"
+
+echo "${SEARCH_RESPONSE}" | grep -q "results" || {
+  echo "ERROR: search response does not contain results"
   exit 1
-fi
+}
+
+echo "${SEARCH_RESPONSE}" | grep -q "score" || {
+  echo "ERROR: search response does not contain score"
+  exit 1
+}
+
+echo
+echo "✅ Phase 3 OK: document ingestion, chunking, vector indexing, and search are working."

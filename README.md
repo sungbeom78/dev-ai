@@ -34,8 +34,11 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [컨테이너 네트워크 및 포트 정책](docs/decisions/0002-container-network-and-port-policy.md)
   - [도메인 중립적 AI 포트폴리오 원칙](docs/decisions/0003-domain-neutral-ai-portfolio.md)
   - [Local LLM의 선택적(Optional) Provider 채택 방향](docs/decisions/0004-local-llm-optional-provider.md)
+  - [LLM Provider 추상화 설계](docs/decisions/0005-llm-provider-abstraction.md)
   - [Vector DB 기초](docs/learning/vector-db-basics.md)
   - [임베딩(Embedding) 기초](docs/learning/embedding-basics.md)
+  - [RAG 파이프라인 기초](docs/learning/rag-pipeline.md)
+  - [Prompt Building 전략](docs/learning/prompt-building.md)
 
 ## 데이터베이스 초기화
 현재 MVP 단계(Phase 2)에서는 Alembic과 같은 복잡한 마이그레이션 도구를 배제하고, FastAPI 앱 구동 시(`lifespan` 이벤트) `Base.metadata.create_all()`을 호출하여 PostgreSQL에 `documents`, `document_chunks` 테이블을 자동 생성합니다.
@@ -83,14 +86,28 @@ curl -X POST http://localhost:8000/search \
   -d '{"query":"What is this project about?", "limit": 5}'
 ```
 
+## API 테스트 (Phase 4)
+
+### 7. RAG 기반 답변 생성 (Ask)
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What does this project demonstrate?", "limit": 5}'
+```
+
 ## 외부 노출 포트 정책
 - 서버 호스트의 불필요한 포트 노출을 방지하기 위해 데이터베이스(PostgreSQL)와 Vector DB(Qdrant)는 Docker 내부 네트워크에서만 통신합니다.
 - Phase 3까지는 개발 편의를 위해 API 컨테이너를 `8000` 포트로 노출하고 있습니다.
 - 이후 Phase 5에서 Web UI를 도입하면 최종적으로 `8771` 포트 하나만 외부로 노출하며, Web 컨테이너 내부(Nginx 등)에서 `/api` 경로를 `api:8000`으로 리버스 프록시하는 구조로 변경될 예정입니다.
 
-## 검증 (Phase 3)
-Phase 3 검증 스크립트를 통해 전체 RAG 파이프라인(문서 등록 -> 청킹 -> 임베딩 및 인덱싱 -> 검색)이 올바르게 동작하는지 테스트할 수 있습니다.
+## 검증 스크립트
+각 단계별 검증 스크립트를 통해 전체 파이프라인이 올바르게 동작하는지 테스트할 수 있습니다.
 ```bash
+# Phase 3 검증 (문서 등록 -> 임베딩 -> 검색)
 chmod +x scripts/check_phase3.sh
 ./scripts/check_phase3.sh
+
+# Phase 4 검증 (LLM 답변 생성)
+chmod +x scripts/check_phase4.sh
+./scripts/check_phase4.sh
 ```
