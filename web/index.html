@@ -103,6 +103,48 @@
                 </div>
             </div>
         </section>
+        <!-- Agent Lab -->
+        <section class="card">
+            <h2>5. LangGraph Agent Lab</h2>
+            <form id="agent-form" class="flex-form">
+                <input type="text" id="agent-question" placeholder="Ask agent..." required>
+                <input type="number" id="agent-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask Agent</button>
+            </form>
+            <div class="button-group" style="margin-top: 1rem;">
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='What is BomTS Dev AI?';">Rag Query</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='What can this system do?';">Status</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='How do I register a document?';">How-to</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='Should I buy this stock?';">Out of Scope</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='Help';">Clarify</button>
+            </div>
+            
+            <div id="agent-results" class="result-display hidden">
+                <div class="meta-box">
+                    <span class="badge" style="background-color: var(--primary); color: white;">Intent: <span id="agent-intent"></span></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="agent-answer-text"></p>
+                </div>
+                
+                <div class="meta-box">
+                    <span class="badge" id="agent-provider"></span>
+                    <span class="badge" id="agent-model"></span>
+                    <span class="badge" id="agent-latency"></span>
+                </div>
+
+                <div id="agent-workflow-box" class="sources-box">
+                    <h4>Workflow Steps</h4>
+                    <ul id="agent-workflow-list"></ul>
+                </div>
+                
+                <div id="agent-sources-box" class="sources-box hidden">
+                    <h4>Sources Used</h4>
+                    <ul id="agent-sources-list"></ul>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="app.js"></script>

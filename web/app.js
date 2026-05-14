@@ -172,6 +172,53 @@ document.getElementById('ask-form').addEventListener('submit', async (e) => {
     });
 });
 
+// 7. Agent Ask
+document.getElementById('agent-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+        question: document.getElementById('agent-question').value,
+        limit: parseInt(document.getElementById('agent-limit').value)
+    };
+    
+    const display = document.getElementById('agent-results');
+    display.classList.remove('hidden');
+    document.getElementById('agent-answer-text').textContent = 'Agent is thinking...';
+    document.getElementById('agent-workflow-list').innerHTML = '';
+    document.getElementById('agent-sources-list').innerHTML = '';
+    document.getElementById('agent-sources-box').classList.add('hidden');
+    
+    const res = await fetchJson('/agent/ask', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    });
+    
+    document.getElementById('agent-intent').textContent = res.intent;
+    document.getElementById('agent-answer-text').textContent = res.answer;
+    document.getElementById('agent-provider').textContent = `Provider: ${res.provider}`;
+    document.getElementById('agent-model').textContent = `Model: ${res.model}`;
+    document.getElementById('agent-latency').textContent = `${res.latency_ms}ms`;
+    
+    const workflowList = document.getElementById('agent-workflow-list');
+    res.workflow.forEach(w => {
+        const li = document.createElement('li');
+        li.textContent = `[${w.step}] -> ${w.result}`;
+        workflowList.appendChild(li);
+    });
+
+    if (res.sources && res.sources.length > 0) {
+        document.getElementById('agent-sources-box').classList.remove('hidden');
+        const sourcesList = document.getElementById('agent-sources-list');
+        res.sources.forEach(src => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>[Score: ${src.score.toFixed(3)}] ${src.title}</strong>
+                <p style="font-size:0.85em; margin-top:0.25rem;">${src.content.substring(0, 150)}...</p>
+            `;
+            sourcesList.appendChild(li);
+        });
+    }
+});
+
 // Initialize
 checkHealth();
 loadDocuments();

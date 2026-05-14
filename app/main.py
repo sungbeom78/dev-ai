@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.api import health, documents, ask, search
+from app.api import health, documents, ask, search, agent
 from app.db.database import engine
 from app.db.models import Base
 from app.rag.vector_store import QdrantStore
@@ -36,3 +36,4 @@ app.include_router(health.router, prefix="", tags=["health"])
 app.include_router(documents.router, prefix="/documents", tags=["documents"])
 app.include_router(search.router, prefix="/search", tags=["search"])
 app.include_router(ask.router, prefix="/ask", tags=["ask"])
+app.include_router(agent.router, prefix="/agent", tags=["agent"])
