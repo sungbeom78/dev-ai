@@ -10,6 +10,7 @@ class WorkflowStep(BaseModel):
     result: str
 
 class AgentAskResponse(BaseModel):
+    ask_log_id: int
     question: str
     intent: Optional[str] = None
     answer: Optional[str] = None

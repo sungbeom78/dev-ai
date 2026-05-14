@@ -219,6 +219,105 @@ document.getElementById('agent-form').addEventListener('submit', async (e) => {
     }
 });
 
+// 8. Logs & Feedback
+let currentLogId = null;
+
+async function loadLogs() {
+    const listEl = document.getElementById('log-list');
+    listEl.innerHTML = '<li>Loading logs...</li>';
+    try {
+        const logs = await fetchJson('/logs/asks');
+        listEl.innerHTML = '';
+        if (logs.length === 0) {
+            listEl.innerHTML = '<li>No logs found.</li>';
+            return;
+        }
+        logs.forEach(log => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div>
+                    <strong>[${log.id}] ${log.endpoint_type}</strong> - ${log.question}
+                    <div style="font-size:0.8em; color:var(--text-muted)">
+                        Intent: ${log.intent || 'N/A'} | Latency: ${log.latency_ms}ms
+                    </div>
+                </div>
+                <button class="btn small outline" onclick="viewLogDetail(${log.id})">View</button>
+            `;
+            listEl.appendChild(li);
+        });
+    } catch (e) {
+        listEl.innerHTML = '<li>Failed to load logs.</li>';
+    }
+}
+
+document.getElementById('refresh-logs').addEventListener('click', loadLogs);
+
+window.viewLogDetail = async function(id) {
+    currentLogId = id;
+    const box = document.getElementById('log-detail-box');
+    box.classList.remove('hidden');
+    
+    document.getElementById('detail-question').textContent = 'Loading...';
+    
+    try {
+        const log = await fetchJson(`/logs/asks/${id}`);
+        
+        document.getElementById('detail-endpoint').textContent = log.endpoint_type;
+        document.getElementById('detail-intent').textContent = log.intent || 'N/A';
+        document.getElementById('detail-provider').textContent = `${log.provider} (${log.model})`;
+        document.getElementById('detail-latency').textContent = `${log.latency_ms}ms`;
+        
+        document.getElementById('detail-question').textContent = log.question;
+        document.getElementById('detail-answer').textContent = log.answer;
+        
+        const sourcesList = document.getElementById('detail-sources-list');
+        sourcesList.innerHTML = '';
+        if (log.sources && log.sources.length > 0) {
+            log.sources.forEach(src => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>[Score: ${src.score.toFixed(3)}] ${src.title}</strong><br>${src.content.substring(0, 100)}...`;
+                sourcesList.appendChild(li);
+            });
+        } else {
+            sourcesList.innerHTML = '<li>No sources used.</li>';
+        }
+        
+        const feedbackList = document.getElementById('detail-feedback-list');
+        feedbackList.innerHTML = '';
+        if (log.feedback && log.feedback.length > 0) {
+            log.feedback.forEach(fb => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${fb.rating}</strong>: ${fb.comment || ''}`;
+                feedbackList.appendChild(li);
+            });
+        } else {
+            feedbackList.innerHTML = '<li>No feedback yet.</li>';
+        }
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+document.getElementById('feedback-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentLogId) return;
+    
+    const payload = {
+        rating: document.getElementById('feedback-rating').value,
+        comment: document.getElementById('feedback-comment').value
+    };
+    
+    await fetchJson(`/logs/asks/${currentLogId}/feedback`, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    });
+    
+    alert('Feedback submitted!');
+    e.target.reset();
+    viewLogDetail(currentLogId);
+});
+
 // Initialize
 checkHealth();
 loadDocuments();
+loadLogs();

@@ -145,6 +145,55 @@
                 </div>
             </div>
         </section>
+        <!-- Evaluation & Logs Lab -->
+        <section class="card">
+            <div class="card-header">
+                <h2>6. Evaluation & Logs</h2>
+                <button id="refresh-logs" class="btn outline small">Refresh Logs</button>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <ul id="log-list" class="item-list"></ul>
+                </div>
+            </div>
+            
+            <div id="log-detail-box" class="result-display hidden">
+                <h3>Log Detail</h3>
+                <div class="meta-box">
+                    <span class="badge" id="detail-endpoint"></span>
+                    <span class="badge" id="detail-intent"></span>
+                    <span class="badge" id="detail-provider"></span>
+                    <span class="badge" id="detail-latency"></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Question</h4>
+                    <p id="detail-question"></p>
+                    <h4 style="margin-top: 10px;">Answer</h4>
+                    <p id="detail-answer"></p>
+                </div>
+                
+                <div class="sources-box">
+                    <h4>Sources</h4>
+                    <ul id="detail-sources-list"></ul>
+                </div>
+
+                <div class="sources-box" style="margin-top: 10px;">
+                    <h4>Feedback</h4>
+                    <ul id="detail-feedback-list"></ul>
+                    
+                    <form id="feedback-form" class="flex-form" style="margin-top: 10px;">
+                        <select id="feedback-rating" class="input-small" style="width: auto; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem;">
+                            <option value="up">👍 Useful</option>
+                            <option value="down">👎 Not Useful</option>
+                            <option value="neutral">😐 Neutral</option>
+                        </select>
+                        <input type="text" id="feedback-comment" placeholder="Optional comment...">
+                        <button type="submit" class="btn secondary small">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="app.js"></script>

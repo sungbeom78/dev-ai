@@ -14,6 +14,7 @@ class AskSource(BaseModel):
     source: str
 
 class AskResponse(BaseModel):
+    ask_log_id: int
     question: str
     answer: str
     sources: List[AskSource]

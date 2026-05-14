@@ -37,6 +37,7 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [LLM Provider 추상화 설계](docs/decisions/0005-llm-provider-abstraction.md)
   - [Web UI 배포 및 포트 정책 (8771)](docs/decisions/0006-web-ui-port-8771.md)
   - [LangGraph를 활용한 Agent Workflow 도입](docs/decisions/0007-use-langgraph-for-agent-workflow.md)
+  - [평가 로깅 및 피드백 기능 도입](docs/decisions/0008-add-evaluation-logging.md)
   - [Vector DB 기초](docs/learning/vector-db-basics.md)
   - [임베딩(Embedding) 기초](docs/learning/embedding-basics.md)
   - [RAG 파이프라인 기초](docs/learning/rag-pipeline.md)
@@ -44,6 +45,8 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [Web UI를 통한 RAG 시각화](docs/learning/web-ui.md)
   - [LangGraph 기초 및 구현](docs/learning/langgraph-basics.md)
   - [Agent Workflow 도입 이유](docs/learning/agent-workflow.md)
+  - [AI 서비스의 평가와 피드백](docs/learning/evaluation-and-feedback.md)
+  - [AI 관찰 가능성 (Observability) 기초](docs/learning/ai-observability.md)
 
 ## 데이터베이스 초기화
 현재 MVP 단계(Phase 2)에서는 Alembic과 같은 복잡한 마이그레이션 도구를 배제하고, FastAPI 앱 구동 시(`lifespan` 이벤트) `Base.metadata.create_all()`을 호출하여 PostgreSQL에 `documents`, `document_chunks` 테이블을 자동 생성합니다.
@@ -84,4 +87,8 @@ chmod +x scripts/check_phase5.sh
 # Phase 6 검증 (LangGraph Agent Workflow 테스트)
 chmod +x scripts/check_phase6.sh
 ./scripts/check_phase6.sh
+
+# Phase 7 검증 (평가 로깅 및 피드백 기능)
+chmod +x scripts/check_phase7.sh
+./scripts/check_phase7.sh
 ```
