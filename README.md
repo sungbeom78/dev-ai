@@ -48,6 +48,12 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [AI 서비스의 평가와 피드백](docs/learning/evaluation-and-feedback.md)
   - [AI 관찰 가능성 (Observability) 기초](docs/learning/ai-observability.md)
 
+## 단일 진입점 (Single Entrypoint) 정책
+이 프로젝트는 `http://localhost:8771` 포트 단일 진입점을 제공합니다. Nginx 리버스 프록시가 적용되어 다음과 같이 요청을 분기합니다.
+- `http://localhost:8771/`: Web UI(정적 파일) 제공
+- `http://localhost:8771/api/`: FastAPI 백엔드로 리버스 프록시 (내부 8000 포트)
+기존 개발용 8000 포트는 유지되나, 실제 서비스 접근 및 포트폴리오 시연 시에는 8771 포트를 사용합니다.
+
 ## 데이터베이스 초기화
 현재 MVP 단계(Phase 2)에서는 Alembic과 같은 복잡한 마이그레이션 도구를 배제하고, FastAPI 앱 구동 시(`lifespan` 이벤트) `Base.metadata.create_all()`을 호출하여 PostgreSQL에 `documents`, `document_chunks` 테이블을 자동 생성합니다.
 
@@ -91,4 +97,8 @@ chmod +x scripts/check_phase6.sh
 # Phase 7 검증 (평가 로깅 및 피드백 기능)
 chmod +x scripts/check_phase7.sh
 ./scripts/check_phase7.sh
+
+# Phase 7.5 검증 (Nginx API Proxy 및 단일 진입점)
+chmod +x scripts/check_phase7_5.sh
+./scripts/check_phase7_5.sh
 ```
