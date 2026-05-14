@@ -5,7 +5,10 @@ from typing import List
 from app.db.database import get_db
 from app.db.models import Document, DocumentChunk
 from app.schemas.document import DocumentCreate, DocumentResponse, ChunkResponse
+from app.schemas.search import IndexResponse
 from app.rag.chunker import CharacterChunker
+from app.rag.embeddings import Embedder
+from app.rag.vector_store import QdrantStore
 
 router = APIRouter()
 
@@ -62,3 +65,33 @@ def get_document_chunks(document_id: int, db: Session = Depends(get_db)):
         
     chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).order_by(DocumentChunk.chunk_index).all()
     return chunks
+
+@router.post("/{document_id}/index", response_model=IndexResponse)
+def index_document(document_id: int, db: Session = Depends(get_db)):
+    doc = db.query(Document).filter(Document.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+        
+    chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).order_by(DocumentChunk.chunk_index).all()
+    if not chunks:
+        chunks = create_document_chunks(document_id, db)
+        
+    embedder = Embedder()
+    vector_store = QdrantStore()
+    
+    chunks_data = []
+    for chunk in chunks:
+        vector = embedder.get_embedding(chunk.content)
+        chunks_data.append({
+            "chunk_id": chunk.id,
+            "document_id": document_id,
+            "chunk_index": chunk.chunk_index,
+            "title": doc.title,
+            "content": chunk.content,
+            "source": doc.source,
+            "vector": vector
+        })
+        
+    vector_store.upsert_chunks(chunks_data)
+    
+    return IndexResponse(document_id=document_id, chunks_indexed=len(chunks_data))

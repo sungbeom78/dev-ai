@@ -4,7 +4,7 @@ WORKDIR /code
 
 COPY pyproject.toml .
 # Install basic dependencies right away for faster build during development
-RUN pip install --no-cache-dir fastapi uvicorn pydantic psycopg2-binary qdrant-client sqlalchemy
+RUN pip install --no-cache-dir fastapi uvicorn pydantic psycopg2-binary qdrant-client sqlalchemy openai
 
 COPY ./app /code/app
 
