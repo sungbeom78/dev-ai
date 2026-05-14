@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bomts-dev-ai"
+version = "0.1.0"
+description = "AI Backend Portfolio MVP"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "pydantic>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "qdrant-client>=1.7.0",
+    "sqlalchemy>=2.0.0"
+]
