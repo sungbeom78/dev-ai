@@ -35,70 +35,33 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [도메인 중립적 AI 포트폴리오 원칙](docs/decisions/0003-domain-neutral-ai-portfolio.md)
   - [Local LLM의 선택적(Optional) Provider 채택 방향](docs/decisions/0004-local-llm-optional-provider.md)
   - [LLM Provider 추상화 설계](docs/decisions/0005-llm-provider-abstraction.md)
+  - [Web UI 배포 및 포트 정책 (8771)](docs/decisions/0006-web-ui-port-8771.md)
   - [Vector DB 기초](docs/learning/vector-db-basics.md)
   - [임베딩(Embedding) 기초](docs/learning/embedding-basics.md)
   - [RAG 파이프라인 기초](docs/learning/rag-pipeline.md)
   - [Prompt Building 전략](docs/learning/prompt-building.md)
+  - [Web UI를 통한 RAG 시각화](docs/learning/web-ui.md)
 
 ## 데이터베이스 초기화
 현재 MVP 단계(Phase 2)에서는 Alembic과 같은 복잡한 마이그레이션 도구를 배제하고, FastAPI 앱 구동 시(`lifespan` 이벤트) `Base.metadata.create_all()`을 호출하여 PostgreSQL에 `documents`, `document_chunks` 테이블을 자동 생성합니다.
 
-## API 테스트 (Phase 2)
-
-### 1. 문서 등록
-```bash
-curl -X POST http://localhost:8000/documents \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "BomTS Dev AI Intent",
-    "content": "This project is a portfolio for AI backend development using FastAPI, PostgreSQL, Qdrant, and RAG.",
-    "source": "manual",
-    "license": "private"
-  }'
-```
-
-### 2. 문서 목록 조회
-```bash
-curl http://localhost:8000/documents
-```
-
-### 3. 문서 청킹 (Chunking) 실행
-```bash
-curl -X POST http://localhost:8000/documents/1/chunks
-```
-
-### 4. 청크 목록 조회
-```bash
-curl http://localhost:8000/documents/1/chunks
-```
-
-## API 테스트 (Phase 3)
-
-### 5. 문서 임베딩 및 Qdrant 저장 (Index)
-```bash
-curl -X POST http://localhost:8000/documents/1/index
-```
-
-### 6. Vector 유사도 검색
-```bash
-curl -X POST http://localhost:8000/search \
-  -H "Content-Type: application/json" \
-  -d '{"query":"What is this project about?", "limit": 5}'
-```
-
-## API 테스트 (Phase 4)
-
-### 7. RAG 기반 답변 생성 (Ask)
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question":"What does this project demonstrate?", "limit": 5}'
-```
+## Web UI 사용 방법 (Phase 5)
+브라우저에서 전체 RAG 워크플로우를 시각적으로 테스트할 수 있습니다.
+- **Web UI URL**: `http://localhost:8771`
+- **API URL**: `http://localhost:8000` (Phase 5 기준)
+  
+Web UI에서 지원하는 기능:
+1. 문서 텍스트 직접 입력 및 등록
+2. 문서 목록 조회 및 선택
+3. 문서 청킹(Chunking) 생성
+4. Qdrant 벡터 인덱싱(Indexing)
+5. 의미론적 유사도 검색(Semantic Search)
+6. LLM 기반 답변 생성(RAG Ask) 및 참고 소스, Latency 확인
 
 ## 외부 노출 포트 정책
 - 서버 호스트의 불필요한 포트 노출을 방지하기 위해 데이터베이스(PostgreSQL)와 Vector DB(Qdrant)는 Docker 내부 네트워크에서만 통신합니다.
-- Phase 3까지는 개발 편의를 위해 API 컨테이너를 `8000` 포트로 노출하고 있습니다.
-- 이후 Phase 5에서 Web UI를 도입하면 최종적으로 `8771` 포트 하나만 외부로 노출하며, Web 컨테이너 내부(Nginx 등)에서 `/api` 경로를 `api:8000`으로 리버스 프록시하는 구조로 변경될 예정입니다.
+- Phase 5까지는 개발 편의를 위해 API 컨테이너를 `8000` 포트로 노출하고 있습니다.
+- 향후에는 Nginx의 Reverse Proxy를 통해 외부 노출 포트를 `8771` 하나로 줄이고, API 요청(`/api/*`)을 내부 네트워크로 라우팅하는 구조로 변경할 예정입니다.
 
 ## 검증 스크립트
 각 단계별 검증 스크립트를 통해 전체 파이프라인이 올바르게 동작하는지 테스트할 수 있습니다.
@@ -110,4 +73,8 @@ chmod +x scripts/check_phase3.sh
 # Phase 4 검증 (LLM 답변 생성)
 chmod +x scripts/check_phase4.sh
 ./scripts/check_phase4.sh
+
+# Phase 5 검증 (Web UI 및 전체 통합 테스트)
+chmod +x scripts/check_phase5.sh
+./scripts/check_phase5.sh
 ```

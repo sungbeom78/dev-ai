@@ -46,6 +46,16 @@ services:
     volumes:
       - qdrant_data:/qdrant/storage
 
+  web:
+    image: nginx:alpine
+    container_name: bomts_web
+    ports:
+      - "8771:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+
 volumes:
   postgres_data:
   qdrant_data:

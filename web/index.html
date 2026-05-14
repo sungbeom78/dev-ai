@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BomTS Dev AI - RAG Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div>
+                <h1>BomTS Dev AI</h1>
+                <p class="subtitle">AI Backend Portfolio / RAG Learning Path</p>
+            </div>
+            <div class="status-panel">
+                <div id="api-status" class="status-badge loading">API: Checking...</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Document Registration -->
+        <section class="card">
+            <h2>1. Document Ingestion</h2>
+            <form id="ingest-form" class="form-grid">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="doc-title" placeholder="e.g. RAG Architecture Guide" required>
+                </div>
+                <div class="form-group">
+                    <label>Source</label>
+                    <input type="text" id="doc-source" value="manual">
+                </div>
+                <div class="form-group">
+                    <label>License</label>
+                    <input type="text" id="doc-license" value="private">
+                </div>
+                <div class="form-group full-width">
+                    <label>Content</label>
+                    <textarea id="doc-content" rows="4" placeholder="Enter document text here..." required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit" class="btn primary">Register Document</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Document List & Actions -->
+        <section class="card">
+            <div class="card-header">
+                <h2>2. Documents & Chunks</h2>
+                <button id="refresh-docs" class="btn outline small">Refresh List</button>
+            </div>
+            <div class="list-container">
+                <ul id="doc-list" class="item-list"></ul>
+            </div>
+            
+            <div id="doc-actions" class="actions-panel hidden">
+                <h3 id="selected-doc-title">Selected: -</h3>
+                <div class="button-group">
+                    <button id="btn-create-chunks" class="btn">Create Chunks</button>
+                    <button id="btn-get-chunks" class="btn outline">View Chunks</button>
+                    <button id="btn-index" class="btn secondary">Index to Vector DB</button>
+                </div>
+                <div id="chunks-display" class="result-display hidden"></div>
+            </div>
+        </section>
+
+        <!-- Search Lab -->
+        <section class="card">
+            <h2>3. Semantic Search Lab</h2>
+            <form id="search-form" class="flex-form">
+                <input type="text" id="search-query" placeholder="Enter search query..." required>
+                <input type="number" id="search-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Search</button>
+            </form>
+            <div id="search-results" class="result-display hidden"></div>
+        </section>
+
+        <!-- Ask Lab -->
+        <section class="card">
+            <h2>4. RAG Ask Lab</h2>
+            <form id="ask-form" class="flex-form">
+                <input type="text" id="ask-question" placeholder="Ask a question..." required>
+                <input type="number" id="ask-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask</button>
+            </form>
+            <div id="ask-results" class="result-display hidden">
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="ask-answer-text"></p>
+                </div>
+                <div class="meta-box">
+                    <span class="badge" id="ask-provider"></span>
+                    <span class="badge" id="ask-model"></span>
+                    <span class="badge" id="ask-latency"></span>
+                </div>
+                <div id="ask-sources-box" class="sources-box">
+                    <h4>Sources Used</h4>
+                    <ul id="ask-sources-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
