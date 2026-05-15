@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Float
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Float, Boolean
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -70,3 +70,37 @@ class FeedbackLog(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     ask_log = relationship("AskLog", back_populates="feedback")
+
+class ContentSource(Base):
+    __tablename__ = "content_sources"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    base_url = Column(String(255), nullable=False)
+    source_type = Column(String(50)) # blog, docs, newsletter, model_blog, manual
+    category = Column(String(50)) # open_model, rag, agent, vibe_coding, model_serving, ai_engineering
+    enabled = Column(Boolean, default=True)
+    crawl_interval_hours = Column(Integer, default=24)
+    last_crawled_at = Column(DateTime(timezone=True))
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    crawled_pages = relationship("CrawledPage", back_populates="source", cascade="all, delete-orphan")
+
+class CrawledPage(Base):
+    __tablename__ = "crawled_pages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    source_id = Column(Integer, ForeignKey("content_sources.id", ondelete="CASCADE"), nullable=False)
+    url = Column(String(512), nullable=False, unique=True)
+    title = Column(String(512))
+    content = Column(Text)
+    summary = Column(Text)
+    author = Column(String(255))
+    published_at = Column(DateTime(timezone=True))
+    crawled_at = Column(DateTime(timezone=True), server_default=func.now())
+    status = Column(String(50), default="fetched") # fetched, failed, skipped
+    error_message = Column(Text)
+    document_id = Column(Integer, ForeignKey("documents.id", ondelete="SET NULL"))
+
+    source = relationship("ContentSource", back_populates="crawled_pages")
+    document = relationship("Document")

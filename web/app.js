@@ -317,7 +317,102 @@ document.getElementById('feedback-form').addEventListener('submit', async (e) =>
     viewLogDetail(currentLogId);
 });
 
+// 9. AI Trend Sources
+async function loadSources() {
+    const listEl = document.getElementById('source-list');
+    listEl.innerHTML = '<li>Loading sources...</li>';
+    try {
+        const sources = await fetchJson('/sources');
+        listEl.innerHTML = '';
+        if (sources.length === 0) {
+            listEl.innerHTML = '<li>No sources found.</li>';
+            return;
+        }
+        sources.forEach(src => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div>
+                    <strong>${src.name}</strong> (${src.category})
+                    <div style="font-size:0.8em; color:var(--text-muted)">${src.base_url} | Enabled: ${src.enabled}</div>
+                </div>
+            `;
+            listEl.appendChild(li);
+        });
+    } catch (e) {
+        listEl.innerHTML = '<li>Failed to load sources.</li>';
+    }
+}
+
+document.getElementById('refresh-sources').addEventListener('click', loadSources);
+
+document.getElementById('fetch-url-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const url = document.getElementById('fetch-url-input').value;
+    const display = document.getElementById('fetch-url-results');
+    display.classList.remove('hidden');
+    display.textContent = 'Fetching and extracting...';
+
+    try {
+        const res = await fetchJson('/sources/fetch-url', {
+            method: 'POST',
+            body: JSON.stringify({ url: url, source_name: "manual-url", category: "ai_engineering" })
+        });
+        display.textContent = `Success! Document ID: ${res.document_id}\nTitle: ${res.title}\nContent Length: ${res.content_length} chars`;
+        loadDocuments();
+    } catch (e) {
+        display.textContent = `Error: ${e.message}`;
+    }
+});
+
+// 10. AI Trend Lab Agent Ask
+document.getElementById('trend-ask-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+        question: document.getElementById('trend-ask-question').value,
+        limit: parseInt(document.getElementById('trend-ask-limit').value)
+    };
+    
+    const display = document.getElementById('trend-ask-results');
+    display.classList.remove('hidden');
+    document.getElementById('trend-agent-answer-text').textContent = 'Agent is thinking...';
+    document.getElementById('trend-agent-workflow-list').innerHTML = '';
+    document.getElementById('trend-agent-sources-list').innerHTML = '';
+    document.getElementById('trend-agent-sources-box').classList.add('hidden');
+    
+    const res = await fetchJson('/agent/ask', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    });
+    
+    document.getElementById('trend-agent-intent').textContent = res.intent;
+    document.getElementById('trend-agent-answer-text').textContent = res.answer;
+    document.getElementById('trend-agent-provider').textContent = `Provider: ${res.provider}`;
+    document.getElementById('trend-agent-model').textContent = `Model: ${res.model}`;
+    document.getElementById('trend-agent-latency').textContent = `${res.latency_ms}ms`;
+    
+    const workflowList = document.getElementById('trend-agent-workflow-list');
+    res.workflow.forEach(w => {
+        const li = document.createElement('li');
+        li.textContent = `[${w.step}] -> ${w.result}`;
+        workflowList.appendChild(li);
+    });
+
+    if (res.sources && res.sources.length > 0) {
+        document.getElementById('trend-agent-sources-box').classList.remove('hidden');
+        const sourcesList = document.getElementById('trend-agent-sources-list');
+        res.sources.forEach(src => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <strong>[Score: ${src.score.toFixed(3)}] ${src.title}</strong>
+                <p style="font-size:0.85em; margin-top:0.25rem;">${src.content.substring(0, 150)}...</p>
+            `;
+            sourcesList.appendChild(li);
+        });
+    }
+});
+
 // Initialize
 checkHealth();
 loadDocuments();
 loadLogs();
+loadSources();

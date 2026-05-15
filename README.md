@@ -47,6 +47,31 @@ AI 백엔드 개발자 지원용 포트폴리오 프로젝트입니다. FastAPI,
   - [Agent Workflow 도입 이유](docs/learning/agent-workflow.md)
   - [AI 서비스의 평가와 피드백](docs/learning/evaluation-and-feedback.md)
   - [AI 관찰 가능성 (Observability) 기초](docs/learning/ai-observability.md)
+  - [AI 트렌드 자동 수집 파이프라인 (Phase 8)](docs/learning/ai-trend-pipeline.md)
+  - [안전한 웹 크롤링 정책](docs/learning/web-crawling-policy.md)
+  - [AI Trend Source Pipeline 도입 의사결정](docs/decisions/0009-add-ai-trend-source-pipeline.md)
+  - [Reference Pipeline 안정화 및 문서화](docs/decisions/0010-reference-pipeline-stabilization.md)
+  - [Reference Pipeline 개요](docs/learning/reference-pipeline-overview.md)
+
+## Current Capabilities (현재 제공 기능)
+
+- **Manual Document Ingestion**: 직접 문서나 메모를 등록 (`POST /documents`, UI 섹션 1)
+- **Chunking**: 문서를 적절한 크기로 분할 (`POST /documents/{id}/chunks`, UI 섹션 2)
+- **Vector Indexing**: 청크를 임베딩하여 Vector DB에 저장 (`POST /documents/{id}/index`, UI 섹션 2)
+- **Semantic Search**: 의미 기반 검색 (`POST /search`, UI 섹션 3)
+- **RAG Ask**: 검색 기반 LLM 답변 생성 (`POST /ask`, UI 섹션 4)
+- **LangGraph Agent Ask**: 의도 분석 및 라우팅 에이전트 (`POST /agent/ask`, UI 섹션 5)
+- **Evaluation Logs / Feedback**: 답변 평가 및 피드백 기록 (`GET /logs/asks`, `POST /logs/asks/{id}/feedback`, UI 섹션 6)
+- **AI Engineering Reference Source 등록**: 크롤링 대상 소스 관리 (`GET /sources`, `POST /sources`, UI 섹션 7)
+- **URL 기반 Reference 수집**: 특정 URL 문서 수집 및 정규화 (`POST /sources/fetch-url`, UI 섹션 7)
+- **Reference 질의응답**: 수집된 AI 개발 문서를 기반으로 답변 (`POST /agent/ask`, UI 섹션 8)
+
+### 현재 한계 (Limitations)
+- 현재 크롤러는 공개 페이지와 단일 URL 수집을 중심으로 작동합니다.
+- JavaScript 렌더링이 필수적인 동적 페이지는 아직 추출이 제한적입니다.
+- robots.txt와 rate limit 정책을 준수하므로 대규모 연속 수집보다는 필요한 문서 중심의 수집을 지향합니다.
+- Reference Pipeline은 자동 뉴스 수집기가 아니라 AI 개발 참고자료 관리 시스템입니다. 요약 및 적용 메모(Application Note)는 아직 기초적인 수준입니다.
+- Local LLM은 선택 기능이며 항상 연결되는 운영 의존성이 아닙니다.
 
 ## 단일 진입점 (Single Entrypoint) 정책
 이 프로젝트는 `http://localhost:8771` 포트 단일 진입점을 제공합니다. Nginx 리버스 프록시가 적용되어 다음과 같이 요청을 분기합니다.
@@ -101,4 +126,25 @@ chmod +x scripts/check_phase7.sh
 # Phase 7.5 검증 (Nginx API Proxy 및 단일 진입점)
 chmod +x scripts/check_phase7_5.sh
 ./scripts/check_phase7_5.sh
+
+# Phase 8 검증 (AI Trend Source Pipeline)
+chmod +x scripts/check_phase8.sh
+./scripts/check_phase8.sh
+
+# Phase 8.1 검증 (Reference Pipeline Stabilization)
+chmod +x scripts/check_phase8_1.sh
+./scripts/check_phase8_1.sh
+```
+
+## 외부 데이터 수집(Crawling) 사용법
+Phase 8에 추가된 외부 AI 블로그 자동 수집 기능입니다.
+```bash
+# 기본 소스 목록 등록
+docker compose exec api python scripts/seed_sources.py
+
+# CLI 스크립트를 통한 특정 URL 수집
+docker compose exec api python scripts/crawl_source.py --url https://example.com/article
+
+# 특정 소스의 여러 문서 수집
+docker compose exec api python scripts/crawl_source.py --source "Hugging Face Blog" --limit 3
 ```

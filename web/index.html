@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BomTS Dev AI - RAG Lab</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -24,6 +24,7 @@
         <!-- Document Registration -->
         <section class="card">
             <h2>1. Document Ingestion</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">직접 문서나 메모를 등록하는 영역입니다. 등록된 문서는 chunking과 vector indexing을 거쳐 RAG 검색에 사용됩니다.</p>
             <form id="ingest-form" class="form-grid">
                 <div class="form-group">
                     <label>Title</label>
@@ -53,6 +54,7 @@
                 <h2>2. Documents & Chunks</h2>
                 <button id="refresh-docs" class="btn outline small">Refresh List</button>
             </div>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">등록된 문서를 확인하고 텍스트를 청크(Chunk) 단위로 분할하여 Vector DB에 인덱싱합니다.</p>
             <div class="list-container">
                 <ul id="doc-list" class="item-list"></ul>
             </div>
@@ -71,6 +73,7 @@
         <!-- Search Lab -->
         <section class="card">
             <h2>3. Semantic Search Lab</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">Vector DB에 저장된 문서를 의미 기반(Semantic)으로 검색하여 가장 유사한 내용을 찾습니다.</p>
             <form id="search-form" class="flex-form">
                 <input type="text" id="search-query" placeholder="Enter search query..." required>
                 <input type="number" id="search-limit" value="3" min="1" max="10" class="input-small">
@@ -82,6 +85,7 @@
         <!-- Ask Lab -->
         <section class="card">
             <h2>4. RAG Ask Lab</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">질문을 입력하면 검색된 문서를 기반으로 LLM이 답변을 생성하는 기본 RAG 흐름을 테스트합니다.</p>
             <form id="ask-form" class="flex-form">
                 <input type="text" id="ask-question" placeholder="Ask a question..." required>
                 <input type="number" id="ask-limit" value="3" min="1" max="10" class="input-small">
@@ -106,6 +110,7 @@
         <!-- Agent Lab -->
         <section class="card">
             <h2>5. LangGraph Agent Lab</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">LangGraph 워크플로우를 통해 질문 의도를 분류하고, RAG/사용법/시스템 상태/범위 외 질문으로 분기합니다.</p>
             <form id="agent-form" class="flex-form">
                 <input type="text" id="agent-question" placeholder="Ask agent..." required>
                 <input type="number" id="agent-limit" value="3" min="1" max="10" class="input-small">
@@ -151,6 +156,7 @@
                 <h2>6. Evaluation & Logs</h2>
                 <button id="refresh-logs" class="btn outline small">Refresh Logs</button>
             </div>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">질문, 응답, 검색 결과, latency, feedback을 기록해 AI 응답 품질을 개선하기 위한 영역입니다.</p>
             
             <div class="form-grid">
                 <div class="form-group full-width">
@@ -194,8 +200,70 @@
                 </div>
             </div>
         </section>
+        <!-- AI Trend Sources -->
+        <section class="card">
+            <div class="card-header">
+                <h2>7. AI Reference Sources</h2>
+                <button id="refresh-sources" class="btn outline small">Refresh List</button>
+            </div>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">AI 개발 관련 공식 문서/블로그/레퍼런스를 수집하기 위한 영역입니다. 수집된 자료는 원문, 요약, 적용 메모로 정리되어 RAG 지식 베이스에 추가됩니다.</p>
+            <div class="list-container" style="margin-bottom: 1rem;">
+                <ul id="source-list" class="item-list"></ul>
+            </div>
+            
+            <h3>Crawl Single URL</h3>
+            <form id="fetch-url-form" class="flex-form">
+                <input type="text" id="fetch-url-input" placeholder="https://example.com/article" required>
+                <button type="submit" class="btn primary">Fetch URL</button>
+            </form>
+            <div id="fetch-url-results" class="result-display hidden"></div>
+        </section>
+
+        <!-- AI Trend Lab -->
+        <section class="card">
+            <h2>8. AI Reference Lab</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9em;">수집된 레퍼런스를 기반으로 현재 프로젝트에 적용 가능한 기술, 패턴, 개선 방향을 질의응답하는 영역입니다.</p>
+            <form id="trend-ask-form" class="flex-form">
+                <input type="text" id="trend-ask-question" placeholder="e.g. What are recent trends in open-source LLMs?" required>
+                <input type="number" id="trend-ask-limit" value="5" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask Agent</button>
+            </form>
+            
+            <div class="button-group" style="margin-top: 1rem;">
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What are recent trends in open-source LLMs?';">Trends</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What is vibe coding?';">Vibe Coding</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='How are developers using RAG and agents?';">RAG/Agents</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What should I learn next for AI backend development?';">Learning</button>
+            </div>
+            
+            <div id="trend-ask-results" class="result-display hidden">
+                <div class="meta-box">
+                    <span class="badge" style="background-color: var(--primary); color: white;">Intent: <span id="trend-agent-intent"></span></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="trend-agent-answer-text"></p>
+                </div>
+                
+                <div class="meta-box">
+                    <span class="badge" id="trend-agent-provider"></span>
+                    <span class="badge" id="trend-agent-model"></span>
+                    <span class="badge" id="trend-agent-latency"></span>
+                </div>
+
+                <div id="trend-agent-workflow-box" class="sources-box">
+                    <h4>Workflow Steps</h4>
+                    <ul id="trend-agent-workflow-list"></ul>
+                </div>
+                
+                <div id="trend-agent-sources-box" class="sources-box hidden">
+                    <h4>Sources Used</h4>
+                    <ul id="trend-agent-sources-list"></ul>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=1.1"></script>
 </body>
 </html>
