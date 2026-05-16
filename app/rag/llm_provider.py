@@ -1,12 +1,20 @@
 import os
+import requests
 from abc import ABC, abstractmethod
 from typing import Tuple
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "mock")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-LOCAL_LLM_BASE_URL = os.getenv("LOCAL_LLM_BASE_URL", "")
-LOCAL_LLM_MODEL = os.getenv("LOCAL_LLM_MODEL", "")
+
+# OpenClaw Settings
+OPENCLAW_BASE_URL = os.getenv("OPENCLAW_BASE_URL", "")
+OPENCLAW_DEFAULT_MODEL = os.getenv("OPENCLAW_DEFAULT_MODEL", "gemma3:4b")
+OPENCLAW_TIMEOUT = int(os.getenv("OPENCLAW_TIMEOUT_SECONDS", "60"))
+
+# Google Provider Settings
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
+GOOGLE_DEFAULT_MODEL = os.getenv("GOOGLE_DEFAULT_MODEL", "gemini-1.5-flash")
 
 class BaseLLMProvider(ABC):
     @abstractmethod
@@ -38,14 +46,44 @@ class OpenAILLMProvider(BaseLLMProvider):
         )
         return response.choices[0].message.content, self.model
 
-class LocalLLMProvider(BaseLLMProvider):
+class OpenClawLLMProvider(BaseLLMProvider):
     def __init__(self):
-        # TODO: Implement local LLM connection (e.g. Ollama, vLLM)
-        self.base_url = LOCAL_LLM_BASE_URL
-        self.model = LOCAL_LLM_MODEL
+        self.base_url = OPENCLAW_BASE_URL
+        self.model = OPENCLAW_DEFAULT_MODEL
+        self.timeout = OPENCLAW_TIMEOUT
         
     def generate_answer(self, prompt: str) -> Tuple[str, str]:
-        return "Local LLM is not implemented yet. Please use mock or openai.", self.model or "local-llm"
+        if not self.base_url:
+            return "OpenClaw base URL is not configured.", "openclaw-error"
+            
+        url = f"{self.base_url}/api/chat"
+        payload = {
+            "message": prompt,
+            "model": self.model,
+            "mode": "auto",
+            "workspaceRoot": "/project"
+        }
+        
+        try:
+            response = requests.post(url, json=payload, timeout=self.timeout)
+            response.raise_for_status()
+            data = response.json()
+            answer = data.get("answer") or data.get("message") or str(data)
+            return answer, self.model
+        except Exception as e:
+            return f"Error calling OpenClaw API: {e}", self.model
+
+class GoogleLLMProvider(BaseLLMProvider):
+    def __init__(self):
+        self.api_key = GOOGLE_API_KEY
+        self.model = GOOGLE_DEFAULT_MODEL
+        
+    def generate_answer(self, prompt: str) -> Tuple[str, str]:
+        if not self.api_key:
+            return "Google API key is not configured.", "google-error"
+        
+        # Currently a placeholder for Google provider implementation.
+        return "Google LLM Provider is ready but full implementation is pending.", self.model
 
 def get_llm_provider() -> BaseLLMProvider:
     if LLM_PROVIDER == "openai":
@@ -53,7 +91,9 @@ def get_llm_provider() -> BaseLLMProvider:
             return OpenAILLMProvider()
         else:
             return MockLLMProvider() # fallback
-    elif LLM_PROVIDER == "local":
-        return LocalLLMProvider()
+    elif LLM_PROVIDER == "openclaw":
+        return OpenClawLLMProvider()
+    elif LLM_PROVIDER == "google":
+        return GoogleLLMProvider()
     else:
         return MockLLMProvider()

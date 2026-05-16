@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테스트 콘솔 - BomTS Dev AI</title>
+    <link rel="stylesheet" href="style.css?v=1.2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 0.5rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-close { float: right; cursor: pointer; font-size: 1.5rem; border: none; background: none; }
+        .status-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+        .status-key { font-weight: 500; color: var(--text-main); }
+        .status-val { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div>
+                <h1>BomTS Dev AI</h1>
+                <p class="subtitle">AI Backend Portfolio / RAG Learning Path</p>
+            </div>
+            <nav style="display: flex; gap: 1rem; align-items: center;">
+                <a href="/">AI 뉴스레터</a>
+                <a href="/docs.html">프로젝트 문서</a>
+                <a href="/test.html" style="font-weight: 600;">테스트 콘솔</a>
+                <a href="https://github.com/sungbeom78/dev-ai" target="_blank">GitHub</a>
+                <button id="api-status-button" class="btn small outline">API: Checking...</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Pipeline Step Navigator -->
+        <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+            <a href="#section-1" class="btn small outline">1. Ingest</a>
+            <a href="#section-2" class="btn small outline">2. Chunk & Index</a>
+            <a href="#section-3" class="btn small outline">3. Search</a>
+            <a href="#section-4" class="btn small outline">4. Ask</a>
+            <a href="#section-5" class="btn small outline">5. Agent</a>
+            <a href="#section-6" class="btn small outline">6. Evaluate</a>
+            <a href="#section-7" class="btn small outline">7. Reference</a>
+            <a href="#section-8" class="btn small outline">8. Trend</a>
+        </div>
+
+        <!-- Document Registration -->
+        <section id="section-1" class="card">
+            <h2>1. Document Ingestion</h2>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">이 영역은 RAG 파이프라인의 시작점입니다. 직접 입력한 문서나 메모를 PostgreSQL에 원문으로 저장합니다. 아직 검색 가능한 상태는 아니며, 이후 Chunking과 Vector Indexing을 거쳐 RAG 지식 베이스가 됩니다.</p>
+            <form id="ingest-form" class="form-grid">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="doc-title" placeholder="e.g. RAG Architecture Guide" required>
+                </div>
+                <div class="form-group">
+                    <label>Source</label>
+                    <input type="text" id="doc-source" value="manual">
+                </div>
+                <div class="form-group">
+                    <label>License</label>
+                    <input type="text" id="doc-license" value="private">
+                </div>
+                <div class="form-group full-width">
+                    <label>Content</label>
+                    <textarea id="doc-content" rows="4" placeholder="Enter document text here..." required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit" class="btn primary">Register Document</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Document List & Actions -->
+        <section id="section-2" class="card">
+            <div class="card-header">
+                <h2>2. Documents & Chunks</h2>
+                <button id="refresh-docs" class="btn outline small">Refresh List</button>
+            </div>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">등록된 문서를 확인하고, 검색 가능한 단위인 chunk로 나누는 영역입니다. Chunk는 긴 문서를 LLM과 Vector Search가 다루기 쉬운 작은 조각으로 분할한 것입니다.</p>
+            <div class="list-container">
+                <ul id="doc-list" class="item-list"></ul>
+            </div>
+            
+            <div id="doc-actions" class="actions-panel hidden">
+                <h3 id="selected-doc-title">Selected: -</h3>
+                <div class="button-group">
+                    <button id="btn-create-chunks" class="btn">Create Chunks</button>
+                    <button id="btn-get-chunks" class="btn outline">View Chunks</button>
+                    <button id="btn-index" class="btn secondary">Index to Vector DB</button>
+                </div>
+                <div id="chunks-display" class="result-display hidden"></div>
+            </div>
+        </section>
+
+        <!-- Search Lab -->
+        <section id="section-3" class="card">
+            <h2>3. Semantic Search Lab</h2>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">사용자 질문이 어떤 문서 조각을 검색하는지 확인하는 영역입니다. RAG 답변이 이상할 때, 먼저 Search 결과를 확인하면 검색 문제인지 답변 생성 문제인지 분리할 수 있습니다.</p>
+            <form id="search-form" class="flex-form">
+                <input type="text" id="search-query" placeholder="Enter search query..." required>
+                <input type="number" id="search-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Search</button>
+            </form>
+            <div id="search-results" class="result-display hidden"></div>
+        </section>
+
+        <!-- Ask Lab -->
+        <section id="section-4" class="card">
+            <h2>4. RAG Ask Lab</h2>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">검색된 chunk를 context로 사용해 LLM 답변을 생성하는 기본 RAG 영역입니다. 응답에는 answer뿐 아니라 sources, provider, model, latency가 함께 표시됩니다.</p>
+            <form id="ask-form" class="flex-form">
+                <input type="text" id="ask-question" placeholder="Ask a question..." required>
+                <input type="number" id="ask-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask</button>
+            </form>
+            <div id="ask-results" class="result-display hidden">
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="ask-answer-text"></p>
+                </div>
+                <div class="meta-box">
+                    <span class="badge" id="ask-provider"></span>
+                    <span class="badge" id="ask-model"></span>
+                    <span class="badge" id="ask-latency"></span>
+                </div>
+                <div id="ask-sources-box" class="sources-box">
+                    <h4>Sources Used</h4>
+                    <ul id="ask-sources-list"></ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Agent Lab -->
+        <section id="section-5" class="card">
+            <h2>5. LangGraph Agent Lab</h2>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">질문 의도를 먼저 분류한 뒤 RAG 답변, 사용법 안내, 시스템 상태 설명, 범위 외 질문 처리 등으로 분기하는 Agent Workflow 영역입니다.</p>
+            <form id="agent-form" class="flex-form">
+                <input type="text" id="agent-question" placeholder="Ask agent..." required>
+                <input type="number" id="agent-limit" value="3" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask Agent</button>
+            </form>
+            <div class="button-group" style="margin-top: 1rem;">
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='What is BomTS Dev AI?';">Rag Query</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='What can this system do?';">Status</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='How do I register a document?';">How-to</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='Should I buy this stock?';">Out of Scope</button>
+                <button class="btn small outline" onclick="document.getElementById('agent-question').value='Help';">Clarify</button>
+            </div>
+            
+            <div id="agent-results" class="result-display hidden">
+                <div class="meta-box">
+                    <span class="badge" style="background-color: var(--primary); color: white;">Intent: <span id="agent-intent"></span></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="agent-answer-text"></p>
+                </div>
+                
+                <div class="meta-box">
+                    <span class="badge" id="agent-provider"></span>
+                    <span class="badge" id="agent-model"></span>
+                    <span class="badge" id="agent-latency"></span>
+                </div>
+
+                <div id="agent-workflow-box" class="sources-box">
+                    <h4>Workflow Steps</h4>
+                    <ul id="agent-workflow-list"></ul>
+                </div>
+                
+                <div id="agent-sources-box" class="sources-box hidden">
+                    <h4>Sources Used</h4>
+                    <ul id="agent-sources-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation & Logs Lab -->
+        <section id="section-6" class="card">
+            <div class="card-header">
+                <h2>6. Evaluation & Logs</h2>
+                <button id="refresh-logs" class="btn outline small">Refresh Logs</button>
+            </div>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">질문, 답변, 검색 source, provider, latency, feedback을 기록하는 영역입니다. AI 서비스는 답변 생성에서 끝나지 않고, 로그와 피드백을 통해 개선되어야 합니다.</p>
+            
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <ul id="log-list" class="item-list"></ul>
+                </div>
+            </div>
+            
+            <div id="log-detail-box" class="result-display hidden">
+                <h3>Log Detail</h3>
+                <div class="meta-box">
+                    <span class="badge" id="detail-endpoint"></span>
+                    <span class="badge" id="detail-intent"></span>
+                    <span class="badge" id="detail-provider"></span>
+                    <span class="badge" id="detail-latency"></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Question</h4>
+                    <p id="detail-question"></p>
+                    <h4 style="margin-top: 10px;">Answer</h4>
+                    <p id="detail-answer"></p>
+                </div>
+                
+                <div class="sources-box">
+                    <h4>Sources</h4>
+                    <ul id="detail-sources-list"></ul>
+                </div>
+
+                <div class="sources-box" style="margin-top: 10px;">
+                    <h4>Feedback</h4>
+                    <ul id="detail-feedback-list"></ul>
+                    
+                    <form id="feedback-form" class="flex-form" style="margin-top: 10px;">
+                        <select id="feedback-rating" class="input-small" style="width: auto; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.25rem;">
+                            <option value="up">👍 Useful</option>
+                            <option value="down">👎 Not Useful</option>
+                            <option value="neutral">😐 Neutral</option>
+                        </select>
+                        <input type="text" id="feedback-comment" placeholder="Optional comment...">
+                        <button type="submit" class="btn secondary small">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Trend Sources -->
+        <section id="section-7" class="card">
+            <div class="card-header">
+                <h2>7. AI Reference Sources</h2>
+                <button id="refresh-sources" class="btn outline small">Refresh List</button>
+            </div>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">AI 개발 트렌드, 공식 문서, 기술 블로그, 모델 릴리스 노트 같은 외부 레퍼런스를 수집하기 위한 소스 관리 영역입니다.</p>
+            <div class="list-container" style="margin-bottom: 1rem;">
+                <ul id="source-list" class="item-list"></ul>
+            </div>
+            
+            <h3>Crawl Single URL</h3>
+            <form id="fetch-url-form" class="flex-form">
+                <input type="text" id="fetch-url-input" placeholder="https://example.com/article" required>
+                <button type="submit" class="btn primary">Fetch URL</button>
+            </form>
+            <div id="fetch-url-results" class="result-display hidden"></div>
+        </section>
+
+        <!-- AI Trend Lab -->
+        <section id="section-8" class="card">
+            <h2>8. AI Reference Lab</h2>
+            <p style="margin-bottom: 1rem; padding: 1rem; background-color: var(--bg-main); border-left: 4px solid var(--primary); color: var(--text-muted); font-size: 0.9em;">수집된 AI Engineering Reference를 기반으로 현재 프로젝트에 적용 가능한 기술과 개선 방향을 질의응답하는 영역입니다.</p>
+            <form id="trend-ask-form" class="flex-form">
+                <input type="text" id="trend-ask-question" placeholder="e.g. What are recent trends in open-source LLMs?" required>
+                <input type="number" id="trend-ask-limit" value="5" min="1" max="10" class="input-small">
+                <button type="submit" class="btn primary">Ask Agent</button>
+            </form>
+            
+            <div class="button-group" style="margin-top: 1rem;">
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What are recent trends in open-source LLMs?';">Trends</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What is vibe coding?';">Vibe Coding</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='How are developers using RAG and agents?';">RAG/Agents</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-ask-question').value='What should I learn next for AI backend development?';">Learning</button>
+            </div>
+            
+            <div id="trend-ask-results" class="result-display hidden">
+                <div class="meta-box">
+                    <span class="badge" style="background-color: var(--primary); color: white;">Intent: <span id="trend-agent-intent"></span></span>
+                </div>
+                <div class="answer-box">
+                    <h4>Answer</h4>
+                    <p id="trend-agent-answer-text"></p>
+                </div>
+                
+                <div class="meta-box">
+                    <span class="badge" id="trend-agent-provider"></span>
+                    <span class="badge" id="trend-agent-model"></span>
+                    <span class="badge" id="trend-agent-latency"></span>
+                </div>
+
+                <div id="trend-agent-workflow-box" class="sources-box">
+                    <h4>Workflow Steps</h4>
+                    <ul id="trend-agent-workflow-list"></ul>
+                </div>
+                
+                <div id="trend-agent-sources-box" class="sources-box hidden">
+                    <h4>Sources Used</h4>
+                    <ul id="trend-agent-sources-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for API Status -->
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2>시스템 상세 상태</h2>
+            <div id="status-details" style="margin-top: 1rem;">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- The original app.js still contains the logic for these sections -->
+    <!-- We will load common.js for the header first, then app.js or test.js -->
+    <script src="js/common.js?v=1.2"></script>
+    <script src="app.js?v=1.2"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 문서 - BomTS Dev AI</title>
+    <link rel="stylesheet" href="style.css?v=1.2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        .hero-title { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; color: var(--text-main); }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 500; }
+        .info-card { background-color: var(--bg-main); padding: 1.25rem; border-radius: 0.5rem; }
+        .info-card h4 { margin-bottom: 0.5rem; color: var(--primary); }
+        .code-display { font-family: monospace; line-height: 1.5; background-color: #1e293b; color: #f8fafc; padding: 1.25rem; border-radius: 0.5rem; overflow-x: auto; white-space: pre; }
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 0.5rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-close { float: right; cursor: pointer; font-size: 1.5rem; border: none; background: none; }
+        .status-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+        .status-key { font-weight: 500; color: var(--text-main); }
+        .status-val { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div>
+                <h1>BomTS Dev AI</h1>
+                <p class="subtitle">AI Backend Portfolio / RAG Learning Path</p>
+            </div>
+            <nav style="display: flex; gap: 1rem; align-items: center;">
+                <a href="/">AI 뉴스레터</a>
+                <a href="/docs.html" style="font-weight: 600;">프로젝트 문서</a>
+                <a href="/test.html">테스트 콘솔</a>
+                <a href="https://github.com/sungbeom78/dev-ai" target="_blank">GitHub</a>
+                <button id="api-status-button" class="btn small outline">API: Checking...</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="card" style="border-top: 4px solid var(--primary);">
+            <h1 class="hero-title">BomTS Dev AI</h1>
+            <p class="hero-subtitle">개인 AI Engineering Knowledge Lab</p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">BomTS Dev AI는 문서 등록, 청킹, 벡터 인덱싱, 의미 검색, RAG 답변 생성, LangGraph 기반 Agent Workflow, 평가 로그와 피드백까지 AI 백엔드의 핵심 흐름을 직접 구현하고 학습하기 위한 개인 AI Engineering 실험실입니다.</p>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">이 프로젝트는 단순히 LLM API를 호출하는 데서 끝나지 않고, 실제 AI 서비스가 어떻게 문서를 수집하고, 검색 가능한 지식으로 바꾸고, LLM에게 근거로 제공하며, 결과를 평가하고 개선하는지 보여주는 것을 목표로 합니다.</p>
+            <div class="meta-box" style="flex-wrap: wrap;">
+                <span class="badge" style="background-color: #e0f2fe; color: #0284c7;">Docker Compose</span>
+                <span class="badge" style="background-color: #dcfce7; color: #166534;">FastAPI</span>
+                <span class="badge" style="background-color: #f3e8ff; color: #6b21a8;">PostgreSQL</span>
+                <span class="badge" style="background-color: #fee2e2; color: #991b1b;">Qdrant</span>
+                <span class="badge" style="background-color: #ffedd5; color: #c2410c;">RAG</span>
+                <span class="badge" style="background-color: #f1f5f9; color: #475569;">LangGraph</span>
+                <span class="badge" style="background-color: #e0e7ff; color: #3730a3;">Nginx</span>
+                <span class="badge" style="background-color: #fce7f3; color: #9d174d;">Cloudflare Tunnel</span>
+                <span class="badge" style="background-color: #ccfbf1; color: #0f766e;">Local LLM (OpenClaw)</span>
+                <span class="badge" style="background-color: #fef9c3; color: #854d0e;">AI Engineering Reference Pipeline</span>
+            </div>
+        </section>
+
+        <!-- Why I Built This -->
+        <section class="card">
+            <h2>왜 이 프로젝트를 만들었는가</h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">AI 개발은 단순히 ChatGPT API를 호출하는 것만으로 끝나지 않습니다.</p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">실제 서비스에서는 문서, 개발 기록, 기술 레퍼런스, 운영 로그 같은 데이터를 수집하고, 검색 가능한 단위로 가공하고, Vector DB에 인덱싱하고, 사용자의 질문에 맞는 context를 찾아 LLM에게 전달하는 전체 파이프라인이 필요합니다.</p>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">BomTS Dev AI는 이 과정을 직접 구현하며 이해하기 위해 만든 프로젝트입니다. 특히 RAG, Agent Workflow, Local LLM, MCP, Skills, Vibe Coding, 오픈소스 모델, AI Engineering Reference Pipeline 같은 최신 AI 개발 흐름을 개인 학습과 실제 개발 지원 체계로 연결하는 것을 목표로 합니다.</p>
+            
+            <div class="form-grid">
+                <div class="info-card">
+                    <h4>A. 학습 목적</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted);">Docker, Vector DB, RAG, LangGraph 같은 기술을 직접 구현하며 이해합니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>B. 포트폴리오 목적</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted);">AI 백엔드 개발자가 실제로 어떤 구조를 설계하고 구현하는지 보여줍니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>C. 실사용 목적</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted);">AI 개발 트렌드와 기술 레퍼런스를 지속적으로 수집해 내 개발에 활용합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Overview -->
+        <section class="card">
+            <h2>전체 시스템 구조</h2>
+            <div class="code-display" style="margin-bottom: 1.5rem;">
+사용자 브라우저
+  ↓
+https://ai.bomts.net
+  ↓
+Cloudflare Tunnel
+  ↓
+Nginx Web Gateway : 8771
+  ├─ /          → Web UI
+  └─ /api/*     → FastAPI API
+                    ↓
+              FastAPI Application
+                    ↓
+       ┌────────────┴────────────┐
+       ↓                         ↓
+ PostgreSQL                  Qdrant Vector DB
+ 원문/청크/로그/피드백          임베딩 벡터/의미 검색 인덱스
+       ↓                         ↓
+       └────────────┬────────────┘
+                    ↓
+        RAG / LangGraph Agent / LLM Provider (Google / OpenClaw / Mock)
+            </div>
+            <p style="line-height: 1.6; color: var(--text-muted);">이 시스템은 Docker Compose 기반으로 실행됩니다. Nginx는 8771 포트에서 Web UI와 API Reverse Proxy 역할을 하고, FastAPI는 문서 등록, 검색, RAG, Agent, 로그 API를 제공합니다. PostgreSQL은 원문 문서, 청크, 질문 로그, 피드백, 수집 소스 같은 영속 데이터를 저장하고, Qdrant는 의미 검색을 위한 임베딩 벡터를 저장합니다.</p>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="card">
+            <h2>사용 기술과 역할</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="info-card">
+                    <h4>Docker Compose</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">여러 서비스를 하나의 개발/운영 스택으로 묶기 위해 사용합니다. 이 프로젝트는 Web, API, PostgreSQL, Qdrant를 각각 독립된 컨테이너로 실행합니다. 회사/팀 프로젝트에서는 로컬 환경 차이를 줄이고 배포 구조를 명확히 하기 위해 Docker 기반 구성이 중요합니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>FastAPI</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">AI 백엔드 API 서버입니다. 문서 등록, 청크 생성, 벡터 인덱싱, 검색, RAG 답변, Agent 실행, 로그 조회를 API로 제공합니다. Python 기반 AI 라이브러리와 연결하기 쉽고, 빠르게 MVP를 만들기 좋아 선택했습니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>PostgreSQL</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">원문과 이력을 저장하는 관계형 데이터베이스입니다. documents, document_chunks, ask_logs, feedback_logs, content_sources, crawled_pages 같은 데이터를 저장합니다. Vector DB가 검색 인덱스라면, PostgreSQL은 정합성과 추적 가능성을 담당합니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Qdrant</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">의미 기반 검색을 위한 Vector DB입니다. 문서 청크를 embedding vector로 변환해 저장하고, 사용자 질문과 의미적으로 가까운 문서 조각을 찾아냅니다. PostgreSQL이 일반적인 조건 검색에 강하다면, Qdrant는 문장 의미 유사도 검색에 특화되어 있습니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>LangGraph</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">Agent Workflow를 그래프 형태로 구성하기 위해 사용합니다. 질문을 먼저 분류하고, RAG 답변, 시스템 상태 안내, 사용법 안내, 범위 외 질문 처리 등으로 분기합니다. 이는 실제 AI 서비스에서 모든 질문을 무조건 LLM/RAG로 보내지 않기 위한 구조입니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Nginx</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">Web UI와 API를 하나의 진입점으로 제공하기 위해 사용합니다. 브라우저는 8771 포트로 접속하고, Nginx는 정적 웹 페이지와 /api 요청을 각각 적절한 내부 서비스로 전달합니다.</p>
+                </div>
+                <div class="info-card">
+                    <h4>LLM Provider (Google / OpenClaw)</h4>
+                    <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">LLM 호출부를 추상화했습니다. Google API를 이용한 번역/요약이나, 개인 데스크탑에서 실행 중인 OpenClaw (Gemma/Qwen 등)를 로컬 모델로 연동할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RAG Pipeline Overview -->
+        <section class="card">
+            <h2>RAG 파이프라인 흐름</h2>
+            <div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
+                <div class="code-display" style="flex: 1; min-width: 300px;">
+1. 문서 등록
+   ↓
+2. Chunk 생성
+   ↓
+3. Embedding 생성
+   ↓
+4. Qdrant Vector Index 저장
+   ↓
+5. 사용자 질문 Embedding
+   ↓
+6. Semantic Search
+   ↓
+7. 검색 결과를 Context로 구성
+   ↓
+8. LLM 답변 생성
+   ↓
+9. Sources와 함께 응답 반환
+   ↓
+10. Logs / Feedback 저장
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">RAG는 LLM이 사전학습된 지식만으로 답변하지 않고, 등록된 문서와 레퍼런스를 검색해 그 내용을 근거로 답변하도록 만드는 구조입니다.</p>
+                    <p style="line-height: 1.6;">이 프로젝트는 RAG 과정을 하나의 숨겨진 함수로 처리하지 않고, 문서 등록, 청킹, 인덱싱, 검색, 답변, 로그를 각각 분리해 눈으로 확인할 수 있게 만들었습니다. 이렇게 분리하면 답변이 부정확할 때 원인이 검색 문제인지, 청킹 문제인지, 프롬프트 문제인지, LLM 문제인지 분석할 수 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Storage Strategy -->
+        <section class="card">
+            <h2>PostgreSQL과 Qdrant는 왜 둘 다 필요한가</h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">PostgreSQL과 Qdrant는 서로 대체 관계가 아니라 역할이 다릅니다.</p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">PostgreSQL은 원문 문서, 청크, 질문 로그, 답변 로그, 피드백, 크롤링 기록처럼 정확히 보존하고 추적해야 하는 데이터를 저장합니다. Qdrant는 문서 청크의 embedding vector를 저장하고, 질문과 의미적으로 가까운 문서 조각을 빠르게 찾는 검색 인덱스 역할을 합니다.</p>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">즉, PostgreSQL은 원본과 이력을 관리하고, Qdrant는 의미 검색을 담당합니다. 실무 AI 백엔드에서는 이처럼 영속 저장소와 Vector Search 저장소를 분리하는 구조가 자주 사용됩니다.</p>
+            <div class="info-card">
+                <ul style="list-style-position: inside; color: var(--text-muted); font-size: 0.95em; line-height: 1.8;">
+                    <li><strong>documents:</strong> 원문 문서</li>
+                    <li><strong>document_chunks:</strong> 검색 단위로 나눈 문서 조각</li>
+                    <li><strong>ask_logs:</strong> 질문/답변 실행 기록</li>
+                    <li><strong>ask_source_logs:</strong> 답변에 사용된 source 기록</li>
+                    <li><strong>feedback_logs:</strong> 사용자의 평가</li>
+                    <li><strong>content_sources:</strong> 수집 대상 사이트/소스</li>
+                    <li><strong>crawled_pages:</strong> URL 수집 결과</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Agent Workflow Overview -->
+        <section class="card">
+            <h2>LangGraph Agent Workflow</h2>
+            <div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
+                <div class="code-display" style="flex: 1; min-width: 300px;">
+classify_intent
+  ├─ rag_query           → RAG 답변
+  ├─ system_status       → 시스템 상태 설명
+  ├─ how_to_use          → 사용법 안내
+  ├─ out_of_scope        → 범위 외 질문 안내
+  └─ needs_clarification → 추가 질문 요청
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">기본 RAG Ask는 모든 질문을 검색 기반 답변으로 처리합니다. 하지만 실제 AI 서비스에서는 모든 질문을 같은 방식으로 처리하면 안 됩니다.</p>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">예를 들어 사용법을 묻는 질문, 시스템 상태를 묻는 질문, 투자 추천처럼 범위를 벗어난 질문, 너무 짧고 모호한 질문은 각각 다른 방식으로 처리해야 합니다.</p>
+                    <p style="line-height: 1.6;">이 프로젝트는 LangGraph를 사용해 질문 의도를 먼저 분류하고, 적절한 노드로 라우팅합니다. LangGraph를 사용하면 Agent의 처리 흐름을 node와 edge로 명확하게 표현할 수 있습니다. 이는 복잡한 AI 기능을 단순한 if/else 코드가 아니라, 관찰 가능하고 확장 가능한 workflow로 설계하기 위한 실험입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reference Pipeline Overview -->
+        <section class="card">
+            <h2>AI Engineering Reference Pipeline</h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">수동으로 문서를 하나씩 등록하는 것만으로는 실제 학습/개발 지원 시스템이 되기 어렵습니다.</p>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">BomTS Dev AI는 AI 개발 트렌드, 공식 문서, 기술 블로그, 모델 릴리스 노트, MCP, Skills, LangGraph, RAG, Local LLM 같은 레퍼런스를 수집하고, 이를 RAG 지식 베이스로 활용하는 Reference Pipeline을 지향합니다.</p>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">URL 기반으로 공개 문서를 수집하고, 본문을 추출해 문서로 저장한 뒤, 기존의 Chunking, Vector Indexing, Search, Ask, Agent 흐름에 연결합니다.</p>
+            <div class="code-display" style="text-align: center; margin-bottom: 1.5rem;">
+Reference Source 등록
+  ↓
+URL Fetch / Crawl
+  ↓
+본문 추출
+  ↓
+Document 저장
+  ↓
+Chunk 생성
+  ↓
+Vector Indexing
+  ↓
+RAG / Agent에서 참고
+            </div>
+        </section>
+
+        <!-- How to Use This Page -->
+        <section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+            <h2>테스트 콘솔 사용법</h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">테스트 콘솔 페이지는 단순 테스트 페이지가 아니라, AI 백엔드의 전체 처리 흐름을 단계별로 확인하기 위한 학습용 콘솔입니다. 아래 순서대로 실행하면 RAG/Agent 시스템이 어떻게 동작하는지 이해할 수 있습니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <ol style="list-style-position: inside; line-height: 1.8; color: var(--text-main);">
+                    <li><strong>Health 확인:</strong> API와 시스템이 살아 있는지 확인합니다.</li>
+                    <li><strong>문서 등록:</strong> RAG에 사용할 원문 문서를 PostgreSQL에 저장합니다.</li>
+                    <li><strong>Chunk 생성:</strong> 긴 문서를 검색 가능한 작은 단위로 나눕니다.</li>
+                    <li><strong>Index 실행:</strong> Chunk를 embedding vector로 변환해 Qdrant에 저장합니다.</li>
+                </ol>
+                <ol start="5" style="list-style-position: inside; line-height: 1.8; color: var(--text-main);">
+                    <li><strong>Search 실행:</strong> 질문과 의미적으로 가까운 chunk가 검색되는지 확인합니다.</li>
+                    <li><strong>Ask 실행:</strong> 검색 결과를 context로 사용해 LLM 답변을 생성합니다.</li>
+                    <li><strong>Agent Ask 실행:</strong> LangGraph가 질문 의도를 분류하고 적절한 경로로 처리하는지 확인합니다.</li>
+                    <li><strong>Logs / Feedback 확인:</strong> 질문, 답변, source, latency, feedback을 확인해 개선 포인트를 찾습니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Portfolio Talking Points -->
+        <section class="card" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+            <h2 style="color: #166534; border-bottom: 1px solid #bbf7d0;">면접/포트폴리오 설명 포인트</h2>
+            <p style="margin-bottom: 1.5rem; line-height: 1.6; color: #166534;">이 프로젝트는 다음과 같은 역량을 보여주기 위해 만들었습니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">1. AI 백엔드 구조 이해</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">LLM 호출만이 아니라 문서 수집, 청킹, 임베딩, Vector DB, 검색, 답변, 평가까지 전체 흐름을 구현했습니다.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">2. 데이터 엔지니어링 경험과 RAG 연결</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">문서 등록과 청킹, 인덱싱 과정은 ETL 파이프라인과 유사합니다. 원천 데이터를 정제하고 검색 가능한 구조로 바꾸는 경험을 AI 지식 검색에 적용했습니다.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">3. 운영 가능한 구조</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">Docker Compose, Nginx, PostgreSQL, Qdrant를 분리해 실제 서비스형 구조에 가깝게 구성했습니다.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">4. Agent Workflow</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">LangGraph를 사용해 질문 의도에 따른 라우팅 구조를 구현했습니다. 이는 단순 RAG를 넘어 실제 AI 서비스의 처리 흐름을 실험한 것입니다.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">5. 평가와 개선 루프</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">Ask/Agent 실행 로그와 feedback을 저장해 RAG 품질 개선의 기반을 만들었습니다.</p>
+                </div>
+                <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
+                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">6. Reference Pipeline</h4>
+                    <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">AI 개발 트렌드와 기술 레퍼런스를 지속적으로 수집해 개인 AI Engineering Knowledge Lab으로 발전시키는 구조를 만들었습니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for API Status -->
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <h2>시스템 상세 상태</h2>
+            <div id="status-details" style="margin-top: 1rem;">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js?v=1.2"></script>
+</body>
+</html>
