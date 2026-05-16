@@ -44,33 +44,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
                 };
 
-                html += '<h3>API Server</h3>';
-                html += row('Status', data.api.status, true);
-                html += row('Version', data.api.version);
+                if (data.llm.provider.toLowerCase() === 'mock') {
+                    html += '<div style="background-color: #fef08a; color: #854d0e; padding: 1rem; border-radius: 0.5rem; border: 1px solid #eab308; margin-bottom: 1rem;">';
+                    html += '<strong>현재 Mock Provider입니다.</strong><br>이 상태에서는 실제 AI 분석이 아니라 개발 테스트용 응답만 생성됩니다.</div>';
+                }
+
+                html += '<h3>API 서버</h3>';
+                html += row('API 상태', data.api.status, true);
+                html += row('버전', data.api.version);
                 html += row('Web UI', 'Online', true);
 
-                html += '<h3 style="margin-top: 1rem;">Database & Vector Store</h3>';
+                html += '<h3 style="margin-top: 1rem;">데이터베이스 & 벡터 검색</h3>';
                 html += row('PostgreSQL', data.database.status, true);
                 html += row('Qdrant', data.vector_db.status, true);
-                html += row('Vector Count', data.vector_db.vector_count);
+                html += row('벡터 개수', data.vector_db.vector_count);
 
-                html += '<h3 style="margin-top: 1rem;">LLM Provider</h3>';
-                html += row('Current Provider', data.llm.provider);
-                html += row('Current Model', data.llm.model);
+                html += '<h3 style="margin-top: 1rem;">LLM 제공자 (Provider)</h3>';
+                html += row('현재 설정된 Provider', data.llm.provider, true);
+                html += row('현재 모델', data.llm.model);
                 
                 html += '<div style="margin-top: 0.5rem; padding: 0.75rem; background-color: var(--bg-main); border-radius: 0.25rem;">';
-                html += '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;"><strong>OpenClaw 연동:</strong> 개인 데스크탑에서 실행 중인 모델을 활용하기 위한 선택 기능입니다. 항상 연결 가능한 운영 의존성은 아닙니다.</p>';
-                html += row('OpenClaw Enabled', data.llm.openclaw_enabled ? 'Configured' : 'Not Configured');
-                html += row('Google Provider Enabled', data.llm.google_enabled ? 'Configured' : 'Not Configured');
+                html += row('Google API 설정', data.llm.google_enabled ? '설정됨' : '미설정');
+                html += row('OpenClaw 연동', data.llm.openclaw_enabled ? '설정됨' : '미설정');
                 html += '</div>';
 
-                html += '<h3 style="margin-top: 1rem;">Reference Pipeline</h3>';
-                html += row('Source Count', data.reference_pipeline.source_count);
-                html += row('Crawled Pages', data.reference_pipeline.crawled_page_count);
+                html += '<h3 style="margin-top: 1rem;">기술 레퍼런스 데이터</h3>';
+                html += row('등록된 소스(출처) 개수', data.reference_pipeline.source_count);
+                html += row('수집된 문서 수', data.reference_pipeline.crawled_page_count);
                 
-                html += '<h3 style="margin-top: 1rem;">Scheduler</h3>';
-                html += row('Enabled', data.scheduler.enabled);
-                html += row('Interval', `${data.scheduler.interval_hours} Hours`);
+                html += '<h3 style="margin-top: 1rem;">자동화 스케줄러</h3>';
+                html += row('상태', data.scheduler.enabled ? '활성화됨' : '비활성화됨');
+                html += row('수집 주기', `${data.scheduler.interval_hours} 시간`);
 
                 statusDetails.innerHTML = html;
 

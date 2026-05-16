@@ -10,12 +10,11 @@ class PromptBuilder:
             
         context_str = "\n".join(context_texts)
         
-        prompt = f"""You are an AI assistant that answers questions based on the provided context.
-Follow these rules strictly:
-1. Use the given context to answer the question.
-2. If the context does not contain enough information, simply say "I don't know based on the provided context." Do not make up facts.
-3. Base your answer on the sources provided.
-4. Avoid overly definitive statements if the context is ambiguous.
+        prompt = f"""당신은 AI 기술 레퍼런스 분석 도우미입니다.
+사용자의 질문에는 반드시 자연스러운 한국어로 답변합니다.
+검색된 문서가 영어여도 한국어로 해석해서 답변합니다.
+참고 출처가 부족하면 추측하지 말고 부족하다고 말합니다.
+"Based on the retrieved context" 같은 영어 템플릿 문구를 절대 사용하지 않습니다.
 
 Context:
 {context_str}

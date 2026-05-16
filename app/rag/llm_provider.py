@@ -24,7 +24,7 @@ class BaseLLMProvider(ABC):
 
 class MockLLMProvider(BaseLLMProvider):
     def generate_answer(self, prompt: str) -> Tuple[str, str]:
-        answer = "Based on the retrieved context, this project is about demonstrating RAG capabilities using a domain-neutral AI backend portfolio."
+        answer = "해당 질문에 대한 테스트 응답입니다. (Mock Provider가 설정되어 있어 실제 AI 분석이 아닌 가짜 응답을 반환합니다.)"
         return answer, "mock-llm"
 
 class OpenAILLMProvider(BaseLLMProvider):

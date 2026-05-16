@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 기술 트렌드 검색 시스템 - BomTS Dev AI</title>
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <title>AI 기술 레퍼런스 검색 - BomTS Dev AI</title>
+    <link rel="stylesheet" href="style.css?v=1.4">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
@@ -29,6 +29,7 @@
         .document-card { border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; background-color: white; }
         .document-card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
         .document-meta { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .warning-box { background-color: #fef08a; color: #854d0e; padding: 1rem; border-radius: 0.5rem; border: 1px solid #eab308; margin-bottom: 1.5rem; display: none; }
     </style>
 </head>
 <body>
@@ -39,7 +40,7 @@
                 <p class="subtitle">AI Backend Portfolio / RAG Learning Path</p>
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center;">
-                <a href="/" style="font-weight: 600;">AI 기술 트렌드</a>
+                <a href="/" style="font-weight: 600;">AI 기술 레퍼런스 검색</a>
                 <a href="/docs.html">프로젝트 문서</a>
                 <a href="/test.html">테스트 콘솔</a>
                 <a href="https://github.com/sungbeom78/dev-ai" target="_blank">GitHub</a>
@@ -51,77 +52,61 @@
     <main class="container">
         <!-- Hero Section -->
         <section style="margin-bottom: 2rem;">
-            <h1 class="hero-title">AI 기술 트렌드 검색 시스템</h1>
-            <p class="hero-subtitle">최신 AI 개발 레퍼런스를 수집하고, 한국어 RAG로 검색·분석하는 개인 AI Engineering Knowledge Lab</p>
+            <h1 class="hero-title">AI 기술 레퍼런스 검색</h1>
+            <p class="hero-subtitle">최신 AI 개발 문서와 기술 레퍼런스를 수집하고, 한국어 RAG로 검색·분석하는 개인 AI Engineering Knowledge Lab</p>
+            
+            <div id="mock-warning" class="warning-box">
+                <strong>현재 LLM Provider가 Mock으로 설정되어 있습니다.</strong><br>
+                이 상태에서는 실제 기술 분석이 아니라 테스트 응답만 생성됩니다.
+                Google 또는 OpenClaw Provider를 설정해야 정상적인 답변을 생성할 수 있습니다.
+            </div>
+
             <p style="color: var(--text-muted); line-height: 1.6;">
-                이 페이지는 단순 뉴스레터가 아니라 AI 개발에 필요한 최신 레퍼런스를 수집하고,
-                한국어로 번역/요약한 뒤, RAG와 Agent가 참고할 수 있는 지식 베이스로 만드는 시스템입니다.<br>
-                MCP, Skills, LangGraph, RAG, Local LLM, 오픈소스 모델, 바이브 코딩 같은 빠르게 변하는 AI 개발 흐름을
-                내 프로젝트에 적용 가능한 형태로 추적하고 검색하는 것을 목표로 합니다.
+                이 페이지는 AI 개발과 관련된 공식 문서, 기술 블로그, 모델 릴리스 노트, RAG/Agent/Local LLM 레퍼런스를 수집하고,
+                한국어로 검색·분석하기 위한 개인 AI Engineering Knowledge Lab입니다.
             </p>
         </section>
 
         <!-- Trend Chat Lab -->
         <section class="chat-container card" style="border-top: 4px solid var(--primary);">
-            <h2>한글 질문 기반 기술 트렌드 검색</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">수집된 실제 AI 트렌드 문서를 바탕으로 질문에 답변합니다. 원문이 영어라도 번역 및 요약된 내용을 검색하여 결과를 생성합니다.</p>
+            <h2>한국어 질문</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">수집 및 인덱싱된 AI 기술 레퍼런스를 기반으로 질문합니다.<br>답변은 반드시 한국어로 생성되어야 하며, 참고 출처가 부족하면 모른다고 답해야 합니다.</p>
             
             <form id="trend-ask-form" class="chat-input-area">
-                <input type="text" id="trend-question" class="chat-input" placeholder="최근 오픈소스 LLM 흐름을 요약해줘." required>
+                <input type="text" id="trend-question" class="chat-input" placeholder="최근 오픈소스 LLM 흐름을 정리해줘" required>
                 <button type="submit" class="btn primary">질문하기</button>
             </form>
             
             <div class="button-group" style="margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem; display: flex;">
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 오픈소스 LLM 흐름을 요약해줘.';">오픈소스 LLM</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='MCP를 내 dev-ai 프로젝트에 어떻게 적용할 수 있을까?';">MCP 적용</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='Skills는 Codex나 Claude 작업에 어떤 도움이 될까?';">Skills</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='LangGraph를 실무적으로 쓰려면 무엇을 공부해야 할까?';">LangGraph</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 오픈소스 LLM 흐름을 정리해줘';">오픈소스 LLM</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='MCP를 dev-ai에 적용하려면 무엇부터 보면 될까?';">MCP 적용</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='LangGraph를 실무적으로 쓰려면 어떤 구조가 필요할까?';">LangGraph</button>
                 <button class="btn small outline" onclick="document.getElementById('trend-question').value='로컬 Gemma/Qwen 모델 연동의 장단점은?';">로컬 연동 장단점</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='RAG 품질을 개선하려면 무엇을 확인해야 할까?';">RAG 품질 개선</button>
             </div>
             
             <div id="trend-ask-results" class="result-display hidden" style="margin-top: 1.5rem;">
                 <div class="answer-box">
                     <h4>답변</h4>
-                    <p id="trend-answer-text"></p>
+                    <p id="trend-answer-text" style="line-height: 1.6; white-space: pre-wrap;"></p>
                 </div>
-                <div class="meta-box">
+                <div class="meta-box" style="margin: 1rem 0;">
+                    <span style="font-weight: 500; font-size: 0.9em; color: var(--text-muted);">사용 Provider: </span>
                     <span class="badge" id="trend-provider"></span>
                     <span class="badge" id="trend-model"></span>
                     <span class="badge" id="trend-latency"></span>
                 </div>
                 <div id="trend-sources-box" class="sources-box">
                     <h4>참고 출처</h4>
-                    <ul id="trend-sources-list"></ul>
+                    <div id="trend-sources-list" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;"></div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Document Flow -->
-        <section class="card">
-            <h2>AI Engineering Knowledge Lab 파이프라인</h2>
-            <div class="code-display" style="text-align: center;">
-AI Source 등록
-  ↓
-수동 수집 / 6시간 단위 Crawl
-  ↓
-HTML Fetch / 본문 추출
-  ↓
-Google API 한국어 번역 / 요약
-  ↓
-Application Note 생성
-  ↓
-PostgreSQL 저장 / Chunk 생성
-  ↓
-Qdrant Vector Indexing
-  ↓
-한글 기반 RAG 트렌드 검색
             </div>
         </section>
 
         <!-- Fetch and Crawl Actions -->
         <section class="card">
-            <h2>레퍼런스 문서 수집</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">원하는 레퍼런스 URL을 직접 입력해 수집하거나, 등록된 소스에서 최신 글을 수집할 수 있습니다.</p>
+            <h2>레퍼런스 수집</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">공개 기술 문서나 블로그 URL을 입력하면 본문을 추출하고, 문서로 저장한 뒤 RAG 인덱싱 대상으로 사용할 수 있습니다.</p>
             
             <!-- Fetch Single URL -->
             <div style="border: 1px solid var(--border); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
@@ -133,7 +118,8 @@ Qdrant Vector Indexing
                         <option value="llm">LLM</option>
                         <option value="agent">Agent</option>
                         <option value="mcp">MCP / Skills</option>
-                        <option value="general">General AI</option>
+                        <option value="ai_engineering">AI Engineering</option>
+                        <option value="open_model">Open Model</option>
                     </select>
                     <button type="submit" class="btn primary">Fetch & Index</button>
                 </form>
@@ -160,7 +146,6 @@ Qdrant Vector Indexing
                 <h2>최신 수집 레퍼런스</h2>
                 <button id="refresh-trend-docs" class="btn outline small">목록 새로고침</button>
             </div>
-            <p style="color: var(--text-muted); margin-bottom: 1rem;">RAG에 인덱싱된 실제 문서들만 표시됩니다.</p>
             
             <div id="trend-docs-list" class="list-container" style="border:none; padding:0; background:transparent;">
                 <p style="text-align: center; color: var(--text-muted); padding: 2rem;">최신 문서 목록을 불러오는 중...</p>
@@ -179,8 +164,24 @@ Qdrant Vector Indexing
         </div>
     </div>
 
-    <script src="js/common.js?v=1.3"></script>
+    <script src="js/common.js?v=1.4"></script>
     <script>
+        // Check system status for Mock warning
+        const checkSystemStatus = async () => {
+            try {
+                const res = await fetch('/api/system/status');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.llm_provider && data.llm_provider.toLowerCase() === 'mock') {
+                        document.getElementById('mock-warning').style.display = 'block';
+                    }
+                }
+            } catch (e) {
+                console.error("Status check failed", e);
+            }
+        };
+        checkSystemStatus();
+
         // Load real documents
         const loadDocs = async () => {
             const list = document.getElementById('trend-docs-list');
@@ -191,23 +192,55 @@ Qdrant Vector Indexing
                 const data = await res.json();
                 
                 if (!data.items || data.items.length === 0) {
-                    list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">아직 수집된 AI 기술 레퍼런스가 없습니다.<br>수집 소스를 등록하거나, 수동 수집을 실행해 주세요.</p>';
+                    list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem; line-height: 1.6;">아직 수집된 AI 기술 레퍼런스가 없습니다.<br>먼저 “레퍼런스 수집”에서 URL을 수집하거나, 등록된 소스에서 최신 문서를 가져오세요.</p>';
                     return;
                 }
                 
                 list.innerHTML = '';
                 data.items.forEach(doc => {
+                    let title = doc.title || "제목 없음";
+                    if (title === "Untitled" || title === "undefined" || title === "null") {
+                        // try to make a slug from source
+                        try {
+                            const urlObj = new URL(doc.source);
+                            title = urlObj.pathname.split('/').pop() || urlObj.hostname;
+                        } catch(e) {
+                            title = "문서 제목 없음";
+                        }
+                    }
+
+                    let sourceName = doc.source_name || "알 수 없는 출처";
+                    if (sourceName === "manual" || sourceName === "undefined" || sourceName === "null") {
+                        try {
+                            const urlObj = new URL(doc.source);
+                            sourceName = urlObj.hostname;
+                        } catch(e) {
+                            sourceName = "직접 수집";
+                        }
+                    }
+
+                    const topicStr = doc.topic ? doc.topic : "미분류";
+                    const transStr = doc.translated === true ? "완료" : (doc.translated === false ? "미완료" : "미확인");
+                    const idxStr = doc.indexed === true ? "완료" : (doc.indexed === false ? "미완료" : "미확인");
+                    const dateStr = doc.created_at ? new Date(doc.created_at).toLocaleString('ko-KR') : "";
+
                     const card = document.createElement('div');
                     card.className = 'document-card';
                     card.innerHTML = `
-                        <h3>${doc.title}</h3>
+                        <h3>${title}</h3>
                         <div class="document-meta">
-                            <span style="font-weight: 500;">${doc.source_name || doc.source || 'Unknown'}</span> | 
-                            <span>Topic: ${doc.topic || 'General'}</span> | 
-                            <span>번역: ${doc.translated ? '완료' : '미완료'}</span> | 
-                            <span>인덱싱: ${doc.indexed ? '완료' : '미완료'}</span>
+                            <span style="font-weight: 500; color: var(--text-main);">출처: ${sourceName}</span>
                         </div>
-                        <p style="font-size: 0.85rem; color: #3b82f6;"><a href="${doc.source}" target="_blank" style="color: inherit; text-decoration: none;">원문 링크 보기 &rarr;</a></p>
+                        <div class="document-meta" style="margin-bottom: 0.5rem;">
+                            <span>주제: ${topicStr}</span> | 
+                            <span>언어: ${doc.language || 'en'}</span> | 
+                            <span>번역: ${transStr}</span> | 
+                            <span>인덱싱: ${idxStr}</span>
+                        </div>
+                        <div class="document-meta">
+                            <span>수집일: ${dateStr}</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #3b82f6; margin-top: 0.5rem;"><a href="${doc.source}" target="_blank" style="color: inherit; text-decoration: none;">원문 링크 보기 &rarr;</a></p>
                     `;
                     list.appendChild(card);
                 });
@@ -252,22 +285,61 @@ Qdrant Vector Indexing
                 answerText.textContent = data.answer;
                 
                 if (data.sources && data.sources.length > 0) {
-                    data.sources.forEach(source => {
-                        const li = document.createElement('li');
-                        li.textContent = `[Score: ${source.score.toFixed(2)}] ${source.title} (${source.source_name || source.url})`;
-                        sourcesList.appendChild(li);
+                    let sourceHtml = '';
+                    data.sources.forEach((source, index) => {
+                        let title = source.title || "제목 없음";
+                        if (title === "Untitled" || title === "undefined" || title === "null") {
+                            try {
+                                const urlObj = new URL(source.source || source.url);
+                                title = urlObj.pathname.split('/').pop() || urlObj.hostname;
+                            } catch(e) {
+                                title = "문서 제목 없음";
+                            }
+                        }
+                        
+                        let sourceName = source.source_name || source.source || "알 수 없는 출처";
+                        if (sourceName === "undefined" || sourceName === "null") {
+                            sourceName = "알 수 없는 출처";
+                        } else if (sourceName.startsWith('http')) {
+                            try {
+                                sourceName = new URL(sourceName).hostname;
+                            } catch(e) {}
+                        }
+
+                        let url = source.source || source.url || "#";
+                        if (url === "undefined" || url === "null") url = "#";
+
+                        sourceHtml += `
+                            <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e2e8f0;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">${index + 1}. ${title}</div>
+                                <div style="font-size: 0.85rem; color: #475569; display: flex; flex-direction: column; gap: 0.25rem;">
+                                    <span>출처: ${sourceName}</span>
+                                    <span>URL: <a href="${url}" target="_blank" style="color: #3b82f6; text-decoration: none;">${url}</a></span>
+                                    <span>관련도: ${source.score ? source.score.toFixed(2) : 'N/A'}</span>
+                                </div>
+                            </div>
+                        `;
                     });
+                    sourcesList.innerHTML = sourceHtml;
                 } else {
-                    sourcesList.innerHTML = "<li>참고할 출처를 찾지 못했습니다.</li>";
+                    sourcesList.innerHTML = "<div style='color: var(--text-muted);'>참고할 출처를 찾지 못했습니다.</div>";
                 }
                 
-                providerBadge.textContent = data.provider || "mock";
-                modelBadge.textContent = data.model || "mock-llm";
+                providerBadge.textContent = data.provider || "unknown";
+                modelBadge.textContent = data.model || "unknown";
                 latencyBadge.textContent = `${data.latency_ms || 0} ms`;
-                providerBadge.style.backgroundColor = "var(--primary)";
-                providerBadge.style.color = "white";
-                modelBadge.style.backgroundColor = "var(--primary-hover)";
-                modelBadge.style.color = "white";
+                
+                if ((data.provider || "").toLowerCase().includes("mock")) {
+                    providerBadge.style.backgroundColor = "#eab308";
+                    providerBadge.style.color = "#854d0e";
+                    modelBadge.style.backgroundColor = "#fef08a";
+                    modelBadge.style.color = "#854d0e";
+                } else {
+                    providerBadge.style.backgroundColor = "var(--primary)";
+                    providerBadge.style.color = "white";
+                    modelBadge.style.backgroundColor = "var(--primary-hover)";
+                    modelBadge.style.color = "white";
+                }
                 
             } catch (err) {
                 console.error(err);
@@ -315,7 +387,15 @@ Qdrant Vector Indexing
                 });
                 if (!res.ok) throw new Error("Crawl failed");
                 const data = await res.json();
-                resultsDiv.innerHTML = `<p style="color: #16a34a;">크롤링 완료 (수집됨: ${data.crawled_count || 0})</p>`;
+                
+                if (data.errors && data.errors.length > 0) {
+                    let errHtml = '<ul style="margin-top: 0.5rem; padding-left: 1rem; font-size: 0.9em; color: #dc2626;">';
+                    data.errors.forEach(err => errHtml += `<li>${err}</li>`);
+                    errHtml += '</ul>';
+                    resultsDiv.innerHTML = `<p style="color: #eab308;">수집 완료. 단, 일부 오류가 발생했습니다 (성공: ${data.crawled_count || 0}):</p>${errHtml}`;
+                } else {
+                    resultsDiv.innerHTML = `<p style="color: #16a34a;">성공적으로 수집 완료 (수집됨: ${data.crawled_count || 0})</p>`;
+                }
                 loadDocs();
             } catch (err) {
                 resultsDiv.innerHTML = `<p style="color: #dc2626;">오류 발생: ${err.message}</p>`;

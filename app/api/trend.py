@@ -56,7 +56,7 @@ def get_trend_documents(limit: int = 100, db: Session = Depends(get_db)):
 
 @router.post("/ask", response_model=AskResponse)
 def trend_ask(request: AskRequest, db: Session = Depends(get_db)):
-    result = generator.generate(question=request.question, limit=request.limit)
+    result = generator.generate(question=request.question, limit=request.limit, is_trend_search=True)
     
     ask_log_id = log_service.create_ask_log(
         db=db,
