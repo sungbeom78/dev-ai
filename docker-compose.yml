@@ -9,11 +9,11 @@ services:
     volumes:
       - ./app:/code/app
       - ./scripts:/code/scripts
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/bomts
       - QDRANT_URL=http://qdrant:6333
-      - EMBEDDING_MODE=${EMBEDDING_MODE:-mock}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
     depends_on:
       db:
         condition: service_healthy
