@@ -81,9 +81,21 @@ class GoogleLLMProvider(BaseLLMProvider):
     def generate_answer(self, prompt: str) -> Tuple[str, str]:
         if not self.api_key:
             return "Google API key is not configured.", "google-error"
-        
-        # Currently a placeholder for Google provider implementation.
-        return "Google LLM Provider is ready but full implementation is pending.", self.model
+            
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
+        payload = {
+            "contents": [
+                {"parts": [{"text": prompt}]}
+            ]
+        }
+        try:
+            response = requests.post(url, json=payload, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            answer = data["candidates"][0]["content"]["parts"][0]["text"]
+            return answer, self.model
+        except Exception as e:
+            return f"Error calling Google API: {e}", self.model
 
 def get_llm_provider() -> BaseLLMProvider:
     if LLM_PROVIDER == "openai":
