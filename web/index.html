@@ -92,9 +92,10 @@
             </form>
             
             <div class="button-group" style="margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem; display: flex;">
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 Agent 개발 흐름을 알려줘';">Agent 흐름</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='MCP를 dev-ai에 적용하려면 뭘 해야 해?';">MCP 적용 방법</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='Local LLM을 개발 환경에 붙이면 장점이 뭐야?';">Local LLM 장점</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 하네스 기술 동향 알려줘';">하네스</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='Agent 스킬 관련 최신 리스크와 대응 방안이 뭐야?';">스킬 (Skills)</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='오픈클로(OpenClaw) 모델 통신 특징이 뭐야?';">오픈클로 (OpenClaw)</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='헤르메스 에이전트(Hermes Agent) 최신 활용 사례 알려줘';">헤르메스 에이전트</button>
             </div>
             
             <div id="trend-ask-results" class="result-display hidden" style="margin-top: 1.5rem;">
@@ -311,7 +312,16 @@ RAG / Agent에서 검색
             }
         };
 
-        document.getElementById('refresh-briefings').addEventListener('click', loadBriefings);
+        document.getElementById('refresh-briefings').addEventListener('click', async () => {
+            const list = document.getElementById('briefings-list');
+            list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">최신 동향을 자동 수집하고 브리핑을 생성하는 중입니다 (약 5~10초 소요)...</p>';
+            try {
+                await fetch('/api/trend/auto-update', { method: 'POST' });
+            } catch (e) {
+                console.error("Auto-update failed", e);
+            }
+            loadBriefings();
+        });
         loadBriefings();
 
         // Ask Trend RAG

@@ -6,14 +6,36 @@ from app.db.database import engine
 from app.db.models import Base
 from app.rag.vector_store import QdrantStore
 
+import asyncio
+
+async def auto_update_loop():
+    while True:
+        await asyncio.sleep(6 * 60 * 60) # 6 hours
+        try:
+            from app.db.database import SessionLocal
+            from app.api.trend import auto_update_trends
+            db = SessionLocal()
+            try:
+                await asyncio.to_thread(auto_update_trends, db)
+            except Exception as e:
+                print(f"Background auto update failed: {e}")
+            finally:
+                db.close()
+        except asyncio.CancelledError:
+            break
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     Base.metadata.create_all(bind=engine)
     vector_store = QdrantStore()
     vector_store.ensure_collection()
+    
+    task = asyncio.create_task(auto_update_loop())
+    
     yield
     # Shutdown
+    task.cancel()
 
 from fastapi.middleware.cors import CORSMiddleware
 
