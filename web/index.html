@@ -79,6 +79,7 @@
             <div id="briefings-list" class="list-container" style="border:none; padding:0; background:transparent;">
                 <p style="text-align: center; color: var(--text-muted); padding: 2rem;">브리핑 카드를 불러오는 중...</p>
             </div>
+            <button id="load-more-briefings" class="btn outline" style="width: 100%; display: none; margin-top: 1rem;">3개 더 보기</button>
         </section>
 
         <!-- B. 기술 동향 질문 -->
@@ -159,23 +160,19 @@
         <section class="card" style="margin-bottom: 2rem;">
             <h2>브리핑 파이프라인 설명</h2>
             <div class="code-display" style="text-align: center;">
-URL 수집
+URL 수집 (자동 스케줄러 / 직접 입력)
   ↓
-본문 추출 (trafilatura)
+본문 텍스트 추출 (trafilatura / fallback)
   ↓
-한국어 번역 & 한글 요약 (Google API/OpenClaw)
+문서 다듬기 및 브리핑 생성 (OpenClaw(Qwen3/Gemma4) 또는 Google API 활용)
+- 한국어 요약 & 핵심 변화 분석
+- 왜 중요한가 파악 및 dev-ai 적용 메모 도출
   ↓
-왜 중요한가 분석
+품질 승인 및 최신성 검증 (Approved)
   ↓
-dev-ai 적용 메모 생성
+데이터 청킹 및 벡터 인덱싱 (Qdrant)
   ↓
-적용 태스크 생성
-  ↓
-승인 (Approved)
-  ↓
-Chunk & Index
-  ↓
-RAG / Agent에서 검색
+최신 기술 동향 RAG 시스템 및 Agent 질문에 실시간 답변
             </div>
         </section>
         
@@ -246,11 +243,89 @@ RAG / Agent에서 검색
         checkSystemStatus();
 
         // Load Briefings
+        let allBriefings = [];
+        let currentDisplayCount = 0;
+        
+        const renderBriefingCard = (doc) => {
+            const dateStr = doc.indexed_at ? new Date(doc.indexed_at).toLocaleString('ko-KR') : "업데이트 일시 없음";
+            
+            const card = document.createElement('div');
+            card.className = 'briefing-card';
+            card.innerHTML = `
+                <h3>${doc.clean_title}</h3>
+                <div class="briefing-meta">
+                    <span>최신성: <span class="badge" style="background-color: #f1f5f9; color: #334155;">${doc.freshness_status || '최신'}</span></span> | 
+                    <span>주제: ${doc.topic}</span> | 
+                    <span>출처: ${doc.source_name}</span> | 
+                    <span>업데이트: <span style="color: #475569; font-weight: 500;">${dateStr}</span></span> |
+                    <span>상태: <span class="badge" style="background-color: #dcfce7; color: #166534;">${doc.status}</span></span>
+                </div>
+                
+                <div class="briefing-section">
+                    <h4>요약</h4>
+                    <p>${doc.korean_summary}</p>
+                </div>
+                
+                ${doc.key_changes ? `
+                <div class="briefing-section">
+                    <h4>최근 흐름 또는 핵심 변화</h4>
+                    <p>${doc.key_changes}</p>
+                </div>` : ''}
+                
+                <div class="briefing-section">
+                    <h4>왜 중요한가</h4>
+                    <p>${doc.why_it_matters}</p>
+                </div>
+                
+                <div class="briefing-section">
+                    <h4>dev-ai 적용 메모</h4>
+                    <p>${doc.dev_ai_application_note}</p>
+                </div>
+                
+                <div class="briefing-section">
+                    <h4>다음 작업</h4>
+                    <p>${doc.suggested_tasks}</p>
+                </div>
+                
+                ${doc.risk_or_caution ? `
+                <div class="briefing-section" style="background-color: #fffbeb; padding: 1rem; border-radius: 0.25rem;">
+                    <h4 style="color: #b45309; margin-bottom: 0.25rem;">주의할 점</h4>
+                    <p style="color: #92400e;">${doc.risk_or_caution}</p>
+                </div>` : ''}
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">${doc.tags ? '태그: ' + doc.tags : ''}</span>
+                    <a href="${doc.source_url}" target="_blank" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; font-weight: 500;">원문 링크 보기 &rarr;</a>
+                </div>
+            `;
+            return card;
+        };
+
+        const showMoreBriefings = () => {
+            const list = document.getElementById('briefings-list');
+            const loadMoreBtn = document.getElementById('load-more-briefings');
+            const limit = Math.min(currentDisplayCount + 3, allBriefings.length);
+            
+            for (let i = currentDisplayCount; i < limit; i++) {
+                list.appendChild(renderBriefingCard(allBriefings[i]));
+            }
+            
+            currentDisplayCount = limit;
+            
+            if (currentDisplayCount >= allBriefings.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+        };
+
         const loadBriefings = async () => {
             const list = document.getElementById('briefings-list');
+            const loadMoreBtn = document.getElementById('load-more-briefings');
+            loadMoreBtn.style.display = 'none';
             list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">브리핑 카드를 불러오는 중...</p>';
             try {
-                const res = await fetch('/api/trend/briefings');
+                const res = await fetch('/api/trend/briefings?limit=100');
                 if (!res.ok) throw new Error("API 연동 오류");
                 const data = await res.json();
                 
@@ -259,64 +334,17 @@ RAG / Agent에서 검색
                     return;
                 }
                 
+                allBriefings = data.items;
+                currentDisplayCount = 0;
                 list.innerHTML = '';
-                data.items.forEach(doc => {
-                    const dateStr = doc.indexed_at ? new Date(doc.indexed_at).toLocaleString('ko-KR') : "";
-                    
-                    const card = document.createElement('div');
-                    card.className = 'briefing-card';
-                    card.innerHTML = `
-                        <h3>${doc.clean_title}</h3>
-                        <div class="briefing-meta">
-                            <span>최신성: <span class="badge" style="background-color: #f1f5f9; color: #334155;">${doc.freshness_status || '최신'}</span></span> | 
-                            <span>주제: ${doc.topic}</span> | 
-                            <span>출처: ${doc.source_name}</span> | 
-                            <span>상태: <span class="badge" style="background-color: #dcfce7; color: #166534;">${doc.status}</span></span>
-                        </div>
-                        
-                        <div class="briefing-section">
-                            <h4>요약</h4>
-                            <p>${doc.korean_summary}</p>
-                        </div>
-                        
-                        ${doc.key_changes ? `
-                        <div class="briefing-section">
-                            <h4>최근 흐름 또는 핵심 변화</h4>
-                            <p>${doc.key_changes}</p>
-                        </div>` : ''}
-                        
-                        <div class="briefing-section">
-                            <h4>왜 중요한가</h4>
-                            <p>${doc.why_it_matters}</p>
-                        </div>
-                        
-                        <div class="briefing-section">
-                            <h4>dev-ai 적용 메모</h4>
-                            <p>${doc.dev_ai_application_note}</p>
-                        </div>
-                        
-                        <div class="briefing-section">
-                            <h4>다음 작업</h4>
-                            <p>${doc.suggested_tasks}</p>
-                        </div>
-                        
-                        ${doc.risk_or_caution ? `
-                        <div class="briefing-section" style="background-color: #fffbeb; padding: 1rem; border-radius: 0.25rem;">
-                            <h4 style="color: #b45309; margin-bottom: 0.25rem;">주의할 점</h4>
-                            <p style="color: #92400e;">${doc.risk_or_caution}</p>
-                        </div>` : ''}
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">${doc.tags ? '태그: ' + doc.tags : ''}</span>
-                            <a href="${doc.source_url}" target="_blank" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; font-weight: 500;">원문 링크 보기 &rarr;</a>
-                        </div>
-                    `;
-                    list.appendChild(card);
-                });
+                showMoreBriefings();
+                
             } catch (e) {
                 list.innerHTML = '<p style="text-align: center; color: #dc2626; padding: 2rem;">브리핑 카드를 불러오는 데 실패했습니다.</p>';
             }
         };
+
+        document.getElementById('load-more-briefings').addEventListener('click', showMoreBriefings);
 
         document.getElementById('refresh-briefings').addEventListener('click', async () => {
             const list = document.getElementById('briefings-list');
