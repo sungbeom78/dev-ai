@@ -104,3 +104,23 @@ class CrawledPage(Base):
 
     source = relationship("ContentSource", back_populates="crawled_pages")
     document = relationship("Document")
+
+class AIReferenceBriefing(Base):
+    __tablename__ = "ai_reference_briefings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    clean_title = Column(String(512), nullable=False)
+    source_url = Column(String(512), nullable=False)
+    source_name = Column(String(255))
+    topic = Column(String(100))
+    korean_summary = Column(Text)
+    why_it_matters = Column(Text)
+    dev_ai_application_note = Column(Text)
+    suggested_tasks = Column(Text)
+    tags = Column(String(512))
+    quality_score = Column(Float, default=0.0)
+    status = Column(String(50), default="draft") # draft, generated, approved, indexed, rejected
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    indexed_at = Column(DateTime(timezone=True))
+    document_id = Column(Integer, ForeignKey("documents.id", ondelete="SET NULL"))
+

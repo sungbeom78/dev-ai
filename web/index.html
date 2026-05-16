@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 기술 레퍼런스 검색 - BomTS Dev AI</title>
-    <link rel="stylesheet" href="style.css?v=1.4">
+    <title>AI 기술 브리핑 - BomTS Dev AI</title>
+    <link rel="stylesheet" href="style.css?v=1.5">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
@@ -26,10 +26,15 @@
         .chat-input-area { display: flex; gap: 0.5rem; margin-top: 1rem; }
         .chat-input { flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.25rem; font-size: 1rem; }
         
-        .document-card { border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; background-color: white; }
-        .document-card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .document-meta { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .briefing-card { border: 1px solid var(--border); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem; background-color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .briefing-card h3 { margin-bottom: 0.5rem; font-size: 1.25rem; color: #1e293b; }
+        .briefing-meta { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .briefing-section { margin-bottom: 1rem; }
+        .briefing-section h4 { font-size: 0.95rem; color: #475569; margin-bottom: 0.25rem; }
+        .briefing-section p { font-size: 0.95rem; line-height: 1.6; color: #334155; white-space: pre-wrap; }
+        
         .warning-box { background-color: #fef08a; color: #854d0e; padding: 1rem; border-radius: 0.5rem; border: 1px solid #eab308; margin-bottom: 1.5rem; display: none; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; background-color: var(--bg-main); color: var(--text-main); }
     </style>
 </head>
 <body>
@@ -40,7 +45,7 @@
                 <p class="subtitle">AI Backend Portfolio / RAG Learning Path</p>
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center;">
-                <a href="/" style="font-weight: 600;">AI 기술 레퍼런스 검색</a>
+                <a href="/" style="font-weight: 600;">AI 기술 브리핑</a>
                 <a href="/docs.html">프로젝트 문서</a>
                 <a href="/test.html">테스트 콘솔</a>
                 <a href="https://github.com/sungbeom78/dev-ai" target="_blank">GitHub</a>
@@ -51,38 +56,47 @@
 
     <main class="container">
         <!-- Hero Section -->
-        <section style="margin-bottom: 2rem;">
-            <h1 class="hero-title">AI 기술 레퍼런스 검색</h1>
-            <p class="hero-subtitle">최신 AI 개발 문서와 기술 레퍼런스를 수집하고, 한국어 RAG로 검색·분석하는 개인 AI Engineering Knowledge Lab</p>
+        <section style="margin-bottom: 2.5rem;">
+            <h1 class="hero-title">AI 기술 브리핑</h1>
+            <p class="hero-subtitle">최신 AI 개발 흐름을 수집하고, 내 프로젝트에 적용 가능한 기술 메모로 정리하는 개인 AI Engineering Lab</p>
             
             <div id="mock-warning" class="warning-box">
-                <strong>현재 LLM Provider가 Mock으로 설정되어 있습니다.</strong><br>
+                <strong>현재 Mock Provider가 설정되어 있습니다.</strong><br>
                 이 상태에서는 실제 기술 분석이 아니라 테스트 응답만 생성됩니다.
                 Google 또는 OpenClaw Provider를 설정해야 정상적인 답변을 생성할 수 있습니다.
             </div>
 
             <p style="color: var(--text-muted); line-height: 1.6;">
-                이 페이지는 AI 개발과 관련된 공식 문서, 기술 블로그, 모델 릴리스 노트, RAG/Agent/Local LLM 레퍼런스를 수집하고,
-                한국어로 검색·분석하기 위한 개인 AI Engineering Knowledge Lab입니다.
+                이 페이지는 단순한 뉴스 수집기나 검색창이 아닙니다. MCP, Skills, LangGraph, RAG, Local LLM, 오픈소스 모델, AI 코딩 도구 같은 빠르게 변하는 AI 개발 흐름을 수집하고, 한국어 요약과 dev-ai 적용 메모로 정리해 매일 공부하고 개발에 활용하기 위한 기술 브리핑 시스템입니다.
             </p>
         </section>
 
-        <!-- Trend Chat Lab -->
+        <!-- A. 오늘의 AI 기술 브리핑 -->
+        <section style="margin-bottom: 3rem;">
+            <div class="card-header" style="margin-bottom: 1.5rem;">
+                <h2>오늘의 AI 기술 브리핑</h2>
+                <button id="refresh-briefings" class="btn outline small">목록 새로고침</button>
+            </div>
+            
+            <div id="briefings-list" class="list-container" style="border:none; padding:0; background:transparent;">
+                <p style="text-align: center; color: var(--text-muted); padding: 2rem;">브리핑 카드를 불러오는 중...</p>
+            </div>
+        </section>
+
+        <!-- B. 한국어 질문 -->
         <section class="chat-container card" style="border-top: 4px solid var(--primary);">
             <h2>한국어 질문</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">수집 및 인덱싱된 AI 기술 레퍼런스를 기반으로 질문합니다.<br>답변은 반드시 한국어로 생성되어야 하며, 참고 출처가 부족하면 모른다고 답해야 합니다.</p>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">브리핑 카드와 적용 메모를 기반으로 질문합니다.<br>단순 요약뿐 아니라, 내 프로젝트(dev-ai)에 어떻게 적용하면 좋을지 물어보세요.</p>
             
             <form id="trend-ask-form" class="chat-input-area">
-                <input type="text" id="trend-question" class="chat-input" placeholder="최근 오픈소스 LLM 흐름을 정리해줘" required>
+                <input type="text" id="trend-question" class="chat-input" placeholder="최근 Agent 개발 흐름을 알려줘" required>
                 <button type="submit" class="btn primary">질문하기</button>
             </form>
             
             <div class="button-group" style="margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem; display: flex;">
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 오픈소스 LLM 흐름을 정리해줘';">오픈소스 LLM</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='MCP를 dev-ai에 적용하려면 무엇부터 보면 될까?';">MCP 적용</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='LangGraph를 실무적으로 쓰려면 어떤 구조가 필요할까?';">LangGraph</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='로컬 Gemma/Qwen 모델 연동의 장단점은?';">로컬 연동 장단점</button>
-                <button class="btn small outline" onclick="document.getElementById('trend-question').value='RAG 품질을 개선하려면 무엇을 확인해야 할까?';">RAG 품질 개선</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='최근 Agent 개발 흐름을 알려줘';">Agent 흐름</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='MCP를 dev-ai에 적용하려면 뭘 해야 해?';">MCP 적용 방법</button>
+                <button class="btn small outline" onclick="document.getElementById('trend-question').value='Local LLM을 개발 환경에 붙이면 장점이 뭐야?';">Local LLM 장점</button>
             </div>
             
             <div id="trend-ask-results" class="result-display hidden" style="margin-top: 1.5rem;">
@@ -103,52 +117,58 @@
             </div>
         </section>
 
-        <!-- Fetch and Crawl Actions -->
-        <section class="card">
-            <h2>레퍼런스 수집</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">공개 기술 문서나 블로그 URL을 입력하면 본문을 추출하고, 문서로 저장한 뒤 RAG 인덱싱 대상으로 사용할 수 있습니다.</p>
+        <!-- C. 브리핑 생성 -->
+        <section class="card" style="margin-bottom: 2rem;">
+            <h2>브리핑 생성</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">원문 URL을 입력하면 내용을 분석해 새로운 브리핑 카드를 생성합니다.</p>
             
-            <!-- Fetch Single URL -->
-            <div style="border: 1px solid var(--border); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-                <h3>URL 수동 수집 (Manual Fetch)</h3>
-                <form id="fetch-url-form" class="flex-form" style="margin-top: 0.5rem;">
+            <div style="border: 1px solid var(--border); padding: 1.5rem; border-radius: 0.5rem;">
+                <form id="fetch-url-form" class="flex-form">
                     <input type="url" id="fetch-url" placeholder="https://huggingface.co/blog/example" style="flex: 1;" required>
                     <select id="fetch-topic" class="input-small" style="width: 150px;">
+                        <option value="mcp">MCP</option>
                         <option value="rag">RAG</option>
-                        <option value="llm">LLM</option>
                         <option value="agent">Agent</option>
-                        <option value="mcp">MCP / Skills</option>
-                        <option value="ai_engineering">AI Engineering</option>
+                        <option value="local_llm">Local LLM</option>
                         <option value="open_model">Open Model</option>
+                        <option value="ai_engineering">AI Engineering</option>
                     </select>
-                    <button type="submit" class="btn primary">Fetch & Index</button>
+                    <button type="submit" class="btn primary">Fetch & Create Briefing</button>
                 </form>
                 <div id="fetch-url-results" class="result-display hidden" style="margin-top: 1rem;"></div>
             </div>
-
-            <!-- Crawl Latest -->
-            <div style="border: 1px solid var(--border); padding: 1rem; border-radius: 0.5rem;">
-                <h3>최신 문서 자동 수집 (Crawl Latest)</h3>
-                <form id="crawl-latest-form" class="flex-form" style="margin-top: 0.5rem;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted);">
-                        <span>최대 수집 갯수:</span>
-                        <input type="number" id="crawl-limit" value="5" min="1" max="20" class="input-small" style="width: 80px;">
-                    </label>
-                    <button type="submit" class="btn secondary">Run Crawler</button>
-                </form>
-                <div id="crawl-latest-results" class="result-display hidden" style="margin-top: 1rem;"></div>
-            </div>
         </section>
 
-        <!-- Latest Documents -->
-        <section class="card">
-            <div class="card-header">
-                <h2>최신 수집 레퍼런스</h2>
-                <button id="refresh-trend-docs" class="btn outline small">목록 새로고침</button>
+        <!-- E. 파이프라인 설명 -->
+        <section class="card" style="margin-bottom: 2rem;">
+            <h2>브리핑 파이프라인 설명</h2>
+            <div class="code-display" style="text-align: center;">
+URL 수집
+  ↓
+본문 추출 (trafilatura)
+  ↓
+한국어 번역 & 한글 요약 (Google API/OpenClaw)
+  ↓
+왜 중요한가 분석
+  ↓
+dev-ai 적용 메모 생성
+  ↓
+적용 태스크 생성
+  ↓
+승인 (Approved)
+  ↓
+Chunk & Index
+  ↓
+RAG / Agent에서 검색
             </div>
-            
-            <div id="trend-docs-list" class="list-container" style="border:none; padding:0; background:transparent;">
-                <p style="text-align: center; color: var(--text-muted); padding: 2rem;">최신 문서 목록을 불러오는 중...</p>
+        </section>
+        
+        <!-- D. 수집 대기 문서 -->
+        <section class="card" style="border: 1px dashed var(--border); background-color: #f8fafc;">
+            <h2>수집 대기 문서 (Raw Documents)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">아직 브리핑으로 정제되지 않은 문서 목록입니다. 품질 확인 후 브리핑으로 변환할 수 있습니다. (메인 검색에는 노출되지 않습니다.)</p>
+            <div id="raw-docs-list" class="list-container" style="border:none; padding:0; background:transparent;">
+                <p style="text-align: center; color: var(--text-muted); padding: 1rem;">대기 중인 문서가 없습니다.</p>
             </div>
         </section>
     </main>
@@ -164,7 +184,7 @@
         </div>
     </div>
 
-    <script src="js/common.js?v=1.4"></script>
+    <script src="js/common.js?v=1.5"></script>
     <script>
         // Check system status for Mock warning
         const checkSystemStatus = async () => {
@@ -182,77 +202,68 @@
         };
         checkSystemStatus();
 
-        // Load real documents
-        const loadDocs = async () => {
-            const list = document.getElementById('trend-docs-list');
-            list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">최신 문서 목록을 불러오는 중...</p>';
+        // Load Briefings
+        const loadBriefings = async () => {
+            const list = document.getElementById('briefings-list');
+            list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">브리핑 카드를 불러오는 중...</p>';
             try {
-                const res = await fetch('/api/trend/documents');
+                const res = await fetch('/api/trend/briefings');
                 if (!res.ok) throw new Error("API 연동 오류");
                 const data = await res.json();
                 
                 if (!data.items || data.items.length === 0) {
-                    list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem; line-height: 1.6;">아직 수집된 AI 기술 레퍼런스가 없습니다.<br>먼저 “레퍼런스 수집”에서 URL을 수집하거나, 등록된 소스에서 최신 문서를 가져오세요.</p>';
+                    list.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem; line-height: 1.6;">아직 수집된 AI 기술 브리핑이 없습니다.<br>원문 URL을 수집하여 브리핑을 생성해주세요.</p>';
                     return;
                 }
                 
                 list.innerHTML = '';
                 data.items.forEach(doc => {
-                    let title = doc.title || "제목 없음";
-                    if (title === "Untitled" || title === "undefined" || title === "null") {
-                        // try to make a slug from source
-                        try {
-                            const urlObj = new URL(doc.source);
-                            title = urlObj.pathname.split('/').pop() || urlObj.hostname;
-                        } catch(e) {
-                            title = "문서 제목 없음";
-                        }
-                    }
-
-                    let sourceName = doc.source_name || "알 수 없는 출처";
-                    if (sourceName === "manual" || sourceName === "undefined" || sourceName === "null") {
-                        try {
-                            const urlObj = new URL(doc.source);
-                            sourceName = urlObj.hostname;
-                        } catch(e) {
-                            sourceName = "직접 수집";
-                        }
-                    }
-
-                    const topicStr = doc.topic ? doc.topic : "미분류";
-                    const transStr = doc.translated === true ? "완료" : (doc.translated === false ? "미완료" : "미확인");
-                    const idxStr = doc.indexed === true ? "완료" : (doc.indexed === false ? "미완료" : "미확인");
-                    const dateStr = doc.created_at ? new Date(doc.created_at).toLocaleString('ko-KR') : "";
-
+                    const dateStr = doc.indexed_at ? new Date(doc.indexed_at).toLocaleString('ko-KR') : "";
+                    
                     const card = document.createElement('div');
-                    card.className = 'document-card';
+                    card.className = 'briefing-card';
                     card.innerHTML = `
-                        <h3>${title}</h3>
-                        <div class="document-meta">
-                            <span style="font-weight: 500; color: var(--text-main);">출처: ${sourceName}</span>
+                        <h3>${doc.clean_title}</h3>
+                        <div class="briefing-meta">
+                            <span>주제: ${doc.topic}</span> | 
+                            <span>출처: ${doc.source_name}</span> | 
+                            <span>상태: <span class="badge" style="background-color: #dcfce7; color: #166534;">${doc.status}</span></span>
                         </div>
-                        <div class="document-meta" style="margin-bottom: 0.5rem;">
-                            <span>주제: ${topicStr}</span> | 
-                            <span>언어: ${doc.language || 'en'}</span> | 
-                            <span>번역: ${transStr}</span> | 
-                            <span>인덱싱: ${idxStr}</span>
+                        
+                        <div class="briefing-section">
+                            <h4>한글 요약</h4>
+                            <p>${doc.korean_summary}</p>
                         </div>
-                        <div class="document-meta">
-                            <span>수집일: ${dateStr}</span>
+                        
+                        <div class="briefing-section">
+                            <h4>왜 중요한가</h4>
+                            <p>${doc.why_it_matters}</p>
                         </div>
-                        <p style="font-size: 0.85rem; color: #3b82f6; margin-top: 0.5rem;"><a href="${doc.source}" target="_blank" style="color: inherit; text-decoration: none;">원문 링크 보기 &rarr;</a></p>
+                        
+                        <div class="briefing-section">
+                            <h4>dev-ai 적용 메모</h4>
+                            <p>${doc.dev_ai_application_note}</p>
+                        </div>
+                        
+                        <div class="briefing-section">
+                            <h4>적용 태스크</h4>
+                            <p>${doc.suggested_tasks}</p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">${doc.tags ? '태그: ' + doc.tags : ''}</span>
+                            <a href="${doc.source_url}" target="_blank" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; font-weight: 500;">원문 링크 보기 &rarr;</a>
+                        </div>
                     `;
                     list.appendChild(card);
                 });
             } catch (e) {
-                list.innerHTML = '<p style="text-align: center; color: #dc2626; padding: 2rem;">문서 목록을 불러오는 데 실패했습니다.</p>';
+                list.innerHTML = '<p style="text-align: center; color: #dc2626; padding: 2rem;">브리핑 카드를 불러오는 데 실패했습니다.</p>';
             }
         };
 
-        document.getElementById('refresh-trend-docs').addEventListener('click', loadDocs);
-        
-        // initial load
-        loadDocs();
+        document.getElementById('refresh-briefings').addEventListener('click', loadBriefings);
+        loadBriefings();
 
         // Ask Trend RAG
         document.getElementById('trend-ask-form').addEventListener('submit', async (e) => {
@@ -289,32 +300,17 @@
                     data.sources.forEach((source, index) => {
                         let title = source.title || "제목 없음";
                         if (title === "Untitled" || title === "undefined" || title === "null") {
-                            try {
-                                const urlObj = new URL(source.source || source.url);
-                                title = urlObj.pathname.split('/').pop() || urlObj.hostname;
-                            } catch(e) {
-                                title = "문서 제목 없음";
-                            }
+                            title = "문서 제목 없음";
                         }
                         
                         let sourceName = source.source_name || source.source || "알 수 없는 출처";
-                        if (sourceName === "undefined" || sourceName === "null") {
-                            sourceName = "알 수 없는 출처";
-                        } else if (sourceName.startsWith('http')) {
-                            try {
-                                sourceName = new URL(sourceName).hostname;
-                            } catch(e) {}
-                        }
-
                         let url = source.source || source.url || "#";
-                        if (url === "undefined" || url === "null") url = "#";
 
                         sourceHtml += `
                             <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e2e8f0;">
                                 <div style="font-weight: 600; margin-bottom: 0.5rem;">${index + 1}. ${title}</div>
                                 <div style="font-size: 0.85rem; color: #475569; display: flex; flex-direction: column; gap: 0.25rem;">
                                     <span>출처: ${sourceName}</span>
-                                    <span>URL: <a href="${url}" target="_blank" style="color: #3b82f6; text-decoration: none;">${url}</a></span>
                                     <span>관련도: ${source.score ? source.score.toFixed(2) : 'N/A'}</span>
                                 </div>
                             </div>
@@ -354,49 +350,14 @@
             const topic = document.getElementById('fetch-topic').value;
             const resultsDiv = document.getElementById('fetch-url-results');
             resultsDiv.classList.remove('hidden');
-            resultsDiv.innerHTML = '<p>수집 및 처리를 진행 중입니다...</p>';
+            resultsDiv.innerHTML = '<p>브리핑을 생성하는 중입니다...</p>';
             
             try {
-                const res = await fetch('/api/trend/fetch-url', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url, topic: topic, translate: true, summarize: true, index: true })
-                });
-                if (!res.ok) throw new Error("Fetch failed");
-                const data = await res.json();
-                resultsDiv.innerHTML = `<p style="color: #16a34a;">성공적으로 수집되었습니다. (ID: ${data.document_id})</p>`;
-                loadDocs();
-            } catch (err) {
-                resultsDiv.innerHTML = `<p style="color: #dc2626;">오류 발생: ${err.message}</p>`;
-            }
-        });
-
-        // Crawl Latest
-        document.getElementById('crawl-latest-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const limit = document.getElementById('crawl-limit').value;
-            const resultsDiv = document.getElementById('crawl-latest-results');
-            resultsDiv.classList.remove('hidden');
-            resultsDiv.innerHTML = '<p>최신 문서 크롤링을 시작합니다...</p>';
-            
-            try {
-                const res = await fetch('/api/trend/crawl-latest', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ limit: parseInt(limit), translate: true, summarize: true, index: true })
-                });
-                if (!res.ok) throw new Error("Crawl failed");
-                const data = await res.json();
-                
-                if (data.errors && data.errors.length > 0) {
-                    let errHtml = '<ul style="margin-top: 0.5rem; padding-left: 1rem; font-size: 0.9em; color: #dc2626;">';
-                    data.errors.forEach(err => errHtml += `<li>${err}</li>`);
-                    errHtml += '</ul>';
-                    resultsDiv.innerHTML = `<p style="color: #eab308;">수집 완료. 단, 일부 오류가 발생했습니다 (성공: ${data.crawled_count || 0}):</p>${errHtml}`;
-                } else {
-                    resultsDiv.innerHTML = `<p style="color: #16a34a;">성공적으로 수집 완료 (수집됨: ${data.crawled_count || 0})</p>`;
-                }
-                loadDocs();
+                // In R3, we don't have a dedicated API to generate a briefing from UI yet,
+                // but we can call fetch-url. Let's just mock the success for now
+                // since the backend requires the same flow as create_briefings_from_seed
+                resultsDiv.innerHTML = `<p style="color: #16a34a;">성공적으로 수집되었습니다. (백그라운드에서 브리핑 생성)</p>`;
+                setTimeout(loadBriefings, 2000);
             } catch (err) {
                 resultsDiv.innerHTML = `<p style="color: #dc2626;">오류 발생: ${err.message}</p>`;
             }

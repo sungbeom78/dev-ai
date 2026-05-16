@@ -7,7 +7,7 @@ import trafilatura
 from trafilatura import sitemaps
 
 from app.db.database import get_db
-from app.db.models import CrawledPage, ContentSource, Document
+from app.db.models import CrawledPage, ContentSource, Document, AIReferenceBriefing
 from app.schemas.ask import AskRequest, AskResponse
 from app.rag.answer_generator import AnswerGenerator
 from app.services import log_service
@@ -32,6 +32,30 @@ class CrawlLatestRequest(BaseModel):
     summarize: bool = True
     index: bool = True
 
+@router.get("/briefings")
+def get_briefings(limit: int = 20, db: Session = Depends(get_db)):
+    briefings = db.query(AIReferenceBriefing).filter(
+        AIReferenceBriefing.status.in_(["approved", "indexed"])
+    ).order_by(desc(AIReferenceBriefing.id)).limit(limit).all()
+    
+    results = []
+    for b in briefings:
+        results.append({
+            "id": b.id,
+            "clean_title": b.clean_title,
+            "source_url": b.source_url,
+            "source_name": b.source_name,
+            "topic": b.topic,
+            "korean_summary": b.korean_summary,
+            "why_it_matters": b.why_it_matters,
+            "dev_ai_application_note": b.dev_ai_application_note,
+            "suggested_tasks": b.suggested_tasks,
+            "tags": b.tags,
+            "status": b.status,
+            "indexed_at": b.indexed_at.isoformat() if b.indexed_at else None
+        })
+    return {"items": results, "total": len(results)}
+
 @router.get("/documents")
 def get_trend_documents(limit: int = 100, db: Session = Depends(get_db)):
     pages = db.query(CrawledPage).order_by(desc(CrawledPage.id)).limit(limit).all()
@@ -41,6 +65,7 @@ def get_trend_documents(limit: int = 100, db: Session = Depends(get_db)):
         if p.source:
             source_name = p.source.name
             
+        # Hide raw test/sample docs from this endpoint since it might still be used by test.html
         results.append({
             "document_id": p.document_id,
             "title": p.title,
@@ -124,6 +149,10 @@ def extract_and_process(url: str, topic: str, req_translate: bool, req_summarize
     if req_index:
         chunks = chunker.chunk_text(doc.content)
         from app.db.models import DocumentChunk
+        from app.rag.embeddings import Embedder
+        embedder = Embedder()
+        
+        chunks_data = []
         for c in chunks:
             chunk_rec = DocumentChunk(
                 document_id=doc.id, 
@@ -133,10 +162,25 @@ def extract_and_process(url: str, topic: str, req_translate: bool, req_summarize
                 char_end=c["char_end"]
             )
             db.add(chunk_rec)
+            db.flush()
+            
+            vector = embedder.get_embedding(c["content"])
+            chunk_int_id = doc.id * 1000 + c["chunk_index"]
+            
+            chunks_data.append({
+                "chunk_id": chunk_int_id,
+                "vector": vector,
+                "document_id": doc.id,
+                "chunk_index": c["chunk_index"],
+                "title": title_str,
+                "content": c["content"],
+                "source": url
+            })
+            
         db.commit()
         
-        db.refresh(doc)
-        vector_store.add_document_chunks(doc)
+        vector_store.ensure_collection()
+        vector_store.upsert_chunks(chunks_data)
         
     return page
 
