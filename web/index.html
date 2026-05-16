@@ -123,7 +123,13 @@
             
             <div style="border: 1px solid var(--border); padding: 1.5rem; border-radius: 0.5rem;">
                 <form id="fetch-url-form" class="flex-form">
-                    <input type="url" id="fetch-url" placeholder="https://huggingface.co/blog/example 또는 주제 직접 입력" style="flex: 1;" required>
+                    <input type="url" id="fetch-url" list="fetch-url-sites" placeholder="https://news.hada.io/ 등 수집 사이트 선택 또는 직접 입력" style="flex: 1;" required>
+                    <datalist id="fetch-url-sites">
+                        <option value="https://news.hada.io/">GeekNews (hada.io)</option>
+                        <option value="https://news.ycombinator.com/">Hacker News</option>
+                        <option value="https://arxiv.org/list/cs.AI/recent">arXiv CS.AI</option>
+                        <option value="https://techcrunch.com/category/artificial-intelligence/">TechCrunch AI</option>
+                    </datalist>
                     <select id="fetch-topic" class="input-small" style="width: 150px;">
                         <option value="mcp">MCP</option>
                         <option value="skills">Skills</option>
