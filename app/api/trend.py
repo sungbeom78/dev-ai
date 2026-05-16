@@ -47,11 +47,14 @@ def get_briefings(limit: int = 20, db: Session = Depends(get_db)):
             "source_name": b.source_name,
             "topic": b.topic,
             "korean_summary": b.korean_summary,
+            "key_changes": getattr(b, "key_changes", ""),
             "why_it_matters": b.why_it_matters,
             "dev_ai_application_note": b.dev_ai_application_note,
             "suggested_tasks": b.suggested_tasks,
+            "risk_or_caution": getattr(b, "risk_or_caution", ""),
             "tags": b.tags,
             "status": b.status,
+            "freshness_status": getattr(b, "freshness_status", "최신"),
             "indexed_at": b.indexed_at.isoformat() if b.indexed_at else None
         })
     return {"items": results, "total": len(results)}
@@ -78,6 +81,49 @@ def get_trend_documents(limit: int = 100, db: Session = Depends(get_db)):
             "created_at": p.crawled_at.isoformat() if p.crawled_at else None
         })
     return {"items": results, "total": len(results)}
+
+@router.post("/brief", response_model=AskResponse)
+def trend_brief(request: AskRequest, db: Session = Depends(get_db)):
+    if request.question.strip() == "하네스":
+        answer = """“하네스”는 여러 의미로 쓰일 수 있습니다.
+1. Harness.io 같은 DevOps/CI/CD 플랫폼
+2. AI 모델 평가용 evaluation harness
+3. 테스트 자동화 test harness
+4. Agent 실행/평가 harness
+
+어떤 의미인지 구체적으로 입력해 주세요. (예: "하네스 프로그램 최신 동향")"""
+        return AskResponse(
+            question=request.question,
+            answer=answer,
+            sources=[],
+            provider="system",
+            model="system",
+            latency_ms=0,
+            ask_log_id=0
+        )
+        
+    query = request.question
+    if "하네스 프로그램" in query:
+        query += " Harness.io CI/CD DevOps AI automation"
+    
+    result = generator.generate(question=query, limit=request.limit, is_trend_search=True)
+    
+    ask_log_id = log_service.create_ask_log(
+        db=db,
+        question=request.question, # Log original question
+        endpoint_type="trend_brief",
+        intent="rag_query",
+        answer=result["answer"],
+        provider=result["provider"],
+        model=result["model"],
+        latency_ms=result["latency_ms"],
+        retrieval_count=len(result["sources"]),
+        sources=[s.model_dump() for s in result["sources"]]
+    )
+    result["ask_log_id"] = ask_log_id
+    result["question"] = request.question
+    
+    return AskResponse(**result)
 
 @router.post("/ask", response_model=AskResponse)
 def trend_ask(request: AskRequest, db: Session = Depends(get_db)):

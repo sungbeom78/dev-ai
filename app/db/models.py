@@ -109,18 +109,27 @@ class AIReferenceBriefing(Base):
     __tablename__ = "ai_reference_briefings"
 
     id = Column(Integer, primary_key=True, index=True)
+    query = Column(String(512))
     clean_title = Column(String(512), nullable=False)
     source_url = Column(String(512), nullable=False)
     source_name = Column(String(255))
     topic = Column(String(100))
+    
+    published_at = Column(DateTime(timezone=True))
+    collected_at = Column(DateTime(timezone=True), server_default=func.now())
+    freshness_status = Column(String(50), default="최신") # 최신, 최근, 참고, 기초 자료
+    
     korean_summary = Column(Text)
+    key_changes = Column(Text)
     why_it_matters = Column(Text)
     dev_ai_application_note = Column(Text)
     suggested_tasks = Column(Text)
+    risk_or_caution = Column(Text)
     tags = Column(String(512))
+    
+    provider_used = Column(String(100))
     quality_score = Column(Float, default=0.0)
     status = Column(String(50), default="draft") # draft, generated, approved, indexed, rejected
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     indexed_at = Column(DateTime(timezone=True))
     document_id = Column(Integer, ForeignKey("documents.id", ondelete="SET NULL"))
-

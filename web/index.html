@@ -57,7 +57,7 @@
     <main class="container">
         <!-- Hero Section -->
         <section style="margin-bottom: 2.5rem;">
-            <h1 class="hero-title">AI 기술 브리핑</h1>
+            <h1 class="hero-title">AI 기술 동향 브리핑</h1>
             <p class="hero-subtitle">최신 AI 개발 흐름을 수집하고, 내 프로젝트에 적용 가능한 기술 메모로 정리하는 개인 AI Engineering Lab</p>
             
             <div id="mock-warning" class="warning-box">
@@ -83,10 +83,10 @@
             </div>
         </section>
 
-        <!-- B. 한국어 질문 -->
+        <!-- B. 기술 동향 질문 -->
         <section class="chat-container card" style="border-top: 4px solid var(--primary);">
-            <h2>한국어 질문</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">브리핑 카드와 적용 메모를 기반으로 질문합니다.<br>단순 요약뿐 아니라, 내 프로젝트(dev-ai)에 어떻게 적용하면 좋을지 물어보세요.</p>
+            <h2>기술 동향 질문</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">궁금한 AI 개발 기술이나 도구 이름을 입력하면, 관련 최신 자료를 탐색하고 한글 브리핑으로 정리합니다. 저장된 브리핑이 부족하면 최신 공개 문서를 찾아 브리핑 후보를 생성합니다.</p>
             
             <form id="trend-ask-form" class="chat-input-area">
                 <input type="text" id="trend-question" class="chat-input" placeholder="최근 Agent 개발 흐름을 알려줘" required>
@@ -117,23 +117,34 @@
             </div>
         </section>
 
-        <!-- C. 브리핑 생성 -->
+        <!-- C. 최신 동향 탐색 실행 -->
         <section class="card" style="margin-bottom: 2rem;">
-            <h2>브리핑 생성</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">원문 URL을 입력하면 내용을 분석해 새로운 브리핑 카드를 생성합니다.</p>
+            <h2>최신 동향 탐색 실행</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">입력한 주제 또는 등록된 신뢰 소스를 바탕으로 최신 후보 문서를 찾고, 브리핑 후보를 생성합니다. 생성된 브리핑은 품질 기준을 통과해야 RAG 인덱싱 대상이 됩니다.</p>
             
             <div style="border: 1px solid var(--border); padding: 1.5rem; border-radius: 0.5rem;">
                 <form id="fetch-url-form" class="flex-form">
-                    <input type="url" id="fetch-url" placeholder="https://huggingface.co/blog/example" style="flex: 1;" required>
+                    <input type="url" id="fetch-url" placeholder="https://huggingface.co/blog/example 또는 주제 직접 입력" style="flex: 1;" required>
                     <select id="fetch-topic" class="input-small" style="width: 150px;">
                         <option value="mcp">MCP</option>
-                        <option value="rag">RAG</option>
-                        <option value="agent">Agent</option>
+                        <option value="skills">Skills</option>
+                        <option value="langgraph">LangGraph</option>
+                        <option value="agent">Agent Workflow</option>
                         <option value="local_llm">Local LLM</option>
-                        <option value="open_model">Open Model</option>
-                        <option value="ai_engineering">AI Engineering</option>
+                        <option value="open_model">Open Source LLM</option>
+                        <option value="model_serving">Model Serving</option>
+                        <option value="rag">RAG</option>
+                        <option value="ai_coding">AI Coding Tools</option>
+                        <option value="harness">Harness / DevOps AI</option>
+                        <option value="custom">직접 입력</option>
                     </select>
-                    <button type="submit" class="btn primary">Fetch & Create Briefing</button>
+                    <select id="fetch-period" class="input-small" style="width: 100px;">
+                        <option value="30">최근 30일</option>
+                        <option value="90">최근 90일</option>
+                        <option value="180">최근 180일</option>
+                        <option value="all">전체</option>
+                    </select>
+                    <button type="submit" class="btn primary">동향 탐색</button>
                 </form>
                 <div id="fetch-url-results" class="result-display hidden" style="margin-top: 1rem;"></div>
             </div>
@@ -225,15 +236,22 @@ RAG / Agent에서 검색
                     card.innerHTML = `
                         <h3>${doc.clean_title}</h3>
                         <div class="briefing-meta">
+                            <span>최신성: <span class="badge" style="background-color: #f1f5f9; color: #334155;">${doc.freshness_status || '최신'}</span></span> | 
                             <span>주제: ${doc.topic}</span> | 
                             <span>출처: ${doc.source_name}</span> | 
                             <span>상태: <span class="badge" style="background-color: #dcfce7; color: #166534;">${doc.status}</span></span>
                         </div>
                         
                         <div class="briefing-section">
-                            <h4>한글 요약</h4>
+                            <h4>요약</h4>
                             <p>${doc.korean_summary}</p>
                         </div>
+                        
+                        ${doc.key_changes ? `
+                        <div class="briefing-section">
+                            <h4>최근 흐름 또는 핵심 변화</h4>
+                            <p>${doc.key_changes}</p>
+                        </div>` : ''}
                         
                         <div class="briefing-section">
                             <h4>왜 중요한가</h4>
@@ -246,9 +264,15 @@ RAG / Agent에서 검색
                         </div>
                         
                         <div class="briefing-section">
-                            <h4>적용 태스크</h4>
+                            <h4>다음 작업</h4>
                             <p>${doc.suggested_tasks}</p>
                         </div>
+                        
+                        ${doc.risk_or_caution ? `
+                        <div class="briefing-section" style="background-color: #fffbeb; padding: 1rem; border-radius: 0.25rem;">
+                            <h4 style="color: #b45309; margin-bottom: 0.25rem;">주의할 점</h4>
+                            <p style="color: #92400e;">${doc.risk_or_caution}</p>
+                        </div>` : ''}
                         
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
                             <span style="font-size: 0.8rem; color: var(--text-muted);">${doc.tags ? '태그: ' + doc.tags : ''}</span>
@@ -284,7 +308,7 @@ RAG / Agent에서 검색
             latencyBadge.textContent = "...";
             
             try {
-                const res = await fetch('/api/trend/ask', {
+                const res = await fetch('/api/trend/brief', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ question: question, limit: 5 })

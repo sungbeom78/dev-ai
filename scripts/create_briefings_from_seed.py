@@ -15,16 +15,20 @@ from scripts.seed_briefing_urls import seed_data
 
 def generate_briefing(text, seed, provider):
     is_mock = provider.__class__.__name__ == "MockLLMProvider"
+    provider_used = "mock" if is_mock else getattr(provider, "mode", "unknown")
     
     if is_mock:
         return {
             "clean_title": seed["title_hint"],
             "korean_summary": "[자동 초안 / Provider 미설정]\n" + text[:200] + "...",
+            "key_changes": "Provider 미설정으로 핵심 변화를 분석할 수 없습니다.",
             "why_it_matters": seed["why_collect"] + "\n\n실제 분석 품질 검증은 Google 또는 OpenClaw 설정 후 가능합니다.",
             "dev_ai_application_note": seed["expected_dev_ai_usage"] + "\n\n실제 분석 품질 검증은 Google 또는 OpenClaw 설정 후 가능합니다.",
             "suggested_tasks": "1. Provider 설정\n2. 브리핑 재생성",
+            "risk_or_caution": "Mock 응답이므로 신뢰할 수 없습니다.",
             "tags": seed["topic"],
-            "quality_score": 0.5
+            "quality_score": 0.5,
+            "provider_used": provider_used
         }
         
     prompt = f"""다음은 AI 기술 관련 웹 문서의 내용입니다. 이 문서를 읽고 아래의 JSON 형식에 맞게 요약과 적용 메모를 작성해주세요.
@@ -35,18 +39,22 @@ def generate_briefing(text, seed, provider):
 작성 지침:
 1. clean_title: 문서의 제목을 명확하고 한국어로 이해하기 쉽게 적어주세요.
 2. korean_summary: 문서의 핵심 내용을 2~3문장으로 한국어로 요약해주세요.
-3. why_it_matters: 이 기술/문서가 현재 AI 생태계에서 왜 중요한지 작성해주세요. (참고: {seed['why_collect']})
-4. dev_ai_application_note: 내 프로젝트(dev-ai)에 어떻게 적용할 수 있을지 아이디어를 구체적으로 적어주세요. (참고: {seed['expected_dev_ai_usage']})
-5. suggested_tasks: 적용을 위한 할 일 목록을 번호 매겨 작성해주세요. (1. ~, 2. ~)
-6. tags: 쉼표로 구분된 관련 태그 3~4개 (영문 소문자)
+3. key_changes: 무엇이 새롭거나 중요한 변화인지 요약해주세요.
+4. why_it_matters: 이 기술/문서가 현재 AI 생태계에서 왜 중요한지 작성해주세요. (참고: {seed['why_collect']})
+5. dev_ai_application_note: 내 프로젝트(dev-ai)에 어떻게 적용할 수 있을지 아이디어를 구체적으로 적어주세요. (참고: {seed['expected_dev_ai_usage']})
+6. suggested_tasks: 적용을 위한 할 일 목록을 번호 매겨 작성해주세요. (1. ~, 2. ~)
+7. risk_or_caution: 적용 시 고려해야 할 위험성, 한계, 불확실성을 적어주세요.
+8. tags: 쉼표로 구분된 관련 태그 3~4개 (영문 소문자)
 
 출력 형식은 반드시 아래의 필드를 포함하는 유효한 JSON 이어야 합니다.
 {{
     "clean_title": "...",
     "korean_summary": "...",
+    "key_changes": "...",
     "why_it_matters": "...",
     "dev_ai_application_note": "...",
     "suggested_tasks": "...",
+    "risk_or_caution": "...",
     "tags": "..."
 }}
 """
@@ -60,17 +68,21 @@ def generate_briefing(text, seed, provider):
         json_str = answer[start:end]
         data = json.loads(json_str)
         data["quality_score"] = 0.9
+        data["provider_used"] = provider_used
         return data
     except Exception as e:
         print(f"JSON Parsing Error: {e}\nRaw output: {answer}")
         return {
             "clean_title": seed["title_hint"],
             "korean_summary": "[파싱 오류] " + answer[:200],
+            "key_changes": "[파싱 오류]",
             "why_it_matters": seed["why_collect"],
             "dev_ai_application_note": seed["expected_dev_ai_usage"],
             "suggested_tasks": "1. 파싱 수정",
+            "risk_or_caution": "[파싱 오류]",
             "tags": seed["topic"],
-            "quality_score": 0.5
+            "quality_score": 0.5,
+            "provider_used": provider_used
         }
 
 def run():
@@ -117,11 +129,14 @@ def run():
             source_name=seed["source_name"],
             topic=seed["topic"],
             korean_summary=data["korean_summary"],
+            key_changes=data.get("key_changes", ""),
             why_it_matters=data["why_it_matters"],
             dev_ai_application_note=data["dev_ai_application_note"],
             suggested_tasks=data["suggested_tasks"],
+            risk_or_caution=data.get("risk_or_caution", ""),
             tags=data["tags"],
             quality_score=data["quality_score"],
+            provider_used=data.get("provider_used", "unknown"),
             status="approved",
             document_id=doc.id
         )
