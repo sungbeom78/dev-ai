@@ -103,13 +103,20 @@ def run():
         print(f"Fetching {url}...")
         downloaded = trafilatura.fetch_url(url)
         if not downloaded:
-            print(f"Failed to fetch {url}")
-            continue
-            
+            import requests
+            try:
+                downloaded = requests.get(url, timeout=10).text
+            except Exception as e:
+                print(f"Failed to fetch {url} using requests: {e}")
+                continue
+                
         text = trafilatura.extract(downloaded)
         if not text:
-            print(f"Failed to extract text from {url}")
-            continue
+            from bs4 import BeautifulSoup
+            text = BeautifulSoup(downloaded, "html.parser").get_text()[:3000]
+            if not text:
+                print(f"Failed to extract text from {url}")
+                continue
             
         print("Generating briefing...")
         data = generate_briefing(text, seed, provider)
@@ -138,6 +145,7 @@ def run():
             quality_score=data["quality_score"],
             provider_used=data.get("provider_used", "unknown"),
             status="approved",
+            freshness_status=seed.get("freshness_status", "최신"),
             document_id=doc.id
         )
         db.add(briefing)
@@ -188,6 +196,7 @@ def run():
         db.commit()
         
         print(f"Successfully processed {url}")
+        time.sleep(5)
 
     db.close()
 

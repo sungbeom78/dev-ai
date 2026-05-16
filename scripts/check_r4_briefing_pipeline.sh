@@ -22,8 +22,8 @@ done
 # 3. /api/trend/briefings
 BRIEFINGS=$(curl -s http://localhost:8771/api/trend/briefings)
 COUNT=$(echo "$BRIEFINGS" | grep -o '"id":' | wc -l)
-if [ "$COUNT" -lt 3 ]; then
-    echo "❌ Error: Less than 3 briefings found ($COUNT)"
+if [ "$COUNT" -lt 5 ]; then
+    echo "❌ Error: Less than 5 briefings found ($COUNT)"
     exit 1
 fi
 
