@@ -97,15 +97,43 @@ class GoogleLLMProvider(BaseLLMProvider):
         except Exception as e:
             return f"Error calling Google API: {e}", self.model
 
+class FallbackLLMProvider(BaseLLMProvider):
+    def __init__(self):
+        self.providers = []
+        
+        # Primary: OpenClaw
+        if os.getenv("OPENCLAW_ENABLED", "false").lower() == "true":
+            self.providers.append(OpenClawLLMProvider())
+            
+        # Secondary: Google
+        if os.getenv("GOOGLE_PROVIDER_ENABLED", "false").lower() == "true" and GOOGLE_API_KEY:
+            self.providers.append(GoogleLLMProvider())
+            
+        # Tertiary: OpenAI
+        if LLM_PROVIDER == "openai" and OPENAI_API_KEY:
+            self.providers.append(OpenAILLMProvider())
+            
+        # Fallback: Mock
+        self.providers.append(MockLLMProvider())
+        
+    def generate_answer(self, prompt: str) -> Tuple[str, str]:
+        errors = []
+        for provider in self.providers:
+            try:
+                answer, model_name = provider.generate_answer(prompt)
+                if not answer.startswith("Error") and not answer.startswith("OpenClaw base URL is not configured.") and not answer.startswith("Google API key is not configured."):
+                    return answer, model_name
+                errors.append(f"{provider.__class__.__name__}: {answer}")
+            except Exception as e:
+                errors.append(f"{provider.__class__.__name__}: {str(e)}")
+                
+        return "모든 연동 가능한 AI Provider가 응답하지 않았습니다.\n" + "\n".join(errors), "error"
+        
+    @property
+    def mode(self):
+        if hasattr(self.providers[0], "mode"):
+            return self.providers[0].mode
+        return self.providers[0].__class__.__name__.replace("LLMProvider", "").lower()
+
 def get_llm_provider() -> BaseLLMProvider:
-    if LLM_PROVIDER == "openai":
-        if OPENAI_API_KEY:
-            return OpenAILLMProvider()
-        else:
-            return MockLLMProvider() # fallback
-    elif LLM_PROVIDER == "openclaw":
-        return OpenClawLLMProvider()
-    elif LLM_PROVIDER == "google":
-        return GoogleLLMProvider()
-    else:
-        return MockLLMProvider()
+    return FallbackLLMProvider()

@@ -60,10 +60,8 @@
             <h1 class="hero-title">AI 기술 동향 브리핑</h1>
             <p class="hero-subtitle">최신 AI 개발 흐름을 수집하고, 내 프로젝트에 적용 가능한 기술 메모로 정리하는 개인 AI Engineering Lab</p>
             
-            <div id="mock-warning" class="warning-box">
-                <strong>현재 Mock Provider가 설정되어 있습니다.</strong><br>
-                이 상태에서는 실제 기술 분석이 아니라 테스트 응답만 생성됩니다.
-                Google 또는 OpenClaw Provider를 설정해야 정상적인 답변을 생성할 수 있습니다.
+            <div id="provider-warnings" style="margin-bottom: 1.5rem;">
+                <!-- Dynamically populated by checkSystemStatus() -->
             </div>
 
             <p style="color: var(--text-muted); line-height: 1.6;">
@@ -197,15 +195,42 @@ RAG / Agent에서 검색
 
     <script src="js/common.js?v=1.5"></script>
     <script>
-        // Check system status for Mock warning
+        // Check system status for Provider warnings
         const checkSystemStatus = async () => {
             try {
                 const res = await fetch('/api/system/status');
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.llm_provider && data.llm_provider.toLowerCase() === 'mock') {
-                        document.getElementById('mock-warning').style.display = 'block';
+                    const llm = data.llm || {};
+                    const warningsDiv = document.getElementById('provider-warnings');
+                    let html = '';
+                    
+                    if (llm.provider === 'mock' && !llm.openclaw_enabled && !llm.google_enabled) {
+                        html += `
+                        <div class="warning-box" style="display:block;">
+                            <strong>현재 Mock Provider가 설정되어 있습니다.</strong><br>
+                            이 상태에서는 실제 기술 분석이 아니라 테스트 응답만 생성됩니다.
+                            Google 또는 OpenClaw Provider를 설정하면 브리핑 생성 품질이 향상됩니다.
+                        </div>`;
                     }
+                    
+                    if (llm.openclaw_enabled) {
+                        html += `
+                        <div class="warning-box" style="display:block; background-color:#e0f2fe; border-color:#bae6fd; color:#0369a1;">
+                            <strong>OpenClaw Local LLM 연결됨</strong><br>
+                            OpenClaw는 개인 데스크탑에서 실행되는 Local LLM Provider입니다. Gemma/Qwen 모델을 통해 브리핑 생성 또는 답변 생성을 수행할 수 있지만, 데스크탑이 꺼져 있으면 연결되지 않을 수 있습니다.
+                        </div>`;
+                    }
+                    
+                    if (llm.google_enabled) {
+                        html += `
+                        <div class="warning-box" style="display:block; background-color:#dcfce7; border-color:#bbf7d0; color:#166534;">
+                            <strong>Google API 연결됨</strong><br>
+                            Google Provider는 번역, 요약, 브리핑 생성에 사용할 수 있습니다. API Key 값은 저장소와 화면에 표시하지 않습니다.
+                        </div>`;
+                    }
+                    
+                    warningsDiv.innerHTML = html;
                 }
             } catch (e) {
                 console.error("Status check failed", e);
