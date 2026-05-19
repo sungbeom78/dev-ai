@@ -59,6 +59,7 @@ AI 개발은 ChatGPT API를 호출하는 것으로 끝나지 않습니다. 실�
 - [AI 트렌드 자동 수집 파이프라인 (Phase 8)](docs/learning/ai-trend-pipeline.md)
 - [Reference Pipeline 안정화 및 문서화](docs/decisions/0010-reference-pipeline-stabilization.md)
 - [Web UI 포트폴리오 설명 페이지 개편](docs/learning/web-portfolio-page.md)
+- [Embedding, Qdrant Retrieval, and LLM Generation](docs/learning/embedding-retrieval-generation.md)
 
 ## 실행 방법
 ```bash
@@ -88,3 +89,5 @@ docker compose up -d
 docker compose exec api python scripts/seed_sources.py
 docker compose exec api python scripts/crawl_source.py --url https://example.com/article
 ```
+
+

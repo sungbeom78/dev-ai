@@ -295,7 +295,7 @@ URL 수집 (자동 스케줄러 / 직접 입력)
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
                     <span style="font-size: 0.8rem; color: var(--text-muted);">${doc.tags ? '태그: ' + doc.tags : ''}</span>
-                    <a href="${doc.source_url}" target="_blank" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; font-weight: 500;">원문 링크 보기 &rarr;</a>
+                    <a href="${doc.source_url}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; font-weight: 500; cursor: pointer; position: relative; z-index: 10; display: inline-block; padding: 0.25rem 0;" onclick="window.open('${doc.source_url}', '_blank'); return false;">원문 링크 보기 &rarr;</a>
                 </div>
             `;
             return card;

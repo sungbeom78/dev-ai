@@ -7,7 +7,19 @@ QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
 
 class QdrantStore:
     def __init__(self, collection_name: str = "documents"):
-        self.client = QdrantClient(url=QDRANT_URL)
+        url_to_try = QDRANT_URL
+        try:
+            # First try the configured URL
+            self.client = QdrantClient(url=url_to_try)
+            self.client.get_collections() # test connection
+        except Exception:
+            if "qdrant" in url_to_try:
+                # Fallback to localhost for PM2 host execution
+                url_to_try = url_to_try.replace("qdrant", "localhost")
+                self.client = QdrantClient(url=url_to_try)
+            else:
+                raise
+                
         self.collection_name = collection_name
         self.dimension = 1536 # Should match embedder
         

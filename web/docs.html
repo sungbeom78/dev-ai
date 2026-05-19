@@ -21,6 +21,16 @@
         .status-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
         .status-key { font-weight: 500; color: var(--text-main); }
         .status-val { color: var(--text-muted); }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary::before { content: '▶'; display: inline-block; font-size: 0.8rem; margin-right: 0.5rem; transition: transform 0.2s; color: var(--primary); }
+        details[open] > summary::before { transform: rotate(90deg); }
+    
     </style>
 </head>
 <body>
@@ -63,7 +73,12 @@
 
         <!-- Why I Built This -->
         <section class="card">
-            <h2>왜 이 프로젝트를 만들었는가</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">왜 이 프로젝트를 만들었는가</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">단순 API 호출을 넘어선 실무 AI 파이프라인 설계</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <p style="margin-bottom: 1rem; line-height: 1.6;">AI 개발은 단순히 ChatGPT API를 호출하는 것만으로 끝나지 않습니다.</p>
             <p style="margin-bottom: 1rem; line-height: 1.6;">실제 서비스에서는 문서, 개발 기록, 기술 레퍼런스, 운영 로그 같은 데이터를 수집하고, 검색 가능한 단위로 가공하고, Vector DB에 인덱싱하고, 사용자의 질문에 맞는 context를 찾아 LLM에게 전달하는 전체 파이프라인이 필요합니다.</p>
             <p style="margin-bottom: 1.5rem; line-height: 1.6;">BomTS Dev AI는 이 과정을 직접 구현하며 이해하기 위해 만든 프로젝트입니다. 특히 RAG, Agent Workflow, Local LLM, MCP, Skills, Vibe Coding, 오픈소스 모델, AI Engineering Reference Pipeline 같은 최신 AI 개발 흐름을 개인 학습과 실제 개발 지원 체계로 연결하는 것을 목표로 합니다.</p>
@@ -82,11 +97,18 @@
                     <p style="font-size: 0.9em; color: var(--text-muted);">AI 개발 트렌드와 기술 레퍼런스를 지속적으로 수집해 내 개발에 활용합니다.</p>
                 </div>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- Architecture Overview -->
         <section class="card">
-            <h2>전체 시스템 구조</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">전체 시스템 구조</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">FastAPI, Docker, Nginx 기반의 서비스 아키텍처</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <div class="code-display" style="margin-bottom: 1.5rem;">
 사용자 브라우저
   ↓
@@ -110,11 +132,18 @@ Nginx Web Gateway : 8771
         RAG / LangGraph Agent / LLM Provider (Google / OpenClaw / Mock)
             </div>
             <p style="line-height: 1.6; color: var(--text-muted);">이 시스템은 Docker Compose 기반으로 실행됩니다. Nginx는 8771 포트에서 Web UI와 API Reverse Proxy 역할을 하고, FastAPI는 문서 등록, 검색, RAG, Agent, 로그 API를 제공합니다. PostgreSQL은 원문 문서, 청크, 질문 로그, 피드백, 수집 소스 같은 영속 데이터를 저장하고, Qdrant는 의미 검색을 위한 임베딩 벡터를 저장합니다.</p>
+                </div>
+            </details>
         </section>
 
         <!-- Tech Stack -->
         <section class="card">
-            <h2>사용 기술과 역할</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">사용 기술과 역할</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">각 컴포넌트의 도입 목적과 상세 역할</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div class="info-card">
                     <h4>Docker Compose</h4>
@@ -145,11 +174,18 @@ Nginx Web Gateway : 8771
                     <p style="font-size: 0.9em; color: var(--text-muted); line-height: 1.5;">LLM 호출부를 추상화했습니다. Google API를 이용한 번역/요약이나, 개인 데스크탑에서 실행 중인 OpenClaw (Gemma/Qwen 등)를 로컬 모델로 연동할 수 있습니다.</p>
                 </div>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- RAG Pipeline Overview -->
         <section class="card">
-            <h2>RAG 파이프라인 흐름</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">RAG 파이프라인 흐름</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">문서 수집부터 의미 검색, 답변 생성까지의 단계별 처리</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
                 <div class="code-display" style="flex: 1; min-width: 300px;">
 1. 문서 등록
@@ -177,11 +213,18 @@ Nginx Web Gateway : 8771
                     <p style="line-height: 1.6;">이 프로젝트는 RAG 과정을 하나의 숨겨진 함수로 처리하지 않고, 문서 등록, 청킹, 인덱싱, 검색, 답변, 로그를 각각 분리해 눈으로 확인할 수 있게 만들었습니다. 이렇게 분리하면 답변이 부정확할 때 원인이 검색 문제인지, 청킹 문제인지, 프롬프트 문제인지, LLM 문제인지 분석할 수 있습니다.</p>
                 </div>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- Data Storage Strategy -->
         <section class="card">
-            <h2>PostgreSQL과 Qdrant는 왜 둘 다 필요한가</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">PostgreSQL과 Qdrant는 왜 둘 다 필요한가</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">데이터 영속성 관리와 의미 검색의 역할 분리</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <p style="margin-bottom: 1rem; line-height: 1.6;">PostgreSQL과 Qdrant는 서로 대체 관계가 아니라 역할이 다릅니다.</p>
             <p style="margin-bottom: 1rem; line-height: 1.6;">PostgreSQL은 원문 문서, 청크, 질문 로그, 답변 로그, 피드백, 크롤링 기록처럼 정확히 보존하고 추적해야 하는 데이터를 저장합니다. Qdrant는 문서 청크의 embedding vector를 저장하고, 질문과 의미적으로 가까운 문서 조각을 빠르게 찾는 검색 인덱스 역할을 합니다.</p>
             <p style="margin-bottom: 1.5rem; line-height: 1.6;">즉, PostgreSQL은 원본과 이력을 관리하고, Qdrant는 의미 검색을 담당합니다. 실무 AI 백엔드에서는 이처럼 영속 저장소와 Vector Search 저장소를 분리하는 구조가 자주 사용됩니다.</p>
@@ -196,11 +239,18 @@ Nginx Web Gateway : 8771
                     <li><strong>crawled_pages:</strong> URL 수집 결과</li>
                 </ul>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- Agent Workflow Overview -->
         <section class="card">
-            <h2>LangGraph Agent Workflow</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">LangGraph Agent Workflow</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">질문 의도를 선행적으로 분류</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <div style="display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;">
                 <div class="code-display" style="flex: 1; min-width: 300px;">
 classify_intent
@@ -216,11 +266,18 @@ classify_intent
                     <p style="line-height: 1.6;">이 프로젝트는 LangGraph를 사용해 질문 의도를 먼저 분류하고, 적절한 노드로 라우팅합니다. LangGraph를 사용하면 Agent의 처리 흐름을 node와 edge로 명확하게 표현할 수 있습니다. 이는 복잡한 AI 기능을 단순한 if/else 코드가 아니라, 관찰 가능하고 확장 가능한 workflow로 설계하기 위한 실험입니다.</p>
                 </div>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- Reference Pipeline Overview -->
         <section class="card">
-            <h2>AI Engineering Reference Pipeline</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">AI Engineering Reference Pipeline</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">AI 기술 동향 브리핑</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <p style="margin-bottom: 1rem; line-height: 1.6;">수동으로 문서를 하나씩 등록하는 것만으로는 실제 학습/개발 지원 시스템이 되기 어렵습니다.</p>
             <p style="margin-bottom: 1rem; line-height: 1.6;">BomTS Dev AI는 AI 개발 트렌드, 공식 문서, 기술 블로그, 모델 릴리스 노트, MCP, Skills, LangGraph, RAG, Local LLM 같은 레퍼런스를 수집하고, 이를 RAG 지식 베이스로 활용하는 Reference Pipeline을 지향합니다.</p>
             <p style="margin-bottom: 1.5rem; line-height: 1.6;">URL 기반으로 공개 문서를 수집하고, 본문을 추출해 문서로 저장한 뒤, 기존의 Chunking, Vector Indexing, Search, Ask, Agent 흐름에 연결합니다.</p>
@@ -239,11 +296,18 @@ Vector Indexing
   ↓
 RAG / Agent에서 참고
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- How to Use This Page -->
         <section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
-            <h2>테스트 콘솔 사용법</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">테스트 콘솔 사용법</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">"테스트 콘솔" 페이지 활용 가이드</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <p style="margin-bottom: 1rem; line-height: 1.6;">테스트 콘솔 페이지는 단순 테스트 페이지가 아니라, AI 백엔드의 전체 처리 흐름을 단계별로 확인하기 위한 학습용 콘솔입니다. 아래 순서대로 실행하면 RAG/Agent 시스템이 어떻게 동작하는지 이해할 수 있습니다.</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <ol style="list-style-position: inside; line-height: 1.8; color: var(--text-main);">
@@ -259,11 +323,18 @@ RAG / Agent에서 참고
                     <li><strong>Logs / Feedback 확인:</strong> 질문, 답변, source, latency, feedback을 확인해 개선 포인트를 찾습니다.</li>
                 </ol>
             </div>
+                </div>
+            </details>
         </section>
 
         <!-- Portfolio Talking Points -->
         <section class="card" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
-            <h2 style="color: #166534; border-bottom: 1px solid #bbf7d0;">면접/포트폴리오 설명 포인트</h2>
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">포트폴리오의 가치</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">AI가 만든 시스템의 구성</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
             <p style="margin-bottom: 1.5rem; line-height: 1.6; color: #166534;">이 프로젝트는 다음과 같은 역량을 보여주기 위해 만들었습니다.</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div style="background-color: #ffffff; padding: 1rem; border-radius: 0.25rem; border: 1px solid #dcfce7;">
@@ -291,7 +362,1862 @@ RAG / Agent에서 참고
                     <p style="font-size: 0.9em; color: #166534; line-height: 1.5;">AI 개발 트렌드와 기술 레퍼런스를 지속적으로 수집해 개인 AI Engineering Knowledge Lab으로 발전시키는 구조를 만들었습니다.</p>
                 </div>
             </div>
+                </div>
+            </details>
         </section>
+
+        <!-- Qdrant vs PostgreSQL Architecture Decision -->
+        <section class="card" style="border-top: 4px solid var(--primary);">
+            <details style="margin-bottom: 1rem;">
+                <summary style="font-size: 1.5rem; font-weight: 700; cursor: pointer; color: var(--text-main); margin-bottom: 1rem;">Qdrant vs PostgreSQL (pgvector) 아키텍처 결정</summary>
+                
+                <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                    <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">왜 pgvector가 아니라 Qdrant인가?</summary>
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6;">PostgreSQL도 pgvector 확장을 사용하면 embedding vector 저장과 유사도 검색이 가능합니다.<br>하지만 이 프로젝트에서는 RAG 아키텍처를 명확히 이해하고 설명하기 위해 관계형 영속 저장소와 벡터 검색 저장소의 역할을 의도적으로 분리했습니다.</p>
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6;">PostgreSQL은 원문 문서, 청크, 질문 로그, 피드백, 수집 소스처럼 정합성과 이력 관리가 중요한 데이터를 저장합니다.<br>Qdrant는 embedding vector와 검색용 payload를 저장하고, 사용자 질문과 의미적으로 가까운 chunk를 찾는 semantic retrieval layer 역할을 합니다.</p>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">작은 규모에서는 pgvector도 충분히 좋은 선택입니다.<br>다만 이 프로젝트에서는 전용 Vector DB의 구조, payload filtering, Docker 기반 배포, 향후 확장 가능성을 학습하고 보여주기 위해 Qdrant를 선택했습니다.</p>
+                </details>
+
+                <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                    <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">용어 설명</summary>
+                    <ul style="list-style-position: inside; line-height: 1.8; margin-bottom: 0.5rem;">
+                        <li><strong>embedding vector</strong>는 텍스트, 이미지, 코드 같은 비정형 데이터를 숫자 배열로 바꾼 것이다.</li>
+                        <li><strong>payload</strong>는 vector와 함께 저장하는 부가 정보, 즉 메타데이터다.
+                            <ul style="margin-left: 1.5rem;">
+                                <li><strong>pgvector/PostgreSQL</strong>: 가능. 컬럼 또는 jsonb로 표현</li>
+                                <li><strong>Qdrant</strong>: 가능. vector point의 기본 구조로 자연스럽게 제공</li>
+                            </ul>
+                        </li>
+                        <li><strong>semantic retrieval layer</strong>는 사용자의 질문과 의미적으로 가까운 문서 조각을 찾아주는 검색 계층이다.</li>
+                        <li><strong>payload filtering</strong>은 vector search를 할 때 메타데이터 조건을 함께 거는 것이다.</li>
+                    </ul>
+                    <p style="line-height: 1.6; margin-bottom: 1rem;">PostgreSQL은 relational filtering이 강하다.<br>복잡한 join, transaction, business rule, SQL 분석은 PostgreSQL이 훨씬 좋다.</p>
+                </details>
+
+                <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                    <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">PostgreSQL + pgvector VS Qdrant</summary>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; line-height: 1.5; font-size: 0.95em;">
+                            <thead>
+                                <tr style="background-color: var(--bg-main); text-align: left;">
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">구분</th>
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">PostgreSQL + pgvector</th>
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">Qdrant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">정체성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">PostgreSQL에 vector 타입과 유사도 검색을 추가하는 확장</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">처음부터 vector search를 위해 만든 전용 Vector DB</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">주 역할</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">관계형 데이터 + 벡터 검색을 한 DB 안에서 처리</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">embedding vector 저장, 유사도 검색, payload filtering에 특화</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">데이터 저장 방식</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">일반 테이블 컬럼에 <code>vector</code> 타입 저장</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">collection 안에 point 저장. point = vector + payload</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">원문/업무 데이터 관리</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">매우 강함. SQL, transaction, join, constraint, audit에 유리</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능은 하지만 RDB처럼 복잡한 업무 정합성 관리에는 부적합</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">벡터 검색</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능. exact search, HNSW/IVFFlat 같은 ANN index 사용 가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">핵심 기능. HNSW 기반 vector search, payload filter, collection 관리에 특화</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">메타데이터 필터링</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">SQL <code>WHERE</code> 조건으로 가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">payload filter로 가능. Vector search와 같이 쓰기 좋게 설계</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">RAG MVP 단순성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">DB를 하나만 쓰므로 구조가 단순</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">DB가 하나 더 생기므로 구조는 조금 복잡</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">RAG 아키텍처 학습성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">“PostgreSQL 하나로 통합 구현”을 보여주기 좋음</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">“RDB와 Vector DB 역할 분리”를 보여주기 좋음</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">운영 복잡도</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">낮음. PostgreSQL만 운영하면 됨</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">PostgreSQL + Qdrant 둘 다 운영해야 함</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">확장성 관점</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">작은/중간 규모, 관계형 조건과 함께 검색할 때 좋음</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">vector 검색 중심, 대량 embedding, metadata filtering 중심일 때 좋음</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Python/FastAPI 연동</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">SQLAlchemy + raw SQL 또는 ORM/SQL 조합 필요</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);"><code>qdrant-client</code>로 vector upsert/search 구조가 직관적</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">포트폴리오 메시지</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">“PostgreSQL 기반 통합 RAG”</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">“전용 Vector DB를 분리한 AI Backend Architecture”</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">이 프로젝트에서의 선택 이유</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">대안으로 검토 가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Docker 구성이 쉽고, payload filtering이 강하며, FastAPI/Python과 결합하기 좋다고 판단</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                    <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">“Qdrant에서만 되나?”에 대한 정리표</summary>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; line-height: 1.5; font-size: 0.95em;">
+                            <thead>
+                                <tr style="background-color: var(--bg-main); text-align: left;">
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">개념</th>
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">Qdrant에서 가능?</th>
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">pgvector/PostgreSQL에서 가능?</th>
+                                    <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">차이</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">embedding vector 저장</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant는 point vector, PostgreSQL은 vector 컬럼</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">vector similarity search</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant는 전용 API, PostgreSQL은 SQL 연산자/인덱스</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">semantic retrieval layer 구성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant는 전용 검색 계층으로 분리하기 좋고, PostgreSQL은 통합 구조에 좋음</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">payload 저장</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant는 payload 필드, PostgreSQL은 컬럼/jsonb</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">payload filtering</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가능</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant는 vector search API의 filter, PostgreSQL은 SQL WHERE</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">관계형 join</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">제한적/부적합</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">매우 강함</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">PostgreSQL의 영역</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">transaction/정합성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">제한적</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">매우 강함</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">PostgreSQL의 영역</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">RAG 전용 검색 엔진 느낌</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">강함</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">상대적으로 약함</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant의 장점</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">시스템 단순성</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">DB가 늘어나 복잡</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">DB 하나로 단순</td>
+                                    <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">pgvector의 장점</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                    <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">무엇을 사용할까?</summary>
+                    
+                    <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                        <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">이런 서비스라면 pgvector가 아주 합리적</summary>
+                        <div class="code-display" style="margin-bottom: 1rem;">
+사용자별 문서가 PostgreSQL에 있음
+권한/조직/프로젝트 조건이 복잡함
+문서 수는 수만~수십만 정도
+운영은 단순해야 함
+                        </div>
+                    </details>
+                    
+                    <details style="padding-left: 1rem;">
+                        <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">Qdrant가 더 좋은 경우는?</summary>
+                        <ol style="list-style-position: inside; line-height: 1.8; margin-bottom: 1rem;">
+                            <li>vector 검색을 독립 계층으로 분리하고 싶다.</li>
+                            <li>RAG/semantic search가 시스템의 핵심이다.</li>
+                            <li>embedding 데이터가 계속 늘어난다.</li>
+                            <li>source/category/date 등 payload 기반 검색이 중요하다.</li>
+                            <li>FastAPI/Python에서 검색 엔진처럼 붙이고 싶다.</li>
+                            <li>나중에 Vector DB 전용 튜닝이나 cloud 전환을 고려한다.</li>
+                            <li>포트폴리오에서 AI Backend Architecture를 명확히 보여주고 싶다.</li>
+                        </ol>
+                    </details>
+                </details>
+
+            </details>
+        </section>
+
+        <!-- Document Ingestion Phase -->
+        <section class="card">
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">문서 등록 단계</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">RAG 파이프라인의 ingestion 단계</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6; font-weight: 600; color: var(--text-main);">문서 등록은 RAG 파이프라인의 ingestion 단계입니다.</p>
+                    <div class="code-display" style="margin-bottom: 1.5rem; white-space: pre-wrap;">사용자가 직접 입력한 문서나 URL에서 수집한 reference를 공통 Document 모델로 정규화하고,
+PostgreSQL의 documents 테이블에 원문으로 저장합니다.</div>
+
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6; font-weight: 600; color: var(--text-main);">원문을 저장하는 이유는 chunking, embedding, indexing은 모두 파생 데이터이기 때문입니다.</p>
+                    <div class="code-display" style="margin-bottom: 1.5rem; white-space: pre-wrap;">원문이 있어야 chunk 전략이나 embedding 모델이 바뀌었을 때 재처리할 수 있고,
+답변이 잘못되었을 때 어떤 source에서 온 문서인지 추적할 수 있습니다.</div>
+
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6; font-weight: 600; color: var(--text-main);">source와 license는 RAG 답변의 근거 추적성과 사용 가능 범위를 관리하기 위한 메타데이터입니다.</p>
+                    <div class="code-display" style="margin-bottom: 1.5rem; white-space: pre-wrap;">이 정보는 RAG 답변의 근거 추적성과 안전한 재사용을 위해 필요합니다.
+특히 URL 기반 reference는 외부 문서이기 때문에 source URL과 license 정책을 함께 저장해,
+나중에 답변 근거 표시나 원문 노출 범위를 관리할 수 있게 했습니다.</div>
+
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6; font-weight: 600; color: var(--text-main);">Manual document와 URL reference는 입력 경로는 다르지만,
+최종적으로 documents 테이블에 저장되는 공통 구조로 통합했습니다.</p>
+                    <div class="code-display" style="margin-bottom: 1rem; white-space: pre-wrap;">그래서 이후 chunking, vector indexing, semantic search, RAG ask, agent ask는
+동일한 파이프라인을 재사용할 수 있습니다.</div>
+                </div>
+            </details>
+        </section>
+
+    
+                <!-- Chunking Strategy -->
+        <section class="card">
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">Chunking 전략 및 개선 방향</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">현재 프로젝트 기반의 Chunking 아키텍처</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">좋아. 아래 표는 <strong>BomTS Dev AI 기준으로 어떤 chunking 전략을 언제 도입하면 좋은지</strong>를 판단하기 위한 비교표다.</p>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">먼저 전제부터 잡자.<br>현재 <code>dev-ai</code>는 <strong>Character Chunking</strong>을 사용한다. 코드상 <code>CharacterChunker(chunk_size=800, chunk_overlap=100)</code>이고, <code>start</code>부터 <code>start + chunk_size</code>까지 자른 뒤 다음 시작점을 <code>chunk_size - chunk_overlap</code>만큼 이동한다. 즉 현재는 <strong>800자 단위, 100자 중복</strong> 방식이다.</p>
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">프로젝트 문서에서도 현재 방식은 MVP 단계에서 전체 파이프라인을 빠르게 검증하기 위한 선택이고, 향후 NLTK, spaCy, RecursiveCharacterTextSplitter, Semantic Chunking, Markdown/PDF 구조 보존 방향으로 개선할 수 있다고 정리되어 있다.</p>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">1. 전체 비교표</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">표의 기준은 <code>dev-ai</code>에 적용했을 때의 상대 평가다.</p>
+                        
+                        <div style="overflow-x: auto; overflow-y: auto; max-height: 500px; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 0.25rem;">
+                            <table style="width: 100%; border-collapse: collapse; line-height: 1.5; font-size: 0.9em; min-width: 1200px;">
+                                <thead>
+                                    <tr style="text-align: left;">
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">방식</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">내용</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">특징</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">장점</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">단점</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">적재 성능</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">사용 성능</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">CPU/메모리</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">디스크 사용량</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">작업 난이도</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">dev-ai 적용 우선순위</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Character Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">글자 수 기준으로 고정 길이 분할</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">`800자 + overlap 100자`처럼 단순 절단</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">구현이 매우 쉽고 빠름. 현재 구조와 잘 맞음. 디버깅 쉬움</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문장/문단/제목/코드 중간에서 잘릴 수 있음. 의미 단위 보존 약함</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">매우 빠름</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">검색 품질은 보통</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">overlap만큼 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">매우 낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">이미 적용됨</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Recursive / Paragraph-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문단, 줄바꿈, 문장, 공백 순서로 자연스러운 경계를 우선 탐색</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">안 되면 더 작은 단위로 재귀 분할</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">character 방식보다 문맥 보존 좋음. 구현 대비 효과 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문서 형식이 엉망이면 완벽하지 않음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">빠름</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">검색 품질 좋아짐</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">낮음~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">character와 비슷하거나 약간 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">낮음~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600; color: #16a34a;">1순위 개선 추천</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Token-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">글자가 아니라 LLM tokenizer 기준 token 수로 분할</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">모델 context window와 비용 기준에 가까움</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">prompt 길이/embedding 입력 길이 관리에 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">tokenizer 의존성 추가. 사람이 보는 문단 경계와 다를 수 있음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">빠름~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">안정적. context overflow 방지</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunk 수에 따라 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600; color: #16a34a;">2순위 추천</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Heading-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Markdown/HTML/PDF heading 구조 기준으로 분할</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">`#`, `##`, `###`, 문서 섹션 구조 활용</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">기술 문서/README/docs에 매우 좋음. 검색 결과 설명력이 좋아짐</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">heading 없는 문서에는 효과 제한. parser 필요</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">기술 문서 검색 품질 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">metadata 추가로 약간 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600; color: #16a34a;">2순위 추천</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Metadata-rich Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunk에 heading, source_type, category, license, published_at 등 metadata를 함께 저장</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunk 자체보다 검색/필터링 품질 강화</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant payload filtering, source 추적, UI 표시, 평가 로그에 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">metadata 설계가 필요. 잘못된 metadata는 오히려 노이즈</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">필터 검색과 RAG 설명력 크게 향상</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">metadata만큼 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600; color: #9333ea;">강력 추천</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">NLTK sentence-based Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLTK 문장 분리기를 이용해 문장 단위로 나눈 뒤 묶음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">전통적 NLP 기반 sentence boundary detection</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문장 중간 절단 감소. 단순 character보다 자연스러움</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">한국어/기술문서/코드/마크다운에서 한계 가능. 별도 리소스 필요</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문장형 문서에 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">character와 비슷</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">선택적</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">spaCy sentence/paragraph Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">spaCy pipeline 또는 Sentencizer로 문장 경계 감지</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLP pipeline 기반. 언어 모델 사용 가능</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLTK보다 pipeline 확장성 좋음. 품사/엔티티 등 확장 가능</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">모델 설치/메모리 증가. 한국어 모델 선택 고민 필요</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간~느림</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">문장 구조 보존 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">character와 비슷</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">선택적</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Semantic Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">embedding/의미 유사도 기준으로 주제 전환 지점에서 분할</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">의미 변화 감지. 고급 RAG 전처리</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">주제 단위 보존이 가장 좋을 수 있음. 검색 품질 향상 가능</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">embedding 비용 증가. 구현 복잡. 튜닝 필요</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">느림</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">검색 품질 잠재력 높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">후순위 고급 개선</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">LLM-guided Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">LLM이 문서를 읽고 의미 단위로 나누게 함</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">가장 유연하지만 비용 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">복잡한 문서에 강함. 요약/metadata 생성과 결합 가능</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">비용, 속도, 재현성, 운영 안정성 문제</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">매우 느림</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">좋을 수 있으나 비용 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">API/LLM 비용 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">결과에 따라 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">매우 높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">지금은 비추천</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.6;">최근 문서 chunking 관련 연구도 chunking 전략의 효과가 “항상 하나의 정답”으로 결정되지 않고, 검색 태스크의 성격에 따라 달라진다고 보고한다. 특히 fixed-size, sentence/paragraph 기반, semantic/LLM-guided, contextualized chunking 같은 여러 축으로 나눠 평가할 필요가 있다는 점이 중요하다. (<a href="https://arxiv.org/abs/2602.16974" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">2. dev-ai 기준 추천 순서</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">지금 프로젝트에서는 이 순서가 가장 현실적이다.</p>
+                        <div style="overflow-x: auto; margin-bottom: 1rem;">
+                            <table style="width: 100%; border-collapse: collapse; line-height: 1.5; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background-color: var(--bg-main); text-align: left;">
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">순서</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">전략</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">이유</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">1</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Recursive / Paragraph-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">현재 character 방식에서 가장 적은 수정으로 품질 개선 가능</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">2</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Metadata-rich Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Qdrant payload, source 추적, UI 설명력, 평가 로그까지 모두 좋아짐</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">3</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Heading-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">README/docs/기술문서가 많은 dev-ai에 특히 적합</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">4</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Token-aware Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">LLM context와 embedding 입력 길이 관리에 필요</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">5</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Semantic Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">고급 개선. 비용과 복잡도 때문에 나중에</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">6</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">LLM-guided Chunking</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">연구/실험용. 운영 MVP에는 아직 과함</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">즉 지금 바로 개선한다면:</p>
+                        <div class="code-display" style="margin-bottom: 1rem;">CharacterChunker
+  ↓
+RecursiveParagraphChunker
+  ↓
+MetadataRichChunker
+  ↓
+HeadingAware + TokenAware
+  ↓
+SemanticChunker</div>
+                        <p style="margin-bottom: 1rem; line-height: 1.6;">이 흐름이 좋다.</p>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">3. 상세 비교표: 품질/성능/비용 관점</summary>
+                        <div style="overflow-x: auto; overflow-y: auto; max-height: 400px; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 0.25rem;">
+                            <table style="width: 100%; border-collapse: collapse; line-height: 1.5; font-size: 0.9em; min-width: 800px;">
+                                <thead>
+                                    <tr style="text-align: left;">
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">방식</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">검색 품질</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">답변 품질</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">문맥 보존</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">중복 노이즈</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">비용</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">운영 안정성</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right; position: sticky; top: 0; background-color: var(--bg-main); z-index: 1;">설명 가능성</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Character</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">보통</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">보통</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">overlap 크면 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">보통</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Recursive/Paragraph-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">적당</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Token-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">안정적</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">설정에 따라 다름</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">보통</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Heading-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right; font-weight: 600; color: #16a34a;">매우 좋음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Metadata-rich</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">검색 자체보다 필터 품질 향상</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">chunk 방식에 의존</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮출 수 있음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right; font-weight: 600; color: #16a34a;">매우 좋음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">NLTK</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">보통</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">spaCy</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">Semantic</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음~매우 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음~매우 좋음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); font-weight: 600;">LLM-guided</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">매우 좋을 수 있음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">매우 좋을 수 있음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">매우 높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right; font-weight: 600; color: #dc2626;">매우 높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">좋음</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">4. 방식별 설명</summary>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-1. Character Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 방식이다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문서 전체를 800자 단위로 자르고,
+다음 chunk는 이전 chunk의 마지막 100자를 다시 포함한다.</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 코드가 정확히 이 방식이다. <code>chunk_text()</code>는 <code>start = 0</code>에서 시작해 <code>end = start + chunk_size</code>까지 자르고, 다음 <code>start</code>를 <code>chunk_size - chunk_overlap</code>만큼 이동시킨다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예:
+chunk_size = 800
+overlap = 100
+step = 700
+
+Chunk 0: 0 ~ 800
+Chunk 1: 700 ~ 1500
+Chunk 2: 1400 ~ 2200</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">구현이 쉽다.
+빠르다.
+디버깅이 쉽다.
+MVP에서 전체 pipeline 검증에 좋다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문장 중간에서 잘릴 수 있다.
+문단 중간에서 잘릴 수 있다.
+Markdown heading 구조를 모른다.
+코드 블록을 중간에서 자를 수 있다.
+표를 망가뜨릴 수 있다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><code>dev-ai</code>의 첫 구현으로는 맞다. 하지만 계속 이 방식만 쓰면 RAG 품질이 금방 한계에 부딪힌다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-2. Recursive / Paragraph-aware Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">이 방식은 character chunking보다 한 단계 좋다.<br>핵심은 “무조건 800자로 자르지 말고, 자연스러운 경계를 먼저 찾자”다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예상 우선순위:
+1. 큰 섹션
+2. 문단
+3. 문장
+4. 줄바꿈
+5. 공백
+6. 그래도 안 되면 character 기준 절단</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">이 방식은 LangChain의 <code>RecursiveCharacterTextSplitter</code> 계열 아이디어와 비슷하다. 프로젝트 문서에서도 향후 <code>RecursiveCharacterTextSplitter</code>처럼 의미 단위, 문단, 문장 등을 우선하는 전략을 도입할 수 있다고 정리되어 있다.</p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">현재보다 문맥이 덜 깨진다.
+구현 난이도가 아주 높지는 않다.
+문단형 문서에 효과가 좋다.
+기존 DB 구조를 거의 그대로 쓸 수 있다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문서 구조가 지저분하면 완벽하지 않다.
+Markdown heading, 코드 블록 등은 별도 처리가 필요하다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 추천</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>가장 먼저 할 개선이다.</strong><br>기존 <code>CharacterChunker</code>를 바로 없애기보다 <code>chunk_strategy = character | recursive</code> 형태로 병행하면 좋다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-3. Token-aware Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Token-aware 방식은 글자 수가 아니라 LLM tokenizer 기준으로 자른다.</p>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><code>800 characters</code>가 아니라 <code>500 tokens</code> 같은 식이다.</p>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">왜 중요하냐면 LLM 비용과 context window는 보통 token 기준이기 때문이다.</p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">LLM context window 관리에 좋다.
+prompt 길이 예측이 쉬워진다.
+embedding model 입력 제한을 넘길 위험이 줄어든다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">tokenizer 의존성이 생긴다.
+OpenAI, Anthropic, local model마다 tokenizer 차이가 있을 수 있다.
+문단 의미 경계를 보장하지는 않는다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 적용 방향</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><code>document_chunks</code>에 <code>token_count</code>, <code>chunk_strategy</code> 필드를 추가하면 좋다.<br>Qdrant payload에도 넣으면 좋다. <code>{"chunk_strategy": "token", "token_count": 482}</code></p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">RAG 답변 품질 자체보다 <strong>운영 안정성</strong>에 좋다. 즉 “LLM 입력 길이 관리” 측면에서 중요하다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-4. Heading-aware Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Heading-aware는 Markdown, HTML, docs 구조를 활용한다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예:
+# BomTS Dev AI
+## Architecture
+### FastAPI
+### PostgreSQL
+### Qdrant
+## RAG Pipeline
+### Ingestion
+### Chunking</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">이 구조를 기준으로 chunk를 만든다.</p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">기술 문서에 매우 강하다.
+README/docs/공식문서에 적합하다.
+검색 결과가 설명 가능해진다.
+UI에서 section 표시가 가능하다.</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">검색 결과를 이렇게 보여줄 수 있다.<br><code>Document: RAG Pipeline Guide<br>Section: Chunking > Overlap<br>Score: 0.82</code></p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">heading이 없는 문서에는 효과가 약하다.
+Markdown/HTML/PDF parser가 필요하다.
+문서 구조가 잘못되어 있으면 품질도 흔들린다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 적용 방향</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">PostgreSQL <code>document_chunks</code>에 <code>heading_path</code>, <code>section_title</code>, <code>chunk_strategy</code> 필드가 있으면 좋다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">Qdrant payload에는:
+{
+  "heading_path": "RAG Pipeline > Chunking",
+  "section_title": "Chunking",
+  "source_type": "docs"
+}</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><code>dev-ai</code>는 README, docs, AI Reference 문서가 많기 때문에 <strong>매우 잘 맞는다</strong>.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-5. Metadata-rich Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">이건 chunk를 어떻게 자르느냐보다, chunk에 어떤 정보를 같이 붙이느냐의 문제다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예:
+{
+  "document_id": 3,
+  "chunk_index": 7,
+  "title": "LangGraph Agent Workflow",
+  "source": "manual",
+  "license": "private",
+  "source_type": "learning_note",
+  "category": "agent",
+  "heading_path": "Agent > LangGraph > Workflow",
+  "published_at": null,
+  "chunk_strategy": "heading_recursive",
+  "token_count": 438
+}</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">검색 결과 설명이 좋아진다.
+Qdrant payload filtering에 유리하다.
+source/category/license 기준 검색이 가능하다.
+Evaluation log 분석이 쉬워진다.
+Reference Pipeline과 잘 맞는다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">metadata 설계가 필요하다.
+필드가 많아지면 관리가 복잡해진다.
+잘못된 metadata는 검색 품질을 오히려 해칠 수 있다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">적재 성능/디스크 영향</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">metadata는 vector 자체에 비하면 작다. 하지만 chunk 수가 많아지면 payload도 같이 늘어난다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">디스크 증가:
+content 중복 > vector 저장량 > metadata</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">보통은 metadata 추가보다 overlap으로 인한 content 중복이 더 큰 문제다.</p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 추천</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>강력 추천.</strong> 특히 현재 <code>AI Engineering Reference Pipeline</code>을 키우려면 metadata-rich 구조가 필요하다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-6. NLTK 기반 Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">NLTK는 전통적인 NLP toolkit이다. 문장 분리, tokenization, corpus 기반 처리 등에 많이 쓰인다. NLTK 자체는 오래된 대표적인 NLP 교육/연구용 toolkit으로, 다양한 NLP 모듈과 corpus를 제공한다. (<a href="https://arxiv.org/abs/cs/0205028" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">NLTK 기반 chunking은 보통 이렇게 한다.
+1. 문서를 문장 단위로 분리
+2. 문장들을 chunk_size 안에 들어오도록 묶음
+3. 필요하면 overlap 문장 몇 개 추가</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문장 중간 절단이 줄어든다.
+character 방식보다 자연스럽다.
+구현이 비교적 간단하다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">한국어/마크다운/코드 문서에서 정확도가 떨어질 수 있다.
+문장 분리 모델/리소스 관리가 필요하다.
+기술 문서의 heading 구조는 따로 처리해야 한다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 적용 평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">문장형 블로그/아티클에는 괜찮다. 하지만 README/docs/코드 섞인 문서에는 heading-aware나 recursive 방식이 더 먼저다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-7. spaCy 기반 Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">spaCy는 NLP pipeline을 구성할 수 있는 라이브러리다. sentence boundary detection, tokenization, 품사/개체명 인식 같은 pipeline을 연결할 수 있다. sentence boundary detection 자체는 NLP에서 중요한 기본 전처리이며, 도메인과 언어가 복잡할수록 오류가 downstream 품질에 영향을 준다는 연구도 있다. (<a href="https://arxiv.org/abs/2305.01211" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">spaCy 기반 chunking은 보통 이렇게 한다.
+1. spaCy로 문장 경계 감지
+2. 문장/문단을 chunk_size 기준으로 묶음
+3. 필요하면 entity, noun phrase 등 metadata 추가</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문장 단위 보존이 좋다.
+NLP pipeline 확장이 가능하다.
+엔티티/키워드 추출과 결합 가능하다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">모델 설치가 필요하다.
+CPU/메모리 사용량이 character 방식보다 크다.
+한국어 모델 품질과 설치 전략을 고민해야 한다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 적용 평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">나중에 Reference 문서에서 keyword/entity 추출까지 하고 싶다면 좋다. 하지만 단순 chunk 개선만 목적이라면 Recursive/Heading-aware가 먼저다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4-8. Semantic Chunking</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Semantic Chunking은 문장이나 문단의 embedding을 보고, 의미가 바뀌는 지점에서 chunk를 나누는 방식이다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예:
+문단 1: Docker 설명
+문단 2: Docker Compose 설명
+문단 3: PostgreSQL 설명
+문단 4: Qdrant 설명
+
+문단 1~2는 의미가 가깝고, 문단 3부터 의미가 바뀌면:
+Chunk 1: Docker + Docker Compose
+Chunk 2: PostgreSQL
+Chunk 3: Qdrant
+처럼 나눈다.</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">SBERT 같은 sentence embedding 모델은 문장을 의미 있는 vector로 만들고 cosine similarity로 비교할 수 있게 해 dense retrieval/semantic similarity에 활용된다. (<a href="https://arxiv.org/abs/1908.10084" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">장점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">의미 단위 보존이 좋다.
+서로 다른 주제가 한 chunk에 섞이는 문제를 줄일 수 있다.
+검색 품질이 좋아질 가능성이 높다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">단점</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">문장/문단별 embedding 비용이 발생한다.
+적재 시간이 느려진다.
+구현이 복잡하다.
+threshold 튜닝이 필요하다.
+문서 종류별 편차가 있다.</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">리소스</h4>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">CPU: 중간~높음
+메모리: embedding batch 크기에 따라 증가
+디스크: 결과 chunk 수와 vector 수에 따라 증가
+비용: OpenAI embedding 사용 시 비용 증가</div>
+                            <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">dev-ai 적용 평가</h4>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">고급 개선이다. 지금 당장보다, Reference Pipeline이 어느 정도 안정된 뒤 적용하는 게 좋다.</p>
+                        </details>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">5. 성능 관점 요약</summary>
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">적재 성능, 즉 ingestion/indexing 속도</h4>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">빠른 순서:
+Character
+→ Recursive/Paragraph-aware
+→ Token-aware
+→ Heading-aware
+→ NLTK
+→ spaCy
+→ Semantic
+→ LLM-guided</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">다만 실제 속도는 구현과 문서량에 따라 달라진다. 가장 느려지는 지점은 보통 이 둘이다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">1. 문장/문단별 embedding을 추가로 수행하는 Semantic Chunking
+2. LLM에게 chunk 분리를 맡기는 LLM-guided Chunking</div>
+                        
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">사용 성능, 즉 검색/Ask 시점 성능</h4>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">검색 시점 성능은 chunking 방식 자체보다 <strong>생성된 chunk 수</strong>와 <strong>Qdrant index 크기</strong>에 더 영향을 받는다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">chunk 수가 많다
+  ↓
+vector 수 증가
+  ↓
+검색 index 커짐
+  ↓
+디스크/메모리 증가
+  ↓
+검색 latency 증가 가능</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">overlap을 크게 하면 chunk 수와 중복량이 증가한다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">chunk_size=800, overlap=100
+→ step=700
+
+chunk_size=800, overlap=400
+→ step=400
+→ chunk 수 크게 증가</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">즉 overlap은 문맥 보존에는 좋지만, 너무 크면 비용이 늘어난다.</p>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">6. 디스크 사용량 관점</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">디스크 사용량은 대략 이렇게 증가한다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">PostgreSQL:
+- document_chunks.content 저장량
+- overlap으로 인한 중복 content
+- metadata 컬럼/json 저장량
+
+Qdrant:
+- vector 수 × vector dimension × float 크기
+- payload 저장량</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 embedding dimension이 1536이라면 vector 하나당 float32 기준 대략:</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">1536 × 4 bytes = 6144 bytes ≈ 6KB</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">여기에 Qdrant 내부 index와 payload overhead가 더 붙는다. 즉 chunk 수가 중요하다.</p>
+                        <div style="overflow-x: auto; margin-bottom: 1rem;">
+                            <table style="width: 100%; border-collapse: collapse; line-height: 1.5; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background-color: var(--bg-main); text-align: left;">
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">전략</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right;">chunk 수 경향</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">디스크 영향</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">큰 Character chunk</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">적음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">낮음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">작은 Character chunk</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">많음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">높음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">overlap 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">많아짐</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">높음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Paragraph-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">문서 구조에 따라 보통</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Heading-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">섹션 수에 따라 보통</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Semantic</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">threshold에 따라 변동 큼</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">중간~높음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Metadata-rich</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">payload 증가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">약간~중간 증가</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">7. 작업 난이도 기준 상세</summary>
+                        <div style="overflow-x: auto; margin-bottom: 1rem;">
+                            <table style="width: 100%; border-collapse: collapse; line-height: 1.5; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background-color: var(--bg-main); text-align: left;">
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">단계</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">구현 내용</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border); text-align: right;">난이도</th>
+                                        <th style="padding: 0.75rem; border-bottom: 2px solid var(--border);">예상 변경 범위</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Character 유지</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">현재 코드 유지</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">매우 낮음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">없음</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Recursive/Paragraph-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">splitter 클래스 추가</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">낮음~중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);"><code>app/rag/chunker.py</code>, 테스트</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Token-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">tokenizer 추가, token_count 저장</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunker, schema/model 일부</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Heading-aware</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Markdown parser, heading_path 저장</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunker, DB model, Qdrant payload, UI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Metadata-rich</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">metadata 설계/저장/검색 표시</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">DB, API, Qdrant payload, UI</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLTK</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">의존성 추가, 문장 분리</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">requirements, chunker</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">spaCy</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">모델 설치, pipeline 구성</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">중간~높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">requirements, Docker image, chunker</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">Semantic</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">embedding 기반 boundary detection</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunker, embedding pipeline, 비용 관리</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">LLM-guided</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">LLM 호출 기반 segmentation</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: right;">매우 높음</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">provider, prompt, 비용/캐시/로그</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">8. dev-ai에 바로 넣을 수 있는 설계안 & 9. 최종 추천</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">지금 바로 설계한다면 chunker를 이렇게 확장하면 좋다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">BaseChunker
+  ├─ CharacterChunker
+  ├─ RecursiveParagraphChunker
+  ├─ TokenAwareChunker
+  ├─ HeadingAwareChunker
+  └─ SemanticChunker</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">그리고 API에서 옵션을 받게 한다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">{
+  "chunk_strategy": "recursive",
+  "chunk_size": 800,
+  "chunk_overlap": 100
+}</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">DB에는 최소한 이 정도 추가를 추천한다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">document_chunks
+- chunk_strategy
+- token_count
+- heading_path
+- metadata_json</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">Qdrant payload에는 이 정도를 넣는다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">{
+  "document_id": 1,
+  "chunk_id": 7,
+  "title": "RAG Pipeline",
+  "source": "manual",
+  "license": "private",
+  "category": "rag",
+  "heading_path": "RAG > Chunking > Overlap",
+  "chunk_strategy": "heading_recursive",
+  "token_count": 512,
+  "content": "..."
+}</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">이렇게 하면 나중에 UI에서 이런 식으로 보여줄 수 있다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">Source: RAG Pipeline
+Section: RAG > Chunking > Overlap
+Strategy: heading_recursive
+Tokens: 512
+Score: 0.84</div>
+                        <p style="margin-bottom: 1rem; line-height: 1.6;">이건 포트폴리오 설명력도 확 좋아진다.</p>
+
+                        <h4 style="margin-top: 1rem; margin-bottom: 0.25rem;">최종 추천</h4>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">지금 <code>dev-ai</code>의 다음 개선은 이렇게 가는 게 좋다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">1. CharacterChunker는 유지한다.
+2. RecursiveParagraphChunker를 추가한다.
+3. chunk_strategy를 DB에 저장한다.
+4. heading_path, token_count, metadata_json을 추가한다.
+5. Qdrant payload에 metadata를 함께 넣는다.
+6. UI에서 chunk 전략과 heading/source/category를 보여준다.
+7. 이후 Semantic Chunking은 실험 모드로 추가한다.</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">면접/포트폴리오 설명은 이렇게 하면 된다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">현재 MVP에서는 전체 RAG 파이프라인을 빠르게 검증하기 위해 character 기반 chunking을 사용했습니다.
+다만 character chunking은 문장, 문단, heading, token boundary를 이해하지 못하기 때문에
+향후 recursive paragraph-aware, token-aware, heading-aware, metadata-rich chunking으로 개선할 수 있습니다.
+
+특히 dev-ai는 AI Engineering 문서와 URL reference를 다루기 때문에
+문서 구조를 보존하는 heading-aware chunking과
+source/category/license/heading_path를 함께 저장하는 metadata-rich chunking이 중요합니다.
+Semantic chunking은 검색 품질 개선 가능성이 있지만,
+embedding 비용과 구현 복잡도가 커서 후속 실험 단계로 두는 것이 적절합니다.</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">핵심 결론은 이거다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">지금은 Character Chunking으로 MVP 검증.
+다음은 Recursive + Heading-aware + Metadata-rich.
+Semantic Chunking은 고급 실험 단계.</div>
+                    </details>
+
+                </div>
+            </details>
+        </section>
+
+        <!-- Indexing / Embedding / Qdrant -->
+        <section class="card">
+            <details>
+                <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+                    <h2 style="margin: 0; display: inline-block;">Indexing / Embedding / Qdrant 이해</h2>
+                    <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">Embedding Vector, Qdrant, LLM Provider 구조 설명</span>
+                </summary>
+                <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+                    <p style="margin-bottom: 1rem; line-height: 1.6;">현재 <code>dev-ai</code> 시스템의 RAG 구조에서 <strong>Embedding Vector, Qdrant, LLM Provider의 역할이 혼동될 수 있으므로</strong>, 이를 명확하게 설명합니다.</p>
+                    <p style="margin-bottom: 1rem; line-height: 1.6; font-weight: 600; color: var(--primary);">RAG는 보통 “벡터로 AI에게 직접 조회”하는 구조가 아닙니다.<br>벡터는 Vector DB에서 관련 문서 chunk를 찾기 위한 검색 표현이고, 최종 AI 모델에는 vector가 아니라 검색된 chunk를 포함한 prompt 텍스트를 전달합니다.</p>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">1. 작업 목적 및 주요 오해 방지</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">다음과 같은 흔한 오해를 방지해야 합니다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">오해 1. Gemma 3, Qwen 2.5, Google Gemini에 vector를 직접 보내서 검색하는 구조다.
+오해 2. OpenAI embedding을 쓰면 답변 생성도 OpenAI가 해야 한다.
+오해 3. Mock embedding 상태에서도 실제 의미 검색 품질이 검증된다.
+오해 4. OpenClaw/Gemma/Qwen/Google Provider가 embedding에도 적용된다.</div>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>정확한 설명은 다음과 같습니다:</strong></p>
+                        <div style="background-color: #f8fafc; padding: 1rem; border-radius: 0.25rem; border: 1px solid #e2e8f0; line-height: 1.6;">
+                            Embedding Provider는 질문과 chunk를 vector로 변환해 Qdrant 검색에 사용합니다.<br>
+                            LLM Provider는 Qdrant에서 검색된 chunk를 prompt text로 받아 최종 답변을 생성합니다.<br><br>
+                            따라서 OpenAI embedding + Qdrant + Gemma/Qwen/Google 답변 생성 조합은 완벽하게 가능하고, 이는 일반적인 RAG 구조와도 잘 맞습니다.
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">2. 현재 코드 기준 사실 정리</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 시스템은 크게 두 레이어로 나뉩니다: <code>1. Embedding / Retrieval Layer</code>, <code>2. LLM Generation Layer</code></p>
+                        
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">2.1 Embedding / Retrieval Layer</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 embedding은 <code>app/rag/embeddings.py</code>에서 처리합니다. 지원 모드는 <code>EMBEDDING_MODE=mock</code>과 <code>EMBEDDING_MODE=openai</code>입니다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">[mock]
+- hashlib 기반 deterministic mock vector 생성
+- 실제 의미 검색 품질 검증용이 아님
+- 로컬 개발, 파이프라인 테스트용
+
+[openai]
+- OpenAI embedding API 사용
+- model: text-embedding-3-small
+- dimension: 1536
+- 실제 semantic retrieval 품질 검증 가능</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 <code>OpenClaw</code>, <code>Gemma</code>, <code>Qwen</code>, <code>Google Gemini</code>는 embedding provider가 아니며, 답변 생성 LLM Provider입니다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">2.2 Qdrant Retrieval Layer</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Qdrant는 embedding vector를 저장하고 검색하는 역할입니다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">Qdrant point 저장 내용:
+- id: chunk_id
+- vector: chunk embedding vector
+- payload: document_id, chunk_index, title, content, source</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Qdrant는 AI 모델이 아닙니다. 질문 vector와 가까운 chunk vector를 찾는 semantic retrieval index입니다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">2.3 LLM Generation Layer</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 답변 생성 provider는 <code>app/rag/llm_provider.py</code>에서 처리합니다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">FallbackLLMProvider 구조:
+1. OpenClawLLMProvider (Gemma 3, Qwen 2.5 등)
+2. GoogleLLMProvider (Gemini API)
+3. OpenAILLMProvider (OpenAI Chat 모델)
+4. MockLLMProvider (테스트 응답)</div>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 LLM Provider는 embedding vector를 직접 받지 않습니다. Qdrant에서 검색된 chunk 내용과 prompt template이 결합된 <strong>최종 prompt text</strong>를 받습니다.</p>
+                        </details>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">3. 현재 RAG 흐름 설명</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 시스템의 전체적인 흐름은 다음과 같습니다.</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div class="code-display" style="flex: 1; min-width: 300px;">[Indexing Flow]
+
+Document
+  ↓
+Chunking
+  ↓
+Embedding Provider
+  - mock
+  - openai
+  ↓
+Embedding Vector
+  ↓
+Qdrant Upsert
+  ↓
+Vector Index 저장</div>
+                            <div class="code-display" style="flex: 1; min-width: 300px;">[Ask Flow]
+
+User Question
+  ↓
+Embedding Provider
+  ↓
+Query Vector
+  ↓
+Qdrant Semantic Search
+  ↓
+Relevant Chunks
+  ↓
+Prompt Builder
+  ↓
+LLM Provider
+  - OpenClaw / Gemma / Qwen
+  - Google Gemini
+  - OpenAI
+  - Mock
+  ↓
+Answer</div>
+                        </div>
+                        <div style="background-color: #f8fafc; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid var(--primary); margin-top: 1rem; line-height: 1.6; font-weight: 600;">
+                            Embedding vector는 LLM에게 직접 전달되는 값이 아니라, Qdrant에서 관련 chunk를 찾기 위한 검색 표현입니다.<br>
+                            LLM에게 전달되는 것은 vector가 아니라, 검색된 chunk를 포함한 자연어 prompt입니다.
+                        </div>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">4. 사용자의 관점 정리</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>Q. "벡터로 AI에 직접 조회하지 않으니 완전하다고 할 순 없지만, 내부 RAG에서 벡터로 나온 결과를 chunk로 바꾸어서 다시 원래 AI에 검색/질문하는 경우는 흔할 것 같다. 현재 시스템이 어떻게 보면 더 효율적인 것 아닌가?"</strong></p>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">이 생각은 대체로 맞습니다. 일반적인 RAG 구조에서는 LLM이 vector를 직접 검색하지 않습니다. Embedding model과 Vector DB가 먼저 관련 chunk를 찾고, 그 결과를 prompt context로 만들어 최종 LLM에게 전달합니다.</p>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">따라서 OpenAI embedding으로 검색 품질을 확보하고, 답변 생성은 Gemma, Qwen, Gemini, GPT 등 여러 LLM Provider 중 하나를 사용하는 구조는 충분히 일반적이고 실용적입니다.</p>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">이 구조의 장점은 retrieval과 generation을 분리할 수 있다는 점입니다. 검색 품질은 embedding model과 Qdrant가 담당하고, 답변 품질과 문체, 추론 능력은 LLM Provider가 담당합니다.</p>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">5. 현재 구조가 효율적인 이유</summary>
+                        
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">5.1 Retrieval과 Generation 분리</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">검색(관련 문서 찾기, top-k chunk 반환)과 생성(검색된 context를 바탕으로 자연어 응답 생성)을 분리하면 여러 LLM을 교체하기 매우 쉽습니다.</p>
+                            <div class="code-display" style="margin-bottom: 0.5rem;">예:
+OpenAI embedding + Qdrant + Gemma 3
+OpenAI embedding + Qdrant + Qwen 2.5
+OpenAI embedding + Qdrant + Google Gemini
+Local embedding + Qdrant + Local Qwen</div>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">5.2 여러 AI 모델을 같은 RAG 검색 결과에 연결 가능</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">동일한 질문에 대한 동일한 Qdrant 검색 결과를 여러 LLM에 동시에 전달할 수 있어, 향후 모델 비교나 평가 로그, 피드백 분석에 매우 유리합니다.</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">5.3 LLM별 context 처리 차이를 비교 가능</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">같은 chunk를 넣어도 모델마다 답변 품질과 특성이 다릅니다. 이는 모델 교체형 AI 백엔드 포트폴리오로 설명하기 아주 좋은 강점입니다.</p>
+                            <ul style="list-style-position: inside; line-height: 1.8; margin-bottom: 0.5rem;">
+                                <li><strong>Gemma:</strong> 로컬/온프레미스 실험에 적합</li>
+                                <li><strong>Qwen:</strong> 코딩/기술 답변에 강점</li>
+                                <li><strong>Gemini:</strong> API 기반의 안정적 Fallback</li>
+                                <li><strong>OpenAI:</strong> 품질 비교의 기준점</li>
+                            </ul>
+                        </details>
+                    </details>
+
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">6. 현재 구조의 한계</summary>
+                        
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">6.1 Mock embedding 상태의 한계</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">Mock embedding은 실제 의미를 이해하지 않습니다. hash 기반 deterministic vector이므로 검색 파이프라인 테스트에는 유용하지만, semantic retrieval 품질 검증에는 부적합합니다.</p>
+                            <div style="background-color: #fffbeb; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #b45309; line-height: 1.6; color: #92400e;">
+                                <strong>주의:</strong> 현재 Mock Embedding 모드에서는 RAG 파이프라인 동작은 확인할 수 있지만, 실제 의미 검색 품질은 신뢰하기 어렵습니다. 실제 검색 품질 검증에는 OpenAI 또는 Local Embedding Provider를 사용해야 합니다.
+                            </div>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">6.2 OpenClaw/Gemma/Qwen은 embedding provider가 아님</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 OpenClaw는 prompt를 받아 답변을 생성하는 LLM Provider이며, embedding vector 생성에는 사용되지 않습니다. (They are generation providers, not embedding providers.)</p>
+                        </details>
+
+                        <details style="margin-bottom: 0.5rem; padding-left: 1rem; margin-top: 0.5rem;">
+                            <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">6.3 Local embedding provider 부재</summary>
+                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">현재 local LLM 답변 생성은 가능하지만, local embedding provider는 별도로 구현되어 있지 않습니다. 향후 <code>LocalEmbeddingProvider</code> (Ollama embedding, bge-m3, multilingual-e5 등)의 추가가 필요합니다.</p>
+                        </details>
+                    </details>
+                    
+                    <details style="margin-bottom: 1rem; padding-left: 1rem;">
+                        <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">7. 결론 / 요약</summary>
+                        <p style="margin-bottom: 0.5rem; line-height: 1.6;">BomTS Dev AI는 검색을 위해 embedding을 사용하고, 생성을 위해 LLM을 사용하는 전형적이고 실용적인 RAG 아키텍처를 따르고 있습니다.</p>
+                        <div class="code-display" style="margin-bottom: 0.5rem;">현재 구조는 맞다.
+다만 mock embedding 상태라면 “잘 돌아간다”는 것은 파이프라인 기준이고,
+“검색 품질까지 좋다”는 뜻은 아니다.</div>
+                    </details>
+                </div>
+            </details>
+        </section>
+
+    
+<!-- Open Source Embedding Consideration -->
+<section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+    <details>
+        <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+            <h2 style="margin: 0; display: inline-block;">오픈소스 Embedding 고려</h2>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">향후 로컬 모델 및 확장 계획</span>
+        </summary>
+        <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+
+    <p style="margin-bottom: 1rem; line-height: 1.6;">
+        현재 BomTS Dev AI는 RAG 파이프라인에서 Embedding Provider와 LLM Provider를 분리하는 구조를 사용합니다.
+        Embedding Provider는 질문과 문서 chunk를 vector로 변환해 Qdrant에서 관련 chunk를 찾는 역할을 하고,
+        LLM Provider는 검색된 chunk를 prompt text로 받아 최종 답변을 생성합니다.
+    </p>
+
+    <div class="code-display" style="margin-bottom: 1.5rem;">
+User Question
+  ↓
+Embedding Provider
+  ↓
+Query Vector
+  ↓
+Qdrant Semantic Search
+  ↓
+Relevant Chunks
+  ↓
+Prompt Builder
+  ↓
+LLM Provider
+  - Gemma 3
+  - Qwen 2.5
+  - Google Gemini
+  - OpenAI
+  ↓
+Answer
+    </div>
+
+    <p style="margin-bottom: 1rem; line-height: 1.6;">
+        중요한 점은 LLM이 vector를 직접 받는 것이 아니라는 점입니다.
+        Vector는 Qdrant에서 관련 chunk를 찾기 위한 검색 표현이고,
+        최종 LLM에는 검색된 chunk가 포함된 자연어 prompt가 전달됩니다.
+    </p>
+
+    <div class="info-card" style="margin-bottom: 1.5rem;">
+        <h4>Mock Embedding의 의미</h4>
+        <p style="font-size: 0.95em; color: var(--text-muted); line-height: 1.6;">
+            Mock embedding은 무작위라기보다는 deterministic fake embedding입니다.
+            같은 입력에는 항상 같은 vector를 반환하지만, 문장의 의미를 이해하는 모델은 아닙니다.
+            따라서 문서 등록, chunk 생성, Qdrant upsert, search/ask API 흐름 확인에는 유용하지만,
+            실제 semantic retrieval 품질 검증에는 적합하지 않습니다.
+        </p>
+        <p style="font-size: 0.95em; color: #991b1b; line-height: 1.6; margin-top: 0.75rem;">
+            Mock embedding 상태에서 “시스템이 동작한다”는 것은 파이프라인 연결이 정상이라는 뜻이지,
+            검색 품질이 좋다는 뜻은 아닙니다.
+        </p>
+    </div>
+
+    <div class="info-card" style="margin-bottom: 1.5rem;">
+        <h4>OpenAI Embedding의 의미</h4>
+        <p style="font-size: 0.95em; color: var(--text-muted); line-height: 1.6;">
+            OpenAI embedding은 실제 의미 기반 vector를 생성하므로 Qdrant semantic search 품질을 확인하는 데 적합합니다.
+            현재 dev-ai는 EMBEDDING_MODE=openai일 때 OpenAI text-embedding-3-small 모델을 사용하는 구조입니다.
+            다만 OpenAI embedding은 유료 API이므로 API Key, 비용, latency, rate limit, 외부 API 장애,
+            입력 텍스트가 외부 API로 전달된다는 점을 고려해야 합니다.
+        </p>
+    </div>
+
+    <div class="info-card" style="margin-bottom: 1.5rem;">
+        <h4>Gemma / Qwen / Google과 Embedding의 역할 구분</h4>
+        <p style="font-size: 0.95em; color: var(--text-muted); line-height: 1.6;">
+            현재 dev-ai에서 OpenClaw 기반 Gemma 3, Qwen 2.5, Google Gemini는 답변 생성 LLM Provider로 사용됩니다.
+            이들은 Qdrant 검색용 embedding vector를 생성하는 provider가 아닙니다.
+            RAG 구조에서는 embedding model이 먼저 관련 chunk를 찾고,
+            그 결과를 prompt text로 만들어 LLM에게 전달합니다.
+        </p>
+    </div>
+
+    <h3 style="margin-top: 1.5rem;">오픈소스 Embedding 후보</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9em;">
+        <thead>
+            <tr style="background-color: #f1f5f9;">
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">모델</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">특징</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">한국어/다국어</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">리소스 부담</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">dev-ai 추천도</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">BAAI bge-m3</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">다국어 RAG 검색에 강한 embedding 모델. dense/sparse/multi-vector 검색 확장 가능</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">좋음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">1순위 추천</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">multilingual-e5-large / instruct</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">다국어 semantic retrieval에서 널리 사용되는 embedding 계열</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">좋음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">추천</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">jina-embeddings-v3</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">다국어, long-context, 1024 dimension 기반 embedding. dimension 축소 옵션도 고려 가능</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">좋음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">추천</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">nomic-embed-text</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Ollama 등 로컬 환경에서 사용하기 쉬운 embedding 모델</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">영어 중심 성격이 강함</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">낮음~중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">가벼운 테스트 추천</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">mxbai-embed-large</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">로컬 embedding 실험에서 자주 거론되는 모델</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">영어권 평가 중심</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">비교 후보</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Qwen embedding / reranker 계열</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Qwen 계열의 별도 embedding 또는 reranker 모델. 답변 생성용 Qwen 2.5와는 역할이 다름</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">모델별 확인 필요</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간~높음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">후순위 고급 실험</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="margin-top: 1.5rem;">리소스 관점</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9em;">
+        <thead>
+            <tr style="background-color: #f1f5f9;">
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">모델 규모</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">예시</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">CPU 실행</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">GPU 필요성</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">속도</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">비고</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Small</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">MiniLM, small e5</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">가능</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">필수 아님</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">빠름</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">품질은 제한적일 수 있음</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Base</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">bge-base, e5-base, LaBSE</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">가능</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">있으면 좋음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">보통</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">개인 RAG에 현실적</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Large</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">bge-m3, multilingual-e5-large, jina-v3</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">가능하지만 느릴 수 있음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">권장</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">품질과 비용의 균형이 좋음</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">2B 이상</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">Qwen embedding 계열 일부</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">느림</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">권장</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">느림~중간</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">고급 실험용</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">8B급</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">대형 embedding / multimodal embedding 계열</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">비현실적</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">강력 권장</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">무거움</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">현재 dev-ai 첫 적용 대상으로는 과함</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="margin-top: 1.5rem;">OpenAI Embedding vs 오픈소스 Local Embedding</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9em;">
+        <thead>
+            <tr style="background-color: #f1f5f9;">
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">구분</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">OpenAI Embedding</th>
+                <th style="border: 1px solid var(--border); padding: 0.75rem;">Open-source / Local Embedding</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">비용</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">API 비용 발생</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">로컬 실행 시 API 비용 없음</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">속도</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">네트워크 latency 있음</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">로컬 하드웨어 성능에 의존</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">품질</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">안정적이고 빠르게 품질 확인 가능</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">모델 선택에 따라 편차 있음</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">운영</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">API Key, rate limit, 비용 관리 필요</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">모델 다운로드, 서빙, 리소스 관리 필요</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">프라이버시</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">텍스트가 외부 API로 전달됨</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">로컬 처리 가능</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">dev-ai 학습 가치</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">실제 semantic retrieval 품질 기준점 확보</td>
+                <td style="border: 1px solid var(--border); padding: 0.75rem;">온프레미스 AI 포트폴리오 가치가 큼</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3 style="margin-top: 1.5rem;">권장 발전 방향</h3>
+    <p style="margin-bottom: 1rem; line-height: 1.6;">
+        dev-ai의 다음 단계는 단순히 Local LLM 답변 생성을 붙이는 것이 아니라,
+        Local Embedding Provider를 추가하는 것입니다.
+        Gemma/Qwen/Google은 답변 생성용으로 유지하고,
+        검색 품질을 담당하는 embedding model은 bge-m3 같은 오픈소스 모델로 분리하는 방향이 적절합니다.
+    </p>
+
+    <div class="code-display" style="margin-bottom: 1.5rem;">
+현재 구조:
+Embedder
+  ├─ mock
+  └─ openai
+
+권장 구조:
+EmbeddingProvider
+  ├─ MockEmbeddingProvider
+  ├─ OpenAIEmbeddingProvider
+  ├─ LocalSentenceTransformerEmbeddingProvider
+  ├─ OllamaEmbeddingProvider
+  └─ OpenAICompatibleEmbeddingProvider
+    </div>
+
+    <div class="code-display" style="margin-bottom: 1.5rem;">
+환경변수 예시:
+
+EMBEDDING_PROVIDER=local
+EMBEDDING_MODEL=BAAI/bge-m3
+EMBEDDING_DIMENSION=1024
+
+또는
+
+EMBEDDING_PROVIDER=ollama
+EMBEDDING_MODEL=bge-m3
+EMBEDDING_BASE_URL=http://localhost:11434
+EMBEDDING_DIMENSION=1024
+    </div>
+
+    <div class="info-card" style="margin-bottom: 1.5rem;">
+        <h4>Qdrant Collection Dimension 주의사항</h4>
+        <p style="font-size: 0.95em; color: var(--text-muted); line-height: 1.6;">
+            Embedding 모델을 바꾸면 vector dimension이 달라질 수 있습니다.
+            현재 dev-ai는 OpenAI text-embedding-3-small 기준으로 1536 dimension을 사용합니다.
+            하지만 bge-m3, jina, e5, nomic 등은 dimension이 다를 수 있습니다.
+            Qdrant collection은 생성 시 vector dimension이 고정되므로,
+            embedding model을 바꿀 때는 collection도 분리하거나 재생성해야 합니다.
+        </p>
+        <div class="code-display" style="margin-top: 1rem;">
+documents_mock_1536
+documents_openai_1536
+documents_bge_m3_1024
+documents_jina_v3_1024
+documents_nomic_768
+        </div>
+    </div>
+
+    <p style="line-height: 1.6; font-weight: 500;">
+        결론적으로 현재 dev-ai의 RAG 구조는 올바른 방향입니다.
+        Embedding Provider는 검색 품질을 담당하고,
+        LLM Provider는 검색된 context를 바탕으로 답변 생성을 담당합니다.
+        Mock embedding은 파이프라인 검증용이고,
+        OpenAI embedding은 실제 품질 확인용이며,
+        오픈소스 Local embedding은 온프레미스 AI Lab으로 발전하기 위한 다음 단계입니다.
+    </p>
+        </div>
+    </details>
+</section>
+
+    
+<!-- Search and Ask -->
+<section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+    <details>
+        <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+            <h2 style="margin: 0; display: inline-block;">Search와 Ask</h2>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">검색과 생성의 차이 및 디버깅 방법</span>
+        </summary>
+        <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+            
+            <details style="margin-bottom: 1rem; padding-left: 1rem;" open>
+                <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">Search와 Ask는 서로 다른 목적을 가진다.</summary>
+                
+                <p style="margin-bottom: 0.75rem; line-height: 1.6;">
+                    <strong>Search</strong>는 사용자의 질문을 embedding vector로 변환한 뒤 Qdrant에서 의미적으로 가까운 chunk를 찾는 retrieval 단계입니다.<br>
+                    이 단계에서는 LLM을 호출하지 않습니다.
+                </p>
+                <p style="margin-bottom: 0.75rem; line-height: 1.6;">
+                    <strong>Ask</strong>는 Search 결과를 context로 구성하고, PromptBuilder를 통해 최종 prompt를 만든 뒤 LLM Provider에게 답변 생성을 요청합니다.<br>
+                    즉 Ask는 retrieval과 generation을 결합한 RAG 단계입니다.
+                </p>
+                <div style="background-color: #fffbeb; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #b45309; line-height: 1.6; color: #92400e; margin-bottom: 0.75rem;">
+                    <strong>디버깅 팁:</strong> 답변이 이상할 때는 먼저 Search 결과를 확인해야 합니다.<br>
+                    - Search 결과가 틀렸다면 embedding, chunking, indexing, Qdrant 데이터 문제일 가능성이 높습니다.<br>
+                    - Search 결과가 맞는데 답변이 이상하다면 prompt 구성이나 LLM Provider 문제를 확인해야 합니다.
+                </div>
+            </details>
+
+            <details style="margin-bottom: 1rem; padding-left: 1rem;" open>
+                <summary style="font-size: 1.25rem; font-weight: 600; cursor: pointer; color: var(--primary); margin-bottom: 0.5rem;">디버깅 판단표</summary>
+                
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9em; min-width: 600px;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: left;">
+                                <th style="border: 1px solid var(--border); padding: 0.75rem;">증상</th>
+                                <th style="border: 1px solid var(--border); padding: 0.75rem;">먼저 볼 곳</th>
+                                <th style="border: 1px solid var(--border); padding: 0.75rem;">원인 후보</th>
+                                <th style="border: 1px solid var(--border); padding: 0.75rem;">개선 방향</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Ask 답변이 엉뚱함</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Search 결과</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">검색 chunk가 틀림</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">embedding/indexing/chunking 점검</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Search 결과가 엉뚱함</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Qdrant / embedding</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">mock embedding, index 누락, 테스트 데이터 섞임</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">real embedding 적용, 재색인, 필터링</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Search 결과는 맞는데 답변이 약함</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Prompt</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">context 지시 부족, 답변 규칙 약함</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">PromptBuilder 개선</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">답변이 너무 일반적임</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Prompt / LLM</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">context를 안 따름</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">“context 기반 답변” 규칙 강화</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">답변이 source와 다름</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Prompt / LLM</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">hallucination</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">모르면 모른다고 답하게 지시</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">응답이 mock처럼 보임</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">LLM Provider</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">fallback/mock 사용</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">provider/env 상태 확인</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">답변은 좋은데 source가 이상함</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Retrieval / Logging</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">source payload 문제</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Qdrant payload, ask_source_logs 점검</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">느림</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">Embedding / LLM</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">OpenAI API, Google API, local model latency</td>
+                                <td style="border: 1px solid var(--border); padding: 0.75rem;">provider별 latency 로그 확인</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+        </div>
+    </details>
+</section>
+
+    
+<!-- LangGraph Agent -->
+<section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+    <details>
+        <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+            <h2 style="margin: 0; display: inline-block;">LangGraph Agent</h2>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">질문 의도 분류 및 조건부 라우팅 구조</span>
+        </summary>
+        <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+            
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                LangGraph Agent는 단순 RAG를 실제 서비스형 AI Workflow로 확장하기 위한 구조입니다.
+            </p>
+            
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                기본 RAG는 모든 질문을 검색 후 답변 생성 흐름으로 처리합니다. 하지만 실제 AI 서비스에서는 질문 유형에 따라 다른 처리 경로가 필요합니다. 예를 들어 시스템 상태 질문, 사용법 질문, 범위 외 질문, 모호한 질문은 문서 검색 기반 RAG와 다른 방식으로 처리하는 것이 적절합니다.
+            </p>
+
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                이 프로젝트는 <strong>LangGraph</strong>를 사용해 질문 처리 흐름을 여러 단계로 나누어 구성합니다. 먼저 사용자의 질문이 들어오면 <code>classify_intent</code> 단계에서 질문 의도를 분류합니다. 그리고 분류 결과에 따라 <code>rag_answer</code>, <code>system_status_answer</code>, <code>how_to_use_answer</code>, <code>out_of_scope_answer</code>, <code>clarification_answer</code> 중 적절한 처리 단계로 이동합니다. 실제 코드에서도 <code>classify_intent</code>를 시작점으로 두고, intent 값에 따라 각 답변 node로 분기하는 구조를 사용합니다.
+            </p>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.75rem; color: var(--text-main);">이 흐름을 구성하기 위해 LangGraph에서는 State, Node, Edge라는 개념을 사용합니다.</h4>
+                
+                <details style="margin-bottom: 0.5rem; padding-left: 1rem;" open>
+                    <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">State</summary>
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                        <code>State</code>는 질문 처리 과정에서 유지되는 작업 데이터입니다. 단순히 원본 질문만 의미하는 것이 아니라, 질문을 처리하면서 생기는 중간 결과와 실행 정보를 함께 담습니다. 예를 들어 <code>question</code>, <code>intent</code>, <code>answer</code>, <code>sources</code>, <code>provider</code>, <code>model</code>, <code>workflow_steps</code> 같은 값이 State에 담깁니다.
+                    </p>
+                </details>
+
+                <details style="margin-bottom: 0.5rem; padding-left: 1rem;" open>
+                    <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">Node</summary>
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                        <code>Node</code>는 State를 받아 특정 작업을 수행하는 처리 단계입니다. 예를 들어 <code>classify_intent</code> node는 질문 의도를 판단해 <code>intent</code> 값을 채우고, <code>rag_answer</code> node는 RAG 검색과 답변 생성을 수행하며, <code>out_of_scope_answer</code> node는 범위 밖 질문에 대한 안내 응답을 만듭니다.
+                    </p>
+                </details>
+
+                <details style="margin-bottom: 0.5rem; padding-left: 1rem;" open>
+                    <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">Edge</summary>
+                    <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                        <code>Edge</code>는 Node와 Node 사이의 이동 경로입니다. 일반적인 Edge는 한 단계가 끝난 뒤 다음 단계로 이동하게 하고, 조건이 있는 Edge는 State에 담긴 값에 따라 다음 Node를 선택합니다. 이 프로젝트에서는 <code>classify_intent</code> 단계에서 결정된 <code>intent</code> 값을 기준으로 어떤 답변 node로 이동할지 결정합니다.
+                    </p>
+                </details>
+            </div>
+
+            <div style="background-color: #f0fdf4; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #16a34a; line-height: 1.6; color: #166534;">
+                이 구조 덕분에 AI Agent의 처리 흐름을 하나의 거대한 함수로 만들지 않고, 질문 분류, RAG 답변, 사용법 안내, 시스템 상태 응답, 범위 외 질문 처리처럼 관찰 가능하고 확장 가능한 단계들의 조합으로 표현할 수 있습니다.
+            </div>
+
+        </div>
+    </details>
+</section>
+
+    
+<!-- Logs / Feedback / Evaluation -->
+<section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+    <details>
+        <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+            <h2 style="margin: 0; display: inline-block;">Logs / Feedback / Evaluation</h2>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">관찰하고 개선할 수 있는 AI 시스템의 핵심</span>
+        </summary>
+        <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+            
+            <div style="background-color: #f0fdf4; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #16a34a; line-height: 1.6; color: #166534; margin-bottom: 1.5rem;">
+                Logs / Feedback / Evaluation은 BomTS Dev AI가 단순한 RAG 데모가 아니라, 관찰하고 개선할 수 있는 AI 시스템이 되기 위한 핵심 구조입니다.
+            </div>
+
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                AI 답변은 단순한 함수 결과가 아닙니다. 사용자 질문이 들어온 뒤, 질문 의도 분류, embedding 생성, Qdrant 검색, source chunk 선택, prompt 구성, LLM Provider 호출, 답변 생성, 사용자 피드백까지 여러 단계를 거쳐 만들어집니다.
+            </p>
+
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                따라서 최종 답변만 저장해서는 충분하지 않습니다. 질문, 답변, endpoint type, intent, provider, model, latency뿐 아니라, 어떤 source chunk가 검색되었고, 그 score가 얼마였으며, 사용자가 그 답변을 어떻게 평가했는지까지 함께 남겨야 합니다.
+            </p>
+
+            <ul style="margin-bottom: 1.5rem; line-height: 1.6; padding-left: 1.5rem; color: var(--text-main);">
+                <li><strong>Ask log</strong>는 질문과 답변의 기본 실행 기록입니다.</li>
+                <li><strong>Source log</strong>는 RAG 답변이 어떤 문서 chunk를 근거로 생성되었는지 추적하기 위한 기록입니다.</li>
+                <li><strong>Feedback log</strong>는 사용자의 평가와 의견을 저장합니다.</li>
+            </ul>
+
+            <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+                이 세 가지가 연결되면 하나의 평가 데이터가 됩니다. 예를 들어 어떤 답변이 down 평가를 받았을 때, 검색된 source가 엉뚱했다면 retrieval 문제이고, source는 적절했지만 답변이 부족했다면 prompt 또는 LLM Provider 문제일 수 있습니다. provider와 model, latency 기록을 함께 보면 어떤 모델이 더 좋은 답변을 만드는지, 어떤 provider가 느리거나 불안정한지도 분석할 수 있습니다.<br>
+                <strong>즉 Logs / Source Logs / Feedback은 RAG 품질 개선을 위한 관찰 데이터이자, 향후 AI가 스스로 답변 품질을 분석하고 개선 방향을 제안하기 위한 평가 데이터셋의 출발점입니다.</strong>
+            </p>
+
+            <h3 style="margin-bottom: 1rem; color: var(--primary);">상세 기록 및 아키텍처 철학</h3>
+            
+            <details style="margin-bottom: 0.5rem; padding-left: 1rem;">
+                <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">1. 왜 로그가 필요한가</summary>
+                <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                    AI 답변이 만들어지기까지 여러 단계가 관여하므로, 답변이 좋았는지 나빴는지를 판단하려면 최종 답변이 아닌 <strong>과정 전체</strong>를 남겨야 합니다. 이를 통해 사용자가 문제를 제기했을 때 답변을 <strong>재검토</strong>하고, <strong>근거를 추적</strong>하며, <strong>검색 문제와 생성 문제를 분리</strong>하고, <strong>모델과 provider를 비교</strong>하며, 궁극적으로 사용자 평가를 단순 감상이 아닌 <strong>데이터</strong>로 만들 수 있습니다.
+                </p>
+            </details>
+
+            <details style="margin-bottom: 0.5rem; padding-left: 1rem;">
+                <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">2. 현재 dev-ai에서 남기는 로그</summary>
+                <div style="margin-bottom: 0.5rem;">
+                    <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>ask_logs</strong>: 질문, 의도(intent), 답변, provider, model, latency, retrieval_count 등을 담습니다. 누가 무엇을 물었고 어떤 모델이 답했는지 확인합니다.</p>
+                    <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>ask_source_logs</strong>: 답변에 사용된 검색 근거(문서 ID, chunk ID, 내용, score, 출처)를 저장합니다. RAG 답변이 이상할 때 가장 먼저 봐야 할 핵심 데이터입니다.</p>
+                    <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>feedback_logs</strong>: 사용자의 평가(up/down/neutral)와 의견을 저장합니다. 이 피드백 하나는 단순한 점수가 아니라, 앞서 쌓인 질문, 답변, source, latency 등의 로그 전체와 연결되어 평가 데이터셋을 이룹니다.</p>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem; padding-left: 1rem;">
+                <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">3. Source log와 Feedback의 결합이 만드는 가치</summary>
+                <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                    RAG 품질은 Retrieval(검색)과 Generation(생성) 두 축으로 결정됩니다. 답변이 이상할 때 Source log가 없다면 이유가 검색 문제인지, 생성 문제인지 구분할 수 없습니다.<br>
+                    사용자가 남긴 "검색 결과는 맞는데 답변이 부족하다"는 Feedback은 Source log와 결합되어, "해당 의도(intent)에서 특정 Provider의 Prompt를 보강해야 한다"는 명확한 개선 지표로 탈바꿈합니다. 즉, AI가 스스로 분석하고 개선 방향을 도출할 수 있는 기반이 됩니다.
+                </p>
+            </details>
+
+            <details style="margin-bottom: 0.5rem; padding-left: 1rem;">
+                <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">4. Latency와 Provider/Model 기록의 중요성</summary>
+                <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                    Latency는 단순 성능이 아닌 사용자 경험, 비용, 안정성을 나타내는 지표입니다. 향후 Embedding, 검색, LLM 호출 등 단계별로 Latency를 세분화하면 어떤 구간이 병목인지 파악할 수 있습니다.<br>
+                    또한 OpenClaw 내 여러 모델(Gemma, Qwen 등) 및 Google, OpenAI, Mock 등 다양한 Provider 환경에서 실제로 어떤 모델이 답했는지(혹은 Fallback 되었는지) 기록함으로써 성능 및 비용 효율성을 정확히 비교할 수 있습니다.
+                </p>
+            </details>
+
+            <details style="margin-bottom: 0.5rem; padding-left: 1rem;">
+                <summary style="font-size: 1.1rem; font-weight: 600; cursor: pointer; color: var(--text-main); margin-bottom: 0.5rem;">5. 향후 발전 방향 (추가 기록 항목 제안)</summary>
+                <ul style="line-height: 1.6; padding-left: 1.5rem; color: var(--text-muted);">
+                    <li><strong>Agent Workflow</strong>: 각 Node 통과 내역 및 Intent 분류 이유 명시</li>
+                    <li><strong>Embedding & Retrieval 상세</strong>: Embedding Provider/Model, Qdrant Collection명, 필터 제외 사유 등</li>
+                    <li><strong>Source 상세 토글화</strong>: Token 수, Prompt 실제 포함 여부 등을 상세 토글로 관리</li>
+                    <li><strong>Prompt & LLM</strong>: Prompt Version, Fallback 이유, Token Count 기록</li>
+                    <li><strong>Feedback 사유 분류</strong>: 사용자가 구체적 사유(잘못된 출처, 짧은 길이, 환각 등)를 체크할 수 있는 UI 도입</li>
+                </ul>
+            </details>
+
+        </div>
+    </details>
+</section>
+
+    
+<!-- AI Engineering Reference Pipeline -->
+<section class="card" style="background-color: #f8fafc; border: 1px solid var(--border);">
+    <details>
+        <summary style="cursor: pointer; display: flex; align-items: baseline; gap: 0.75rem; outline: none;">
+            <h2 style="margin: 0; display: inline-block;">AI Engineering Reference Pipeline</h2>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">개인 AI 지식 실험실로의 발전</span>
+        </summary>
+        <div style="margin-top: 1.5rem; animation: fadeIn 0.3s ease-in-out;">
+            
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                AI Engineering Reference Pipeline은 BomTS Dev AI를 개인 AI Engineering Knowledge Lab으로 발전시키기 위한 구조입니다.
+            </p>
+
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                수동 문서 등록만으로는 빠르게 변화하는 AI 개발 흐름을 따라가기 어렵습니다.<br>
+                따라서 이 프로젝트는 AI 기술 블로그, 공식 문서, 모델 릴리스 노트, RAG/Agent/Local LLM 관련 자료를 source registry로 관리하고, URL fetch를 통해 본문을 수집한 뒤, raw reference로 저장합니다.
+            </p>
+
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                수집된 reference는 단순 원문 보관에 그치지 않고, 요약, 핵심 변화, 왜 중요한지, dev-ai에 어떻게 적용할 수 있는지, 후속 작업 제안, 주의사항 같은 briefing 정보로 확장될 수 있습니다.<br>
+                최종적으로 reference는 공통 Document 모델로 변환되고, 기존의 Chunking, Embedding, Qdrant Indexing, Search, Ask 파이프라인을 통해 질의응답에 활용됩니다.
+            </p>
+
+            <div style="background-color: #eff6ff; padding: 1rem; border-radius: 0.25rem; border-left: 4px solid #3b82f6; line-height: 1.6; color: #1e3a8a; margin-bottom: 1.5rem;">
+                <strong>이 구조를 통해 BomTS Dev AI는 단순 RAG 데모가 아니라, AI 개발 트렌드를 수집하고, 해석하고, 내 프로젝트에 적용하기 위한 개인 지식 실험실로 발전할 수 있습니다.</strong>
+            </div>
+
+            <h3 style="margin-bottom: 1rem; color: var(--primary);">단계별 의미 및 구현 상태</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.9em; min-width: 800px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; text-align: left;">
+                            <th style="border: 1px solid var(--border); padding: 0.75rem;">단계</th>
+                            <th style="border: 1px solid var(--border); padding: 0.75rem;">의미</th>
+                            <th style="border: 1px solid var(--border); padding: 0.75rem;">현재 구현</th>
+                            <th style="border: 1px solid var(--border); padding: 0.75rem;">향후 개선</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Source Registry</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">관리할 출처 등록</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;"><code>ContentSource</code> 모델/API 존재</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">source별 정책, 주기적 crawl</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">URL Fetch</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">URL에서 본문 추출</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;"><code>trafilatura</code>, <code>BeautifulSoup</code>, <code>requests</code> 사용</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">실패 처리, canonical URL, metadata 추출</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Raw Reference</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">수집 원문/상태 저장</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;"><code>CrawledPage</code> 저장</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">author, published_at 자동 추출 강화</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Summary</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">원문 요약</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">필드 존재</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">LLM 기반 자동 요약</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Application Note</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">dev-ai 적용 메모</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;"><code>AIReferenceBriefing</code> 필드 존재</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">자동 생성/수동 승인 workflow</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Document Conversion</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">RAG용 Document 변환</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">URL fetch 시 Document 생성</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">briefing도 Document화</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Chunk/Index</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">의미 검색 가능하게 변환</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">기존 문서 파이프라인 사용 가능</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">metadata-rich indexing</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem; font-weight: 500;">Reference Q&A</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">수집 자료 기반 질의응답</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">기본 RAG로 가능</td>
+                            <td style="border: 1px solid var(--border); padding: 0.75rem;">reference 전용 UI/filter/평가</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </details>
+</section>
 
     </main>
 
