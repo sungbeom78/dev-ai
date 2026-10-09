@@ -1,0 +1,44 @@
+# project.policy.yaml -- dev-process-framework 프로젝트 정책 (init_project 생성)
+# 전체 기본값: dev-process-framework/policy/defaults.yaml
+project:
+  name: dev_ai
+  mode: solo            # solo: 업무 규칙 변경만 사용자 확인, 나머지 자동 승인 / team: 모두 확인
+  profile: standard
+
+qa:
+  levels:
+    quick: "./scripts/check.sh"
+    standard: null
+    full: null
+
+check_commands:         # verify 가 실행할 명령. builtin:* 은 프레임워크 내장 검사
+  lint: builtin:syntax  # .py/.json/.html(태그·인라인 script)/.js 문법 -- JS 는 node 가 있어야 검사
+  encoding: builtin:encoding
+  identifier_audit: builtin:identifier_audit
+  unit_or_regression: "./scripts/check.sh"
+
+check_inputs:           # 검사별 입력 -- 바뀌면 이전 PASS 가 무효(stale)가 된다
+  lint: [app, web]
+  unit_or_regression: [app, web, tests]   # tests/ 를 만들면 추가
+  encoding: [app, web]
+  identifier_audit: [app, web, glossary/dictionary]
+  qa_quick: [app, web, tests]
+
+verification_exemptions: {}   # 예: {code: {identifier_audit: "사유"}}
+
+prior_art:
+  change_log: CHANGELOG.md
+  days: 30
+
+data_model:             # 데이터 입장 -- 모든 프로젝트가 밝힌다 (data-stance 명령으로 저장소 흔적 확인)
+  stance: owned
+  engine: postgresql
+
+glossary:
+  root: ./glossary
+  # 업무 영역 순서 (앞=일반, 뒤=구체) -- 뜻·약어를 뒤에서부터 찾는다 (glossary/doc/glossary_area_rule.md)
+  # 예: [general, school, nursing, nursing_mgmt, data]  (data = DB 분류어 영역: no=번호, at=시각 ...)
+  # areas: [general]
+  enforcement:
+    new_or_renamed: strict      # 새 식별자는 사전 단어만
+    legacy: advisory

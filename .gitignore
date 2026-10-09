@@ -5,3 +5,12 @@ __pycache__/
 .venv/
 venv/
 *.sqlite3
+
+# dev-process-framework (init_project)
+dev-process/task/*/evidence/
+dev-process/task/*/runlog.jsonl
+dev-process/**/*.lock
+dev-process/.incident_registry.lock
+dev-process/backup/
+glossary/build/
+dist/manual-review/

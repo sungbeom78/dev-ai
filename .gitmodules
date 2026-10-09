@@ -1,0 +1,6 @@
+[submodule "dev-process-framework"]
+	path = dev-process-framework
+	url = https://github.com/sungbeom78/dev-process-framework.git
+[submodule "glossary"]
+	path = glossary
+	url = https://github.com/sungbeom78/bomiyang-glossary.git

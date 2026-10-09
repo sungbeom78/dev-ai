@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python .claude/skills/*)",
+      "Bash(python3 .claude/skills/*)",
+      "Bash(python dev-process-framework/tools/*)",
+      "Bash(python3 dev-process-framework/tools/*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git show*)"
+    ],
+    "deny": [
+      "Edit(/dev-process-framework/**)",
+      "Bash(git -C dev-process-framework commit*)",
+      "Bash(git -C dev-process-framework push*)",
+      "Bash(git -C dev-process-framework reset*)",
+      "Bash(git -C dev-process-framework checkout*)",
+      "Edit(/glossary/**)",
+      "Bash(git -C glossary commit*)",
+      "Bash(git -C glossary push*)",
+      "Bash(git -C glossary reset*)",
+      "Bash(git -C glossary checkout*)",
+      "Edit(/.claude/skills/sk-*/**)",
+      "Edit(/.agents/skills/sk-*/**)",
+      "Bash(git commit --no-verify*)",
+      "Bash(git commit -n *)",
+      "Bash(git commit * --no-verify*)",
+      "Bash(git push --no-verify*)"
+    ]
+  }
+}
