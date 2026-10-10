@@ -16,6 +16,10 @@ check_commands:         # verify 가 실행할 명령. builtin:* 은 프레임�
   encoding: builtin:encoding
   identifier_audit: builtin:identifier_audit
   unit_or_regression: "./scripts/check.sh"
+  model_dictionary: ".venv/bin/python db/tools/check_model.py"
+  model_glossary: builtin:model_glossary
+  model_export: ".venv/bin/python db/tools/check_exports.py"
+  ddl_postgres: ".venv/bin/python db/tools/validate_ddl.py"
 
 check_inputs:           # 검사별 입력 -- 바뀌면 이전 PASS 가 무효(stale)가 된다
   lint: [app, web]
@@ -23,6 +27,10 @@ check_inputs:           # 검사별 입력 -- 바뀌면 이전 PASS 가 무효(s
   encoding: [app, web]
   identifier_audit: [app, web, glossary/dictionary]
   qa_quick: [app, web, tests]
+  model_dictionary: [db]
+  model_glossary: [db, glossary/dictionary]
+  model_export: [db]
+  ddl_postgres: [db]
 
 verification_exemptions: {}   # 예: {code: {identifier_audit: "사유"}}
 
