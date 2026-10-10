@@ -1,0 +1,1439 @@
+{
+  "acceptance": [
+    {
+      "no": 1,
+      "note": "sealed ddl_postgres run 4455a3ec4c55: temporary PostgreSQL 15 created 8 tables/80 columns/6 FKs; production vs generated normalized schema-only pg_dump diff lines=0",
+      "status": "met",
+      "text": "정본 DDL 과 운영 스키마 차이 0",
+      "updated_at": "2026-10-10T12:46:08.741432+00:00"
+    },
+    {
+      "no": 2,
+      "note": "db/01_modeling_notes.md separates current-as-is baseline from six explicit problem items; no problem fix was added to baseline DDL",
+      "status": "met",
+      "text": "문제 목록 분리 기록",
+      "updated_at": "2026-10-10T12:46:08.993393+00:00"
+    },
+    {
+      "no": 3,
+      "note": "사용자 원문 '현재 논리 모델을 승인한다.'를 model-approve logical에 기록; pgModeler 실제 열기 화면에서 8개 테이블과 관계선 확인",
+      "status": "met",
+      "text": "논리 모델 사용자 승인",
+      "updated_at": "2026-10-10T11:17:09.340700+00:00"
+    },
+    {
+      "no": 4,
+      "note": "model_glossary run fd20577dbab1 verified; user-approved 22 terms committed as glossary d16f5e7 and origin/main contains that commit",
+      "status": "met",
+      "text": "용어 사전 등록",
+      "updated_at": "2026-10-10T12:46:09.233003+00:00"
+    }
+  ],
+  "approvals": [
+    {
+      "basis": "data model logical approval",
+      "decided_at": "2026-10-10T11:17:09.108539+00:00",
+      "decision": "user_approved",
+      "grants_host_permission": false,
+      "kind": "data_model_logical",
+      "policy_version": "sha256:04c9f35de7167f7a",
+      "request_id": "dm-logical-1",
+      "required_checks": [],
+      "rule_id": "user.explicit",
+      "scope_fingerprint": "data_model",
+      "tier": null,
+      "user_quote": "현재 논리 모델을 승인한다."
+    },
+    {
+      "basis": "register data-model terms: ai, answer, author, briefing, crawl, document, endpoint, feedback, it, korean, latency, license, matter, note, quality, question, retrieval, suggest, tag, title, topic, why",
+      "decided_at": "2026-10-10T11:26:49.371888+00:00",
+      "decision": "user_approved",
+      "grants_host_permission": false,
+      "kind": "glossary_word",
+      "policy_version": "sha256:04c9f35de7167f7a",
+      "request_id": "dm-glossary-22-845342ea",
+      "required_checks": [],
+      "rule_id": "user.explicit",
+      "scope_fingerprint": "glossary:845342ea44c1092fa6d51341cf4c45941b0b7145",
+      "tier": null,
+      "user_quote": "용어 후보 22개 전체 등록을 승인한다."
+    }
+  ],
+  "baseline_commit": "0c137487871d65b105e2b46d01cb291c06760c2e",
+  "change_kind": {
+    "history": [],
+    "kind": "other",
+    "reason": "운영 스키마 역설계 정본화, 운영 DB 변경 없음",
+    "set_at": "2026-10-10T09:19:23.002450+00:00"
+  },
+  "completion": {
+    "changes_summary": "운영 PostgreSQL 8개 테이블을 정본화하고 DDL·pgModeler·정의서를 생성했으며 임시 PostgreSQL에서 운영 스키마와 차이 0을 검증",
+    "commit": "629a81ffe7e54aee94c409652d959285e6e8bdc8",
+    "deploy": "not_in_scope",
+    "push": "pushed",
+    "release_scope": "in_scope",
+    "work": "done"
+  },
+  "created_at": "2026-10-10T09:19:23.002450+00:00",
+  "events": [
+    {
+      "check_name": "prior_art",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "verdict=clear",
+      "ts": "2026-10-10T09:19:33.972608+00:00",
+      "verification": "reported_only",
+      "verified": false
+    },
+    {
+      "check_name": "logical_review_dbm",
+      "evidence_fingerprint": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "dev-process/task/20261010-model-baseline/artifact/build_review_dbm.py"
+        ],
+        "executed_at": "2026-10-10T11:07:03.994374+00:00",
+        "input_snapshot": {
+          "after": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7",
+          "before": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/logical_review_dbm_5ff082deb9b7.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/logical_review_dbm_5ff082deb9b7.receipt.json",
+        "returncode": 0,
+        "run_id": "5ff082deb9b7",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "generated=/project/dev_ai/dev-process/task/20261010-model-baseline/artifact/logical-review/03_model.dbm\ntables=8 columns=80 relationships=6 xml=well_formed\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: generated=/project/dev_ai/dev-process/task/20261010-model-baseline/artifact/logical-review/03_model.dbm\ntables=8 columns=80 relationships=6 xml=well_formed",
+      "ts": "2026-10-10T11:07:03.995386+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "acceptance#3",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "사용자 원문 '현재 논리 모델을 승인한다.'를 model-approve logical에 기록; pgModeler 실제 열기 화면에서 8개 테이블과 관계선 확인",
+      "ts": "2026-10-10T11:17:09.340721+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "model_export_recovery",
+      "evidence_fingerprint": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_exports.py"
+        ],
+        "executed_at": "2026-10-10T11:31:15.312976+00:00",
+        "input_snapshot": {
+          "after": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8",
+          "before": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_recovery_5327c7525b92.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_recovery_5327c7525b92.receipt.json",
+        "returncode": 0,
+        "run_id": "5327c7525b92",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "exported=/tmp/bomts-model-export-r2sdvro7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: exported=/tmp/bomts-model-export-r2sdvro7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0",
+      "ts": "2026-10-10T11:31:15.315171+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "ddl_postgres",
+      "evidence_fingerprint": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/validate_ddl.py"
+        ],
+        "executed_at": "2026-10-10T12:44:29.963021+00:00",
+        "input_snapshot": {
+          "after": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+          "before": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_28dcf2d413a4.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_28dcf2d413a4.receipt.json",
+        "returncode": 0,
+        "run_id": "28dcf2d413a4",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0",
+      "ts": "2026-10-10T12:44:29.965253+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_dictionary",
+      "evidence_fingerprint": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_model.py"
+        ],
+        "executed_at": "2026-10-10T12:45:00.313277+00:00",
+        "input_snapshot": {
+          "after": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+          "before": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_47eeb1bb9a3c.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_47eeb1bb9a3c.receipt.json",
+        "returncode": 1,
+        "run_id": "47eeb1bb9a3c",
+        "sealed": true,
+        "stderr_tail": "/project/dev_ai/.venv/bin/python: can't open file '/project/dev_ai/dev-process-framework/skills/sk-dev-data-modeling/scripts/check_dictionary.py': [Errno 2] No such file or directory\n",
+        "stdout_tail": "baseline_contract errors=0\n"
+      },
+      "gate_outcome": "deny",
+      "kind": "check",
+      "reason_code": "FAIL: in/python: can't open file '/project/dev_ai/dev-process-framework/skills/sk-dev-data-modeling/scripts/check_dictionary.py': [Errno 2] No such file or directory",
+      "ts": "2026-10-10T12:45:00.316216+00:00",
+      "verification": "deny",
+      "verified": false
+    },
+    {
+      "check_name": "model_glossary",
+      "evidence_fingerprint": "sha256:182f2acefd89e9867484c921292807030688816eb93e899d68c8e6fe14091cf3",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "model_glossary",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "db,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:00.612033+00:00",
+        "input_snapshot": {
+          "after": "sha256:182f2acefd89e9867484c921292807030688816eb93e899d68c8e6fe14091cf3",
+          "before": "sha256:182f2acefd89e9867484c921292807030688816eb93e899d68c8e6fe14091cf3"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_abecda4f85e4.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_abecda4f85e4.receipt.json",
+        "returncode": 0,
+        "run_id": "abecda4f85e4",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "  #  영문(full)               약어     한글         처리          비고\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n대조 76건 -- 있음 76 / 등록 대상 0 / 충돌 0 / R2 위반 0 / 구성단어 필요 0\n{\n \"check\": \"model_glossary\",\n \"status\": \"PASS\",\n \"glossary_revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: _revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary",
+      "ts": "2026-10-10T12:45:00.621316+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_export",
+      "evidence_fingerprint": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_exports.py"
+        ],
+        "executed_at": "2026-10-10T12:45:01.023598+00:00",
+        "input_snapshot": {
+          "after": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+          "before": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_95823f26a199.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_95823f26a199.receipt.json",
+        "returncode": 0,
+        "run_id": "95823f26a199",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "exported=/tmp/bomts-model-export-5tay2xr7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: exported=/tmp/bomts-model-export-5tay2xr7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0",
+      "ts": "2026-10-10T12:45:01.025786+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "ddl_postgres",
+      "evidence_fingerprint": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/validate_ddl.py"
+        ],
+        "executed_at": "2026-10-10T12:45:05.935710+00:00",
+        "input_snapshot": {
+          "after": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779",
+          "before": "sha256:60e3b9262b03ab9619f82712b2cbf5cd011317dbeca3cb30430314dd40a5b779"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_38313d83bc32.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_38313d83bc32.receipt.json",
+        "returncode": 0,
+        "run_id": "38313d83bc32",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0",
+      "ts": "2026-10-10T12:45:05.937990+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "encoding",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:06.032507+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_ce86169bb115.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_ce86169bb115.receipt.json",
+        "returncode": 0,
+        "run_id": "ce86169bb115",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "ts": "2026-10-10T12:45:06.040823+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "data_stance",
+      "evidence_fingerprint": "sha256:f83126388a11a73051eef3655f3bcbccd4a4ef8432f070e94e52fcb473df4761",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "data_stance",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:06.347496+00:00",
+        "input_snapshot": {
+          "after": "sha256:f83126388a11a73051eef3655f3bcbccd4a4ef8432f070e94e52fcb473df4761",
+          "before": "sha256:f83126388a11a73051eef3655f3bcbccd4a4ef8432f070e94e52fcb473df4761"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_bb4a609677c6.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_bb4a609677c6.receipt.json",
+        "returncode": 0,
+        "run_id": "bb4a609677c6",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "데이터 입장: owned\n저장소 흔적 4개:\n  - docker-compose.yml  (DB 컨테이너 (postgres:15-alpine))\n  - app/main.py  (SQLAlchemy 모델)\n  - app/db/database.py  (SQLAlchemy 모델)\n  - db/out/02_ddl_postgresql.sql  (CREATE TABLE)\n  결과: 이상 없음\n{\n \"check\": \"data_stance\",\n \"status\": \"PASS\",\n \"stance\": \"owned\",\n \"reason\": \"\",\n \"ref\": \"\",\n \"engine\": \"postgresql\",\n \"signals\": [\n  {\n   \"path\": \"docker-compose.yml\",\n   \"why\": \"DB 컨테이너 (postgres:15-alpine)\"\n  },\n  {\n   \"path\": \"app/main.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"app/db/database.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance",
+      "ts": "2026-10-10T12:45:06.351322+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_dictionary",
+      "evidence_fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_model.py"
+        ],
+        "executed_at": "2026-10-10T12:45:36.475964+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_6c86478fc8ed.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_6c86478fc8ed.receipt.json",
+        "returncode": 0,
+        "run_id": "6c86478fc8ed",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "WARN  [감사] ai_reference_briefings: created_at/updated_at 없음\nWARN  [감사] ask_logs: created_at/updated_at 없음\nWARN  [감사] ask_source_logs: created_at/updated_at 없음\nWARN  [감사] content_sources: created_at/updated_at 없음\nWARN  [감사] crawled_pages: created_at/updated_at 없음\nWARN  [감사] document_chunks: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0",
+      "ts": "2026-10-10T12:45:36.478223+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_dictionary",
+      "evidence_fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_model.py"
+        ],
+        "executed_at": "2026-10-10T12:45:44.602526+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_71e94f0f22bc.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_71e94f0f22bc.receipt.json",
+        "returncode": 0,
+        "run_id": "71e94f0f22bc",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "WARN  [감사] ai_reference_briefings: created_at/updated_at 없음\nWARN  [감사] ask_logs: created_at/updated_at 없음\nWARN  [감사] ask_source_logs: created_at/updated_at 없음\nWARN  [감사] content_sources: created_at/updated_at 없음\nWARN  [감사] crawled_pages: created_at/updated_at 없음\nWARN  [감사] document_chunks: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0",
+      "ts": "2026-10-10T12:45:44.604817+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_glossary",
+      "evidence_fingerprint": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "model_glossary",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "db,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:44.896989+00:00",
+        "input_snapshot": {
+          "after": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5",
+          "before": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_fd20577dbab1.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_fd20577dbab1.receipt.json",
+        "returncode": 0,
+        "run_id": "fd20577dbab1",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "  #  영문(full)               약어     한글         처리          비고\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n대조 76건 -- 있음 76 / 등록 대상 0 / 충돌 0 / R2 위반 0 / 구성단어 필요 0\n{\n \"check\": \"model_glossary\",\n \"status\": \"PASS\",\n \"glossary_revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: _revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary",
+      "ts": "2026-10-10T12:45:44.906514+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "model_export",
+      "evidence_fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_exports.py"
+        ],
+        "executed_at": "2026-10-10T12:45:45.308602+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_cb9e0c156367.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_cb9e0c156367.receipt.json",
+        "returncode": 0,
+        "run_id": "cb9e0c156367",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "exported=/tmp/bomts-model-export-2a60e1zp tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: exported=/tmp/bomts-model-export-2a60e1zp tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0",
+      "ts": "2026-10-10T12:45:45.310836+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "ddl_postgres",
+      "evidence_fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/validate_ddl.py"
+        ],
+        "executed_at": "2026-10-10T12:45:50.268678+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_4455a3ec4c55.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_4455a3ec4c55.receipt.json",
+        "returncode": 0,
+        "run_id": "4455a3ec4c55",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0",
+      "ts": "2026-10-10T12:45:50.270897+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "encoding",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:50.366904+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_2b62beb2a7d3.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_2b62beb2a7d3.receipt.json",
+        "returncode": 0,
+        "run_id": "2b62beb2a7d3",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "ts": "2026-10-10T12:45:50.376228+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "data_stance",
+      "evidence_fingerprint": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "data_stance",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:50.688911+00:00",
+        "input_snapshot": {
+          "after": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70",
+          "before": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_13303e365174.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_13303e365174.receipt.json",
+        "returncode": 0,
+        "run_id": "13303e365174",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "데이터 입장: owned\n저장소 흔적 4개:\n  - docker-compose.yml  (DB 컨테이너 (postgres:15-alpine))\n  - app/main.py  (SQLAlchemy 모델)\n  - app/db/database.py  (SQLAlchemy 모델)\n  - db/out/02_ddl_postgresql.sql  (CREATE TABLE)\n  결과: 이상 없음\n{\n \"check\": \"data_stance\",\n \"status\": \"PASS\",\n \"stance\": \"owned\",\n \"reason\": \"\",\n \"ref\": \"\",\n \"engine\": \"postgresql\",\n \"signals\": [\n  {\n   \"path\": \"docker-compose.yml\",\n   \"why\": \"DB 컨테이너 (postgres:15-alpine)\"\n  },\n  {\n   \"path\": \"app/main.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"app/db/database.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance",
+      "ts": "2026-10-10T12:45:50.692744+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "acceptance#1",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "sealed ddl_postgres run 4455a3ec4c55: temporary PostgreSQL 15 created 8 tables/80 columns/6 FKs; production vs generated normalized schema-only pg_dump diff lines=0",
+      "ts": "2026-10-10T12:46:08.741458+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "acceptance#2",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "db/01_modeling_notes.md separates current-as-is baseline from six explicit problem items; no problem fix was added to baseline DDL",
+      "ts": "2026-10-10T12:46:08.993418+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "acceptance#4",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "model_glossary run fd20577dbab1 verified; user-approved 22 terms committed as glossary d16f5e7 and origin/main contains that commit",
+      "ts": "2026-10-10T12:46:09.233026+00:00",
+      "verification": null,
+      "verified": false
+    }
+  ],
+  "glossary_rev": null,
+  "goal": "운영 PostgreSQL 을 현재 그대로 정본으로",
+  "incidents": {
+    "model-dictionary-script-moved": {
+      "cause": "own_change",
+      "cause_history": [
+        {
+          "cause": "own_change",
+          "evidence": "프로젝트 로컬 db/tools/check_model.py가 옛 프레임워크 스크립트 경로를 하드코딩했고, 43b34f2에 포함된 40c4bab에서 구현이 data-modeling-expert/skill/scripts로 이동했다",
+          "investigation": {
+            "data_changes": "해당 없음: 사전 검사 프로세스가 시작 전 파일 경로 오류로 종료되어 DB·model.json·산출물 데이터 변화 없음",
+            "logs": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_47eeb1bb9a3c.log 첫 오류: can't open file .../skills/sk-dev-data-modeling/scripts/check_dictionary.py: Errno 2",
+            "recent_changes": "프레임워크 c93b8e7→43b34f2 업데이트 중 40c4bab이 기존 scripts/check_dictionary.py를 삭제하고 data-modeling-expert 서브모듈로 이동; 프로젝트 check_model.py는 업데이트 전 옛 경로 유지",
+            "search": "find와 rg 결과 새 위치는 dev-process-framework/data-modeling-expert/skill/scripts/check_dictionary.py; 프레임워크 SKILL.md 21행도 같은 위치를 안내",
+            "system_state": "새 스크립트 dev-process-framework/data-modeling-expert/skill/scripts/check_dictionary.py 존재; .agents 스킬은 문서 디렉터리에 연결; 디스크 101G 여유, 메모리 12Gi available"
+          },
+          "ts": "2026-10-10T12:45:26.568825+00:00"
+        }
+      ],
+      "closed_at": "2026-10-10T12:45:41.538630+00:00",
+      "created_at": "2026-10-10T12:45:26.332371+00:00",
+      "error_signature": "check_model.py references removed dev-process-framework/skills/sk-dev-data-modeling/scripts/check_dictionary.py",
+      "events": [
+        {
+          "by_task": "20261010-model-baseline",
+          "kind": "classify_",
+          "ts": "2026-10-10T12:45:26.568845+00:00"
+        }
+      ],
+      "incident_id": "model-dictionary-script-moved",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-model-baseline",
+      "rounds": [
+        {
+          "action": "db/tools/check_model.py의 FRAMEWORK_CHECK를 dev-process-framework/data-modeling-expert/skill/scripts/check_dictionary.py로 변경",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "새 파일이 존재하고 새 SKILL.md가 data-modeling-expert/skill/scripts를 공식 위치로 명시한다",
+          "expected_result": "verify --only model_dictionary가 errors=0과 baseline_contract errors=0으로 통과",
+          "hypothesis": "프로젝트 검증기의 프레임워크 스크립트 경로만 새 data-modeling-expert 위치로 바꾸면 표준 사전 검사와 로컬 baseline 검사가 모두 실행된다",
+          "hypothesis_hash": "efb60a77498d50a4",
+          "phase": "current_change",
+          "plan_no": 1,
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "새 data-modeling-expert check_dictionary 실행; 표준 검사 errors=0, baseline_contract errors=0",
+          "result_ts": "2026-10-10T12:45:41.283363+00:00",
+          "round_no": 1,
+          "status": "confirmed",
+          "ts": "2026-10-10T12:45:33.013814+00:00",
+          "verification_check": "model_dictionary",
+          "verification_run_id": "6c86478fc8ed",
+          "verification_task": "20261010-model-baseline",
+          "verified": true
+        }
+      ],
+      "rounds_used": 1,
+      "status": "resolved"
+    },
+    "model-export-missing-meta-schema": {
+      "closed_at": "2026-10-10T11:07:08.798446+00:00",
+      "created_at": "2026-10-10T11:05:21.913524+00:00",
+      "error_signature": "export_all KeyError meta_schema on reverse-engineered db/model.json",
+      "incident_id": "model-export-missing-meta-schema",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-model-baseline",
+      "rounds": [
+        {
+          "action": "정본 의미는 바꾸지 않고 /tmp 검토 사본에 exporter 호환 메타데이터만 주입해 task artifact로 초안 산출물을 생성한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "export_all.py line 23 requires M['meta_schema']; model.json top-level keys lack meta_schema and generated_at",
+          "expected_result": "03_model.dbm이 8 tables, 80 columns, 6 relationships로 생성되고 XML 파싱에 성공한다",
+          "hypothesis": "기존 역설계 model.json이 exporter 필수 메타데이터 meta_schema와 generated_at을 포함하지 않아 검토용 산출물 생성이 시작되지 못했다",
+          "hypothesis_hash": "25dca85004c1c843",
+          "phase": "logical-review-export",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "meta_schema와 generated_at 보완 후 export가 column.domain KeyError로 다시 중단됨; 기존 모델은 column.data_type 직접형이며 framework exporter 입력 계약과 다름",
+          "result_ts": "2026-10-10T11:05:38.484417+00:00",
+          "round_no": 1,
+          "status": "failed",
+          "ts": "2026-10-10T11:05:22.216136+00:00",
+          "verification_check": null,
+          "verification_run_id": null,
+          "verification_task": "20261010-model-baseline",
+          "verified": false
+        },
+        {
+          "action": "운영 DB와 framework를 수정하지 않는 task artifact adapter로 03_model.dbm만 생성하고 XML·8 table·80 column·6 relationship을 검사한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "80개 컬럼 모두 column.type을 사용하고 column.domain은 0개이며 FK는 최상위 relationships, unique는 이름+컬럼 객체로 저장됨",
+          "expected_result": "review-only 03_model.dbm XML 정합성 및 개수 검사가 통과한다",
+          "hypothesis": "기존 역설계 모델은 framework prospective-design contract와 달라 공식 export 전 논리 검토에는 현재 type·relationship·unique 구조를 직접 읽는 review-only DBM adapter가 필요하다",
+          "hypothesis_hash": "151be75099f47848",
+          "phase": "logical-review-export",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "sealed logical_review_dbm check: XML well-formed, tables=8, columns=80, relationships=6, 한글 aliases 포함",
+          "result_ts": "2026-10-10T11:07:08.556062+00:00",
+          "round_no": 2,
+          "status": "confirmed",
+          "ts": "2026-10-10T11:06:55.322648+00:00",
+          "verification_check": "logical_review_dbm",
+          "verification_run_id": "5ff082deb9b7",
+          "verification_task": "20261010-model-baseline",
+          "verified": true
+        }
+      ],
+      "rounds_used": 2,
+      "status": "resolved"
+    },
+    "pgdump-nondeterministic-noise": {
+      "cause": "environment",
+      "cause_history": [
+        {
+          "cause": "environment",
+          "evidence": "첫 검증은 임시 DB에 DDL 적용·FK 거부·CASCADE까지 PASS했고 구조 개수도 8/80/6이었다. 최초 dump 31줄 차이는 무작위 restrict 토큰과 주석뿐이었다. 이후 오류는 공식 postgres:15-alpine entrypoint가 임시 초기화 서버를 열었다가 닫고 최종 서버를 시작하는 구간에서 발생했다.",
+          "investigation": {
+            "data_changes": "임시 컨테이너는 --rm이고 동일 이름 잔존 없음; named volume을 쓰거나 재사용하지 않음; TemporaryDirectory는 제거됨. 운영 DB는 schema-only pg_dump 읽기만 했고 데이터·DDL 변경 없음.",
+            "logs": "dev-process/task/20261010-model-baseline/artifact/recovery-investigation-43b34f2.md Logs 절. 직접 preflight라 sealed log는 없으며 첫 불일치는 production_pg_dump_vs_generated_pg_dump_diff_lines=31, 후속 첫 DB 오류는 psql FATAL: database bomts does not exist",
+            "recent_changes": "첫 PASS 이후 model.json과 생성 DDL 내용 변경 없음. 재생성 DDL과 db/out DDL 바이트 동일. 이후 변경은 validate_ddl.py의 dump 잡음 정규화와 Docker readiness 로직뿐. 상세 git diff는 조사 파일에 기록.",
+            "search": "공식 이미지 /usr/local/bin/docker-entrypoint.sh 확인: docker_temp_server_start 후 docker_temp_server_stop, init process complete 출력 뒤 최종 exec postgres. 기존 사건 task_state도 같은 초기화 경합 순서를 기록. 프로젝트 내 별도 동일 사건은 없음.",
+            "system_state": "같은 이름 임시 컨테이너 없음; 운영 bomts_db만 127.0.0.1:5432 사용; 임시 컨테이너는 호스트 포트를 publish하지 않아 충돌 없음; 디스크 66G 여유(30% 사용), 메모리 12Gi available. 상세: recovery-investigation-43b34f2.md"
+          },
+          "ts": "2026-10-10T12:43:24.339350+00:00"
+        }
+      ],
+      "closed_at": "2026-10-10T12:44:41.349939+00:00",
+      "created_at": "2026-10-10T11:31:38.643409+00:00",
+      "error_signature": "schema-only dumps differ only by random restrict token and public schema comments",
+      "events": [
+        {
+          "by_task": "20261010-model-baseline",
+          "kind": "classify_",
+          "ts": "2026-10-10T12:43:24.339369+00:00"
+        },
+        {
+          "by_task": "20261010-model-baseline",
+          "kind": "retry_",
+          "ts": "2026-10-10T12:44:41.048500+00:00"
+        }
+      ],
+      "incident_id": "pgdump-nondeterministic-noise",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-model-baseline",
+      "retries": [
+        {
+          "no": 1,
+          "note": "UUID 컨테이너+tmpfs, entrypoint 초기화 완료 문구와 최종 bomts pg_isready를 모두 확인한 뒤 실행; 8/80/6, FK/CASCADE, normalized pg_dump diff 0",
+          "result": "ok",
+          "since": "2026-10-10T12:43:24.339350+00:00",
+          "ts": "2026-10-10T12:44:41.048479+00:00",
+          "verification_check": "ddl_postgres",
+          "verification_run_id": "28dcf2d413a4",
+          "verification_task": "20261010-model-baseline",
+          "waited_seconds": 30
+        }
+      ],
+      "rounds": [
+        {
+          "action": "normalize dumps by excluding comments, blank lines, and restrict/unrestrict meta commands while retaining all SQL statements",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "31 diff lines; all changes are restrict/unrestrict tokens, blank lines, and public schema comment block; temporary schema counts and smoke passed",
+          "expected_result": "normalized generated and production schema SQL have zero diff lines",
+          "hypothesis": "pg_dump emits random restrict tokens and environment-dependent comments that are not schema statements",
+          "hypothesis_hash": "bef24396ced93db8",
+          "phase": "ddl-comparison",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "dump normalization was applied, but retry stopped before comparison because temporary server accepted connections while database bomts did not exist",
+          "result_ts": "2026-10-10T11:32:02.154549+00:00",
+          "round_no": 1,
+          "status": "failed",
+          "ts": "2026-10-10T11:31:38.956408+00:00",
+          "verification_check": null,
+          "verification_run_id": null,
+          "verification_task": "20261010-model-baseline",
+          "verified": false
+        },
+        {
+          "action": "start the temporary server with default database, wait for postgres, then create database bomts explicitly before applying DDL",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "psql FATAL database bomts does not exist after pg_isready returned success",
+          "expected_result": "temporary database exists, DDL and smoke tests pass, normalized dump diff is zero",
+          "hypothesis": "pg_isready only confirms server acceptance and does not guarantee POSTGRES_DB creation completed",
+          "hypothesis_hash": "bf0c76dc8feb427c",
+          "phase": "ddl-comparison",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "explicit createdb still raced with asynchronous initdb/entrypoint initialization immediately after pg_isready",
+          "result_ts": "2026-10-10T11:32:25.877922+00:00",
+          "round_no": 2,
+          "status": "failed",
+          "ts": "2026-10-10T11:32:02.462159+00:00",
+          "verification_check": null,
+          "verification_run_id": null,
+          "verification_task": "20261010-model-baseline",
+          "verified": false
+        },
+        {
+          "action": "poll psql SELECT 1 on postgres, check whether bomts accepts SQL, and run createdb only when it does not",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "createdb returned nonzero immediately after pg_isready; command output was captured and the temporary container was removed",
+          "expected_result": "stable temporary database initialization followed by zero normalized schema diff",
+          "hypothesis": "SQL readiness must be established with psql, and database creation must tolerate the entrypoint having already created bomts",
+          "hypothesis_hash": "62eeaaad20bcc8da",
+          "phase": "ddl-comparison",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "psql readiness reached the entrypoint temporary server; it shut down before createdb, so validation could not continue",
+          "result_ts": "2026-10-10T11:33:09.578903+00:00",
+          "round_no": 3,
+          "status": "failed",
+          "ts": "2026-10-10T11:32:26.199266+00:00",
+          "verification_check": null,
+          "verification_run_id": null,
+          "verification_task": "20261010-model-baseline",
+          "verified": false
+        }
+      ],
+      "rounds_used": 3,
+      "status": "resolved"
+    },
+    "xlsx-core-properties-none": {
+      "closed_at": "2026-10-10T11:31:15.802280+00:00",
+      "created_at": "2026-10-10T11:31:01.674288+00:00",
+      "error_signature": "openpyxl core properties serialization fails when created/modified is None",
+      "incident_id": "xlsx-core-properties-none",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-model-baseline",
+      "rounds": [
+        {
+          "action": "set deterministic timezone-aware datetime values instead of None, then regenerate all outputs",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "traceback at workbook.properties.to_tree after created and modified were assigned None",
+          "expected_result": "DDL, DBM, and XLSX generation succeeds and export consistency check passes",
+          "hypothesis": "openpyxl requires datetime values for W3CDTF core properties",
+          "hypothesis_hash": "a4f286c63981a139",
+          "phase": "model-export",
+          "proposed_by_task": "20261010-model-baseline",
+          "result": "deterministic datetime properties allow all three exports; consistency check confirmed 8 tables, 80 columns, 6 relationships",
+          "result_ts": "2026-10-10T11:31:15.560617+00:00",
+          "round_no": 1,
+          "status": "confirmed",
+          "ts": "2026-10-10T11:31:01.984239+00:00",
+          "verification_check": "model_export_recovery",
+          "verification_run_id": "5327c7525b92",
+          "verification_task": "20261010-model-baseline",
+          "verified": true
+        }
+      ],
+      "rounds_used": 1,
+      "status": "resolved"
+    }
+  },
+  "last_host": {
+    "host": "unknown",
+    "surface": "unknown",
+    "version": "unknown"
+  },
+  "linked_incidents": [],
+  "open_waits": [],
+  "policy_version": "sha256:04c9f35de7167f7a",
+  "revision": 63,
+  "rollbacks": [],
+  "schema_version": "1",
+  "stage": "report",
+  "stages": {
+    "data_stance": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "data_stance",
+        "computed_at": "2026-10-10T12:45:50.459692+00:00",
+        "file_count": 13,
+        "files": {
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "db/01_modeling_notes.md": "e223d492fb84f01ca9f14ac5479cafba2aee1b326c67ba13bd19eaed54d3ac93",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c",
+          "docker-compose.yml": "a71841631bce12b98afd778841fe9160255cd1e9d8c488ac5fba6562de36b248",
+          "project.policy.yaml": "cc73b67b8099c332d7e17d1fd2dbd830a474867c810618175a4683745d8edc85"
+        },
+        "fingerprint": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70",
+        "input_paths": [
+          "app/db/database.py",
+          "app/main.py",
+          "db",
+          "db/01_modeling_notes.md",
+          "db/model.json",
+          "db/out/02_ddl_postgresql.sql",
+          "db/out/03_model.dbm",
+          "db/out/04_table_spec.xlsx",
+          "db/tools/check_exports.py",
+          "db/tools/check_model.py",
+          "db/tools/export_all.py",
+          "db/tools/validate_ddl.py",
+          "docker-compose.yml",
+          "project.policy.yaml"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "data_stance",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:50.688911+00:00",
+        "input_snapshot": {
+          "after": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70",
+          "before": "sha256:3dab61a52bf1224f750cb8624a3684bae78d63d18c6dd8f4233bc7ccc9acbe70"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_13303e365174.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/data_stance_13303e365174.receipt.json",
+        "returncode": 0,
+        "run_id": "13303e365174",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "데이터 입장: owned\n저장소 흔적 4개:\n  - docker-compose.yml  (DB 컨테이너 (postgres:15-alpine))\n  - app/main.py  (SQLAlchemy 모델)\n  - app/db/database.py  (SQLAlchemy 모델)\n  - db/out/02_ddl_postgresql.sql  (CREATE TABLE)\n  결과: 이상 없음\n{\n \"check\": \"data_stance\",\n \"status\": \"PASS\",\n \"stance\": \"owned\",\n \"reason\": \"\",\n \"ref\": \"\",\n \"engine\": \"postgresql\",\n \"signals\": [\n  {\n   \"path\": \"docker-compose.yml\",\n   \"why\": \"DB 컨테이너 (postgres:15-alpine)\"\n  },\n  {\n   \"path\": \"app/main.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"app/db/database.py\",\n   \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: \"why\": \"SQLAlchemy 모델\"\n  },\n  {\n   \"path\": \"db/out/02_ddl_postgresql.sql\",\n   \"why\": \"CREATE TABLE\"\n  }\n ],\n \"problems\": [],\n \"notes\": []\n}\nPASS: data_stance",
+      "recorded_at": "2026-10-10T12:45:50.692744+00:00",
+      "verification": "verified"
+    },
+    "ddl_postgres": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "ddl_postgres",
+        "computed_at": "2026-10-10T12:45:45.335419+00:00",
+        "file_count": 9,
+        "files": {
+          "db/01_modeling_notes.md": "e223d492fb84f01ca9f14ac5479cafba2aee1b326c67ba13bd19eaed54d3ac93",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c"
+        },
+        "fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+        "input_paths": [
+          "db"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/validate_ddl.py"
+        ],
+        "executed_at": "2026-10-10T12:45:50.268678+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_4455a3ec4c55.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/ddl_postgres_4455a3ec4c55.receipt.json",
+        "returncode": 0,
+        "run_id": "4455a3ec4c55",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: temporary_postgres=15 tables=8 columns=80 foreign_keys=6\nsmoke=invalid_fk_rejected,cascade_verified\nproduction_pg_dump_vs_generated_pg_dump_diff_lines=0",
+      "recorded_at": "2026-10-10T12:45:50.270897+00:00",
+      "verification": "verified"
+    },
+    "encoding": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "encoding",
+        "computed_at": "2026-10-10T12:45:50.304250+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+        "input_paths": [
+          "app",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:50.366904+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_2b62beb2a7d3.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/encoding_2b62beb2a7d3.receipt.json",
+        "returncode": 0,
+        "run_id": "2b62beb2a7d3",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "recorded_at": "2026-10-10T12:45:50.376228+00:00",
+      "verification": "verified"
+    },
+    "logical_review_dbm": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "logical_review_dbm",
+        "computed_at": "2026-10-10T11:07:03.927180+00:00",
+        "file_count": 1,
+        "files": {
+          "db/model.json": "12253b0110319a368787dc7ffccd9b1709959034956ae85984ff766e043cbf00"
+        },
+        "fingerprint": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7",
+        "input_paths": [
+          "db/model.json",
+          "dev-process/task/20261010-model-baseline/artifact/build_review_dbm.py"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "dev-process/task/20261010-model-baseline/artifact/build_review_dbm.py"
+        ],
+        "executed_at": "2026-10-10T11:07:03.994374+00:00",
+        "input_snapshot": {
+          "after": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7",
+          "before": "sha256:dadf3e882d2c42e875c4e400cd3cf71f7e7f72f16b8739d0a4ef98cc2ca88ca7"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/logical_review_dbm_5ff082deb9b7.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/logical_review_dbm_5ff082deb9b7.receipt.json",
+        "returncode": 0,
+        "run_id": "5ff082deb9b7",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "generated=/project/dev_ai/dev-process/task/20261010-model-baseline/artifact/logical-review/03_model.dbm\ntables=8 columns=80 relationships=6 xml=well_formed\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: generated=/project/dev_ai/dev-process/task/20261010-model-baseline/artifact/logical-review/03_model.dbm\ntables=8 columns=80 relationships=6 xml=well_formed",
+      "recorded_at": "2026-10-10T11:07:03.995386+00:00",
+      "verification": "verified"
+    },
+    "model_dictionary": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "model_dictionary",
+        "computed_at": "2026-10-10T12:45:44.543201+00:00",
+        "file_count": 9,
+        "files": {
+          "db/01_modeling_notes.md": "e223d492fb84f01ca9f14ac5479cafba2aee1b326c67ba13bd19eaed54d3ac93",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c"
+        },
+        "fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+        "input_paths": [
+          "db"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_model.py"
+        ],
+        "executed_at": "2026-10-10T12:45:44.602526+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_71e94f0f22bc.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_dictionary_71e94f0f22bc.receipt.json",
+        "returncode": 0,
+        "run_id": "71e94f0f22bc",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "WARN  [감사] ai_reference_briefings: created_at/updated_at 없음\nWARN  [감사] ask_logs: created_at/updated_at 없음\nWARN  [감사] ask_source_logs: created_at/updated_at 없음\nWARN  [감사] content_sources: created_at/updated_at 없음\nWARN  [감사] crawled_pages: created_at/updated_at 없음\nWARN  [감사] document_chunks: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: created_at/updated_at 없음\nWARN  [감사] feedback_logs: created_at/updated_at 없음\ntables=8 columns=80 terms=64 words=76  errors=0 warns=7\nbaseline_contract errors=0",
+      "recorded_at": "2026-10-10T12:45:44.604817+00:00",
+      "verification": "verified"
+    },
+    "model_export": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "model_export",
+        "computed_at": "2026-10-10T12:45:44.933941+00:00",
+        "file_count": 9,
+        "files": {
+          "db/01_modeling_notes.md": "e223d492fb84f01ca9f14ac5479cafba2aee1b326c67ba13bd19eaed54d3ac93",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c"
+        },
+        "fingerprint": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+        "input_paths": [
+          "db"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_exports.py"
+        ],
+        "executed_at": "2026-10-10T12:45:45.308602+00:00",
+        "input_snapshot": {
+          "after": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd",
+          "before": "sha256:198aab24e1c54d74d72246af7cb13be8a6c2bcb54e85a3e64bee76a10a1fc3cd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_cb9e0c156367.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_cb9e0c156367.receipt.json",
+        "returncode": 0,
+        "run_id": "cb9e0c156367",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "exported=/tmp/bomts-model-export-2a60e1zp tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: exported=/tmp/bomts-model-export-2a60e1zp tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0",
+      "recorded_at": "2026-10-10T12:45:45.310836+00:00",
+      "verification": "verified"
+    },
+    "model_export_recovery": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "model_export_recovery",
+        "computed_at": "2026-10-10T11:31:14.950849+00:00",
+        "file_count": 8,
+        "files": {
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "79a5645ad52aeaa19d85beb3c89a75aff1c366320a8905b4609a77cb6a144918",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "6adbddd1c2daac3f6f012438b4b1766006516231399d4b292519c5bf469a6773"
+        },
+        "fingerprint": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8",
+        "input_paths": [
+          "db/model.json",
+          "db/out",
+          "db/tools"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/check_exports.py"
+        ],
+        "executed_at": "2026-10-10T11:31:15.312976+00:00",
+        "input_snapshot": {
+          "after": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8",
+          "before": "sha256:3d765148c84db1bdcca3393dcf45ccc37d463bd23ea7480eb2e08e8f0979c3e8"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_recovery_5327c7525b92.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_export_recovery_5327c7525b92.receipt.json",
+        "returncode": 0,
+        "run_id": "5327c7525b92",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "exported=/tmp/bomts-model-export-r2sdvro7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: exported=/tmp/bomts-model-export-r2sdvro7 tables=8 columns=80 relationships=6\nmodel_export expected=(8, 80, 6) dbm=(8, 80, 6) xlsx=(8, 80, 6) errors=0",
+      "recorded_at": "2026-10-10T11:31:15.315171+00:00",
+      "verification": "verified"
+    },
+    "model_glossary": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "model_glossary",
+        "computed_at": "2026-10-10T12:45:44.636830+00:00",
+        "file_count": 20,
+        "files": {
+          "db/01_modeling_notes.md": "e223d492fb84f01ca9f14ac5479cafba2aee1b326c67ba13bd19eaed54d3ac93",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/out/03_model.dbm": "2a1e2408fd90ffe19cac4647ea7cb37fbd8b15b5b6ced3cb7683d633f8c9a640",
+          "db/out/04_table_spec.xlsx": "42427897b0fd21b553a2d0ce05ec992d934feabf0cc14aedcc4e96a2dc60e4f6",
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c",
+          "glossary/dictionary/areas.json": "d53d9f69b6e35f03257adaad3e524f2b36e66a0d0940666e703268ebfe10bd2c",
+          "glossary/dictionary/banned.json": "dd202b9aeda9c61cf59001295c3813aaa84a229308dbbaafbc3ede5129e866fd",
+          "glossary/dictionary/compounds.json": "fc0c5d5688bb7cf289c23443fc24a416ff97ca6340686c8b4730e99d503280ac",
+          "glossary/dictionary/drafts.json": "c59effa1d6f42d1426ed919a5f02643229e23ee018e5252a68acc9c18c53a35b",
+          "glossary/dictionary/pending_words.json": "e52f0d0a7eb548de632aa2282b5ce1b5c21bbfb3433220a77dc086ffd047fe1e",
+          "glossary/dictionary/tech_abbreviations.json": "bcbd3292e0affd52abe551ee8c3dc0145853f7b57b28c587037b7d7351379d28",
+          "glossary/dictionary/terms.json": "a1ad9b59c5ebf5f3445b60106bb8dfa6207ab8207f13ea275d59fc5e0a7f4a34",
+          "glossary/dictionary/terms_legacy.json": "016f83e3f56b787cc9f6b000fd4b97739ac1a9f33c604e15b37753eb0d1400e4",
+          "glossary/dictionary/unit_tokens.json": "f5b12bc6445c04cd6ceca6b78f02047c0e09f95b3a4631615dfb3b0b6c65b48a",
+          "glossary/dictionary/words.json": "d03bd4d63a1d46ad3e91d329c3233a6a9ae41be44300f3ee2a64001ffdc39d7f",
+          "glossary/dictionary/words__derived_terms.json": "e5fd7aa65fb825e0bce9c786c3769f6ca699437e8c266b064538ba545ee993bc"
+        },
+        "fingerprint": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5",
+        "input_paths": [
+          "db",
+          "glossary/dictionary"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "model_glossary",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "db,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-model-baseline"
+        ],
+        "executed_at": "2026-10-10T12:45:44.896989+00:00",
+        "input_snapshot": {
+          "after": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5",
+          "before": "sha256:b59b7c022799802e8d138d0be11b5258f32cefad022d99c93420a1b5c36673e5"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_fd20577dbab1.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-model-baseline/evidence/model_glossary_fd20577dbab1.receipt.json",
+        "returncode": 0,
+        "run_id": "fd20577dbab1",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "  #  영문(full)               약어     한글         처리          비고\n----------------------------------------------------------------------------------------------------\n----------------------------------------------------------------------------------------------------\n대조 76건 -- 있음 76 / 등록 대상 0 / 충돌 0 / R2 위반 0 / 구성단어 필요 0\n{\n \"check\": \"model_glossary\",\n \"status\": \"PASS\",\n \"glossary_revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: _revision\": \"d16f5e7ac477a483d28b06ac42b4825820dfa280\",\n \"missing_words\": [],\n \"conflict_warnings\": [],\n \"unresolved_physical_names\": []\n}\nPASS: model_glossary",
+      "recorded_at": "2026-10-10T12:45:44.906514+00:00",
+      "verification": "verified"
+    },
+    "prior_art": {
+      "detail": {
+        "artifact": "dev-process/task/20261010-model-baseline/artifact/prior_art_report.json",
+        "findings": 0,
+        "frozen_overlap": 0
+      },
+      "evidence_record": null,
+      "execution": null,
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "verdict=clear",
+      "recorded_at": "2026-10-10T09:19:33.972608+00:00",
+      "verification": "reported_only"
+    }
+  },
+  "status": "done",
+  "task_id": "20261010-model-baseline",
+  "updated_at": "2026-10-10T12:46:23.566569+00:00",
+  "work_type": "data_model"
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "20261010-model-baseline",
+  "keywords": [
+    "model baseline PostgreSQL schema reverse engineering db model"
+  ],
+  "files": [
+    "db/model.json",
+    "db/01_modeling_notes.md",
+    "db/out",
+    "db/smoke_test.sql"
+  ],
+  "days": 30,
+  "checked_at": "2026-10-10T09:19:33.972210+00:00",
+  "sources": {
+    "change_log": "CHANGELOG.md",
+    "sot": null,
+    "module_index": null
+  },
+  "findings": [],
+  "frozen_overlap": [],
+  "active_task_overlap": [],
+  "verdict": "clear"
+}

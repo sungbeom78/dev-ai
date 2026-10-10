@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Review artifact generated from db/model.json; do not edit by hand. -->
+<dbmodel pgmodeler-ver="1.1.0" use-changelog="false" max-obj-count="16" last-position="0,0" last-zoom="1" scene-rect="0,0,2600,1600" default-schema="public" default-owner="bomts_app" layers="Default layer" active-layers="0" layer-name-colors="#000000" layer-rect-colors="#b4b4b4" show-layer-names="false" show-layer-rects="false">
+<database name="bomts" is-template="false" allow-conns="true"></database>
+<role name="bomts_app"></role>
+<schema name="public" layers="0" rect-visible="true" fill-color="#e1e1e1" name-color="#000000"><role name="bomts_app"/></schema>
+<table name="ai_reference_briefings" alias="AI 참고 브리핑" layers="0" collapse-mode="2" max-obj-count="26" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[AI 참고 브리핑 — Reverse-engineered existing table ai_reference_briefings]]> </comment>
+	<position x="80" y="80"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('ai_reference_briefings_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="query" alias="query">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[query]]> </comment>
+	</column>
+	<column name="clean_title" alias="clean_title" not-null="true">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[clean_title]]> </comment>
+	</column>
+	<column name="source_url" alias="source_url" not-null="true">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[source_url]]> </comment>
+	</column>
+	<column name="source_name" alias="source_name">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[source_name]]> </comment>
+	</column>
+	<column name="topic" alias="topic">
+		<type name="varchar" length="100"/>
+		<comment> <![CDATA[topic]]> </comment>
+	</column>
+	<column name="published_at" alias="published_at">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[published_at]]> </comment>
+	</column>
+	<column name="collected_at" alias="collected_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[collected_at]]> </comment>
+	</column>
+	<column name="freshness_status" alias="freshness_status">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[freshness_status]]> </comment>
+	</column>
+	<column name="korean_summary" alias="korean_summary">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[korean_summary]]> </comment>
+	</column>
+	<column name="key_changes" alias="key_changes">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[key_changes]]> </comment>
+	</column>
+	<column name="why_it_matters" alias="why_it_matters">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[why_it_matters]]> </comment>
+	</column>
+	<column name="dev_ai_application_note" alias="dev_ai_application_note">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[dev_ai_application_note]]> </comment>
+	</column>
+	<column name="suggested_tasks" alias="suggested_tasks">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[suggested_tasks]]> </comment>
+	</column>
+	<column name="risk_or_caution" alias="risk_or_caution">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[risk_or_caution]]> </comment>
+	</column>
+	<column name="tags" alias="tags">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[tags]]> </comment>
+	</column>
+	<column name="provider_used" alias="provider_used">
+		<type name="varchar" length="100"/>
+		<comment> <![CDATA[provider_used]]> </comment>
+	</column>
+	<column name="quality_score" alias="quality_score">
+		<type name="double precision" length="0"/>
+		<comment> <![CDATA[quality_score]]> </comment>
+	</column>
+	<column name="status" alias="status">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[status]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<column name="indexed_at" alias="indexed_at">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[indexed_at]]> </comment>
+	</column>
+	<column name="document_id" alias="document_id">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[document_id]]> </comment>
+	</column>
+	<constraint name="ai_reference_briefings_pkey" type="pk-constr" table="public.ai_reference_briefings">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="ask_logs" alias="질문 로그" layers="0" collapse-mode="2" max-obj-count="14" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[질문 로그 — Reverse-engineered existing table ask_logs]]> </comment>
+	<position x="680" y="80"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('ask_logs_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="question" alias="question" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[question]]> </comment>
+	</column>
+	<column name="endpoint_type" alias="endpoint_type" not-null="true">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[endpoint_type]]> </comment>
+	</column>
+	<column name="intent" alias="intent">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[intent]]> </comment>
+	</column>
+	<column name="answer" alias="answer">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[answer]]> </comment>
+	</column>
+	<column name="provider" alias="provider">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[provider]]> </comment>
+	</column>
+	<column name="model" alias="model">
+		<type name="varchar" length="100"/>
+		<comment> <![CDATA[model]]> </comment>
+	</column>
+	<column name="latency_ms" alias="latency_ms">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[latency_ms]]> </comment>
+	</column>
+	<column name="retrieval_count" alias="retrieval_count">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[retrieval_count]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<constraint name="ask_logs_pkey" type="pk-constr" table="public.ask_logs">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="ask_source_logs" alias="질문 출처 로그" layers="0" collapse-mode="2" max-obj-count="12" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[질문 출처 로그 — Reverse-engineered existing table ask_source_logs]]> </comment>
+	<position x="1280" y="80"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('ask_source_logs_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="ask_log_id" alias="ask_log_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[ask_log_id]]> </comment>
+	</column>
+	<column name="document_id" alias="document_id">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[document_id]]> </comment>
+	</column>
+	<column name="chunk_id" alias="chunk_id">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[chunk_id]]> </comment>
+	</column>
+	<column name="title" alias="title">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[title]]> </comment>
+	</column>
+	<column name="content" alias="content">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[content]]> </comment>
+	</column>
+	<column name="score" alias="score">
+		<type name="double precision" length="0"/>
+		<comment> <![CDATA[score]]> </comment>
+	</column>
+	<column name="source" alias="source">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[source]]> </comment>
+	</column>
+	<constraint name="ask_source_logs_pkey" type="pk-constr" table="public.ask_source_logs">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="content_sources" alias="콘텐츠 출처" layers="0" collapse-mode="2" max-obj-count="13" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[콘텐츠 출처 — Reverse-engineered existing table content_sources]]> </comment>
+	<position x="1880" y="80"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('content_sources_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="name" alias="name" not-null="true">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[name]]> </comment>
+	</column>
+	<column name="base_url" alias="base_url" not-null="true">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[base_url]]> </comment>
+	</column>
+	<column name="source_type" alias="source_type">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[source_type]]> </comment>
+	</column>
+	<column name="category" alias="category">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[category]]> </comment>
+	</column>
+	<column name="enabled" alias="enabled">
+		<type name="boolean" length="0"/>
+		<comment> <![CDATA[enabled]]> </comment>
+	</column>
+	<column name="crawl_interval_hours" alias="crawl_interval_hours">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[crawl_interval_hours]]> </comment>
+	</column>
+	<column name="last_crawled_at" alias="last_crawled_at">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[last_crawled_at]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<constraint name="content_sources_pkey" type="pk-constr" table="public.content_sources">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="crawled_pages" alias="수집 페이지" layers="0" collapse-mode="2" max-obj-count="16" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[수집 페이지 — Reverse-engineered existing table crawled_pages]]> </comment>
+	<position x="80" y="780"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('crawled_pages_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="source_id" alias="source_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[source_id]]> </comment>
+	</column>
+	<column name="url" alias="url" not-null="true">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[url]]> </comment>
+	</column>
+	<column name="title" alias="title">
+		<type name="varchar" length="512"/>
+		<comment> <![CDATA[title]]> </comment>
+	</column>
+	<column name="content" alias="content">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[content]]> </comment>
+	</column>
+	<column name="summary" alias="summary">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[summary]]> </comment>
+	</column>
+	<column name="author" alias="author">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[author]]> </comment>
+	</column>
+	<column name="published_at" alias="published_at">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[published_at]]> </comment>
+	</column>
+	<column name="crawled_at" alias="crawled_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[crawled_at]]> </comment>
+	</column>
+	<column name="status" alias="status">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[status]]> </comment>
+	</column>
+	<column name="error_message" alias="error_message">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[error_message]]> </comment>
+	</column>
+	<column name="document_id" alias="document_id">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[document_id]]> </comment>
+	</column>
+	<constraint name="crawled_pages_pkey" type="pk-constr" table="public.crawled_pages">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="crawled_pages_url_key" type="uq-constr" table="public.crawled_pages">
+		<columns names="url" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="document_chunks" alias="문서 청크" layers="0" collapse-mode="2" max-obj-count="11" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[문서 청크 — Reverse-engineered existing table document_chunks]]> </comment>
+	<position x="680" y="780"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('document_chunks_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="document_id" alias="document_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[document_id]]> </comment>
+	</column>
+	<column name="chunk_index" alias="chunk_index" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[chunk_index]]> </comment>
+	</column>
+	<column name="content" alias="content" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[content]]> </comment>
+	</column>
+	<column name="char_start" alias="char_start" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[char_start]]> </comment>
+	</column>
+	<column name="char_end" alias="char_end" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[char_end]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<constraint name="document_chunks_pkey" type="pk-constr" table="public.document_chunks">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="documents" alias="문서" layers="0" collapse-mode="2" max-obj-count="11" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[문서 — Reverse-engineered existing table documents]]> </comment>
+	<position x="1280" y="780"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('documents_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="title" alias="title" not-null="true">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[title]]> </comment>
+	</column>
+	<column name="content" alias="content" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[content]]> </comment>
+	</column>
+	<column name="source" alias="source">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[source]]> </comment>
+	</column>
+	<column name="license" alias="license">
+		<type name="varchar" length="255"/>
+		<comment> <![CDATA[license]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<column name="updated_at" alias="updated_at">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[updated_at]]> </comment>
+	</column>
+	<constraint name="documents_pkey" type="pk-constr" table="public.documents">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<table name="feedback_logs" alias="피드백 로그" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="public"/><role name="bomts_app"/>
+	<comment> <![CDATA[피드백 로그 — Reverse-engineered existing table feedback_logs]]> </comment>
+	<position x="1880" y="780"/>
+	<column name="id" alias="id" not-null="true" default-value="nextval('feedback_logs_id_seq'::regclass)">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[id]]> </comment>
+	</column>
+	<column name="ask_log_id" alias="ask_log_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment> <![CDATA[ask_log_id]]> </comment>
+	</column>
+	<column name="rating" alias="rating" not-null="true">
+		<type name="varchar" length="50"/>
+		<comment> <![CDATA[rating]]> </comment>
+	</column>
+	<column name="comment" alias="comment">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[comment]]> </comment>
+	</column>
+	<column name="created_at" alias="created_at" default-value="now()">
+		<type name="timestamp with time zone" length="0"/>
+		<comment> <![CDATA[created_at]]> </comment>
+	</column>
+	<constraint name="feedback_logs_pkey" type="pk-constr" table="public.feedback_logs">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+<constraint name="ai_reference_briefings_document_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="SET NULL" ref-table="public.documents" table="public.ai_reference_briefings">
+	<columns names="document_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="ask_source_logs_ask_log_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="CASCADE" ref-table="public.ask_logs" table="public.ask_source_logs">
+	<columns names="ask_log_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="crawled_pages_document_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="SET NULL" ref-table="public.documents" table="public.crawled_pages">
+	<columns names="document_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="crawled_pages_source_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="CASCADE" ref-table="public.content_sources" table="public.crawled_pages">
+	<columns names="source_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="document_chunks_document_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="CASCADE" ref-table="public.documents" table="public.document_chunks">
+	<columns names="document_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<constraint name="feedback_logs_ask_log_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE" upd-action="NO ACTION" del-action="CASCADE" ref-table="public.ask_logs" table="public.feedback_logs">
+	<columns names="ask_log_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_ai_reference_briefings_document_id_fkey" alias="AI 참고 브리핑→문서" type="relfk" layers="0" src-table="public.ai_reference_briefings" dst-table="public.documents" src-required="false" dst-required="false"/>
+<relationship name="rel_ask_source_logs_ask_log_id_fkey" alias="질문 출처 로그→질문 로그" type="relfk" layers="0" src-table="public.ask_source_logs" dst-table="public.ask_logs" src-required="false" dst-required="false"/>
+<relationship name="rel_crawled_pages_document_id_fkey" alias="수집 페이지→문서" type="relfk" layers="0" src-table="public.crawled_pages" dst-table="public.documents" src-required="false" dst-required="false"/>
+<relationship name="rel_crawled_pages_source_id_fkey" alias="수집 페이지→콘텐츠 출처" type="relfk" layers="0" src-table="public.crawled_pages" dst-table="public.content_sources" src-required="false" dst-required="false"/>
+<relationship name="rel_document_chunks_document_id_fkey" alias="문서 청크→문서" type="relfk" layers="0" src-table="public.document_chunks" dst-table="public.documents" src-required="false" dst-required="false"/>
+<relationship name="rel_feedback_logs_ask_log_id_fkey" alias="피드백 로그→질문 로그" type="relfk" layers="0" src-table="public.feedback_logs" dst-table="public.ask_logs" src-required="false" dst-required="false"/>
+</dbmodel>
