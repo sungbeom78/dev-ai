@@ -1,0 +1,40 @@
+{
+  "concept": "application database role",
+  "context": "PostgreSQL bomts_app login role and ownership migration",
+  "decision": "new",
+  "chosen": null,
+  "basis": "no_existing_term",
+  "rounds": [
+    {
+      "round": 1,
+      "perspective": "exact_term",
+      "candidates": [],
+      "note": "정확 일치 없음"
+    },
+    {
+      "round": 2,
+      "perspective": "variant_or_abbreviation",
+      "candidates": [],
+      "note": "변형/약어 없음"
+    },
+    {
+      "round": 3,
+      "perspective": "same_meaning_lang",
+      "candidates": [],
+      "note": "lang(en/ko/...) 값이 같은 등록어만 후보 -- 등록됐다는 이유로 다른 의미를 고르지 않음"
+    },
+    {
+      "round": 4,
+      "perspective": "composition",
+      "candidates": [],
+      "note": "조합 불가"
+    },
+    {
+      "round": 5,
+      "perspective": "context_conflict",
+      "candidates": [],
+      "note": "충돌 없음 -> 신규 개념 필요"
+    }
+  ],
+  "glossary_revision": "845342ea44c1092fa6d51341cf4c45941b0b7145"
+}

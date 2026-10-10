@@ -1,0 +1,63 @@
+{
+  "prepared_at": "2026-10-09",
+  "backup": {
+    "root": "/project/backup/bomts-ai/2026-10-09/pre-db-security",
+    "postgres_dump": {
+      "path": "/project/backup/bomts-ai/2026-10-09/pre-db-security/postgresql/bomts.dump",
+      "format": "custom",
+      "size_bytes": 1342780,
+      "sha256": "d0b9fdcb9de55c9aeb41b3a31ce48a057d7a01cd7b56ad7e2951fd970f567187"
+    },
+    "qdrant_snapshot": {
+      "path": "/project/backup/bomts-ai/2026-10-09/pre-db-security/qdrant/documents-6747585704050726-2026-10-09-14-18-36.snapshot",
+      "collection": "documents",
+      "size_bytes": 40066560,
+      "sha256": "b76e7395b2656c223312ea0c07b9b4cfc5e5162ccb7ca01e9d487ff87d731898"
+    },
+    "rollback_compose": "/project/backup/bomts-ai/2026-10-09/pre-db-security/rollback/docker-compose.yml.before",
+    "rollback_env": "/project/backup/bomts-ai/2026-10-09/pre-db-security/rollback/.env.before"
+  },
+  "restore_test": {
+    "temporary_image": "postgres:15-alpine",
+    "ports_published": false,
+    "source_table_count": 8,
+    "restored_table_count": 8,
+    "row_counts_match": true,
+    "temporary_container_removed": true,
+    "row_counts": {
+      "public.ai_reference_briefings": 1500,
+      "public.ask_logs": 32,
+      "public.ask_source_logs": 75,
+      "public.content_sources": 14,
+      "public.crawled_pages": 10,
+      "public.document_chunks": 2252,
+      "public.documents": 1671,
+      "public.feedback_logs": 1
+    }
+  },
+  "credential_history": {
+    "type": "hard-coded PostgreSQL password from the pre-change Compose file",
+    "value_recorded": false,
+    "commits": [
+      "f82d60e929b275349874487a18c84b6c6ec19d7b",
+      "86021fcb672d4838613fe8208af61023b571c5f7"
+    ],
+    "action": "rotate during the approved apply step; do not rewrite history in this task"
+  },
+  "prepared_not_applied": {
+    "runtime_ports_currently_public": [
+      "0.0.0.0:5432",
+      "0.0.0.0:6333",
+      "0.0.0.0:6334"
+    ],
+    "bomts_app_exists": false,
+    "qdrant_unauthenticated_http_status": 200,
+    "restart_performed": false
+  },
+  "approval_gate": {
+    "request_id": "db-security-prod-apply-20261009",
+    "expected_interruption": "approximately 2-5 minutes for role migration, image build/service recreation, and health checks",
+    "apply_script": "scripts/apply_db_security.sh",
+    "rollback_script": "scripts/rollback_db_security.sh"
+  }
+}
