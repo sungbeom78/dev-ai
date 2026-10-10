@@ -1,0 +1,17 @@
+2026-10-10T04:57:11+00:00
+CONTAINER ID   NAME                      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+fadbbf2fe8a7   bomts-mailu-fetchmail-1   0.00%     17.87MiB / 15.51GiB   0.11%     11.7kB / 6.51kB   0B / 0B           1
+aed2c133aefe   bomts-mailu-antispam-1    0.01%     121.8MiB / 15.51GiB   0.77%     1.97MB / 865kB    0B / 799kB        5
+58692babb0e0   bomts-mailu-imap-1        0.01%     43.05MiB / 15.51GiB   0.27%     6.83kB / 126B     0B / 184kB        22
+27847c769748   bomts-mailu-webmail-1     3.00%     30.56MiB / 15.51GiB   0.19%     13.3kB / 126B     0B / 102kB        7
+34ed230acd74   bomts-mailu-smtp-1        0.05%     35.18MiB / 15.51GiB   0.22%     6.91kB / 126B     12.3kB / 7.78MB   10
+27bd3cb96741   bomts-mailu-admin-1       0.03%     200.5MiB / 15.51GiB   1.26%     50.8kB / 39.8kB   0B / 1.68MB       5
+a4db53cf9c3a   bomts-mailu-front-1       0.03%     74.67MiB / 15.51GiB   0.47%     33.4kB / 9.42kB   61.4kB / 123kB    33
+370e975e6b27   bomts-mailu-redis-1       1.32%     3.828MiB / 15.51GiB   0.02%     811kB / 1.9MB     0B / 0B           6
+2cdaefae751b   bomts-mailu-resolver-1    0.00%     15.77MiB / 15.51GiB   0.10%     205kB / 91.5kB    1.88MB / 24.6kB   1
+9dac1458d90d   bomts-mailu-antivirus-1   0.00%     959.3MiB / 15.51GiB   6.04%     6.98kB / 126B     369kB / 147kB     4
+41ad38de283e   bomts_public_website      2.20%     5.332MiB / 15.51GiB   0.03%     202kB / 374kB     2.4MB / 0B        5
+a981a0154672   bomts_api                 3.69%     213.5MiB / 15.51GiB   1.34%     4.76MB / 8.11MB   306MB / 12.3kB    6
+3601e90d2485   bomts_web                 0.00%     6.617MiB / 15.51GiB   0.04%     2.46MB / 10.6MB   5.92MB / 12.3kB   5
+d2420a2ce8dc   bomts_qdrant              0.14%     164.4MiB / 15.51GiB   1.04%     5.78MB / 41.4MB   276MB / 258MB     23
+d712813f7420   bomts_db                  0.00%     59.85MiB / 15.51GiB   0.38%     1.53MB / 1.89MB   134MB / 35.9MB    6

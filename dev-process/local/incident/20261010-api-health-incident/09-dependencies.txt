@@ -1,0 +1,7 @@
+2026-10-10T04:57:14+00:00
+[PostgreSQL]
+/bin/bash: line 70: /usr/bin/time: No such file or directory
+
+[Qdrant]
+http=200 connect=0.000117s total=0.000553s
+curl_exit=0

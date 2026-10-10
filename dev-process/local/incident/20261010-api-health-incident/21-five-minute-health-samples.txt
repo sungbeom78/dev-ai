@@ -1,0 +1,14 @@
+start=2026-10-10T06:40:23+00:00
+2026-10-10T06:40:23+00:00 sample=00 health_http=200
+2026-10-10T06:40:53+00:00 sample=01 health_http=200
+2026-10-10T06:41:23+00:00 sample=02 health_http=200
+2026-10-10T06:41:54+00:00 sample=03 health_http=200
+2026-10-10T06:42:24+00:00 sample=04 health_http=200
+2026-10-10T06:42:54+00:00 sample=05 health_http=200
+2026-10-10T06:43:24+00:00 sample=06 health_http=200
+2026-10-10T06:43:54+00:00 sample=07 health_http=200
+2026-10-10T06:44:24+00:00 sample=08 health_http=200
+2026-10-10T06:44:54+00:00 sample=09 health_http=200
+2026-10-10T06:45:24+00:00 sample=10 health_http=200
+2026-10-10T06:45:24+00:00 final_search_http=200
+log_lines=12 auth_connection_error_matches=0

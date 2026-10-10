@@ -1,0 +1,13 @@
+2026-10-10T04:58:45.761631+00:00
+live_database_user=postgres live_database_host=db live_database_name=bomts
+live_qdrant_api_key=missing
+planned_env_present=True planned_database_user=bomts_app planned_database_host=db planned_database_name=bomts
+planned_qdrant_api_key=present
+live_compose_hash=4e3675c289ebde183fcf54fd792cb4a3862796ef261fba01d7a932ba0dc3c7ce
+planned_compose_hash=api edf20bc27079a6c145b1472a250f0a4e72158d0e36755a8d2bc2b15af3591c35
+
+[database roles]
+postgres:true:true:true
+
+[public table owners]
+postgres:8

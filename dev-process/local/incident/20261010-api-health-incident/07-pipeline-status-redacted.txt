@@ -1,0 +1,140 @@
+2026-10-10T04:57:14+00:00
+[user timers]
+NEXT                        LEFT LAST                              PASSED UNIT                           ACTIVATES
+Sat 2026-10-10 17:01:33 UTC  12h Fri 2026-10-09 17:01:33 UTC      11h ago launchpadlib-cache-clean.timer launchpadlib-cache-clean.service
+Sun 2026-10-11 03:24:32 UTC  22h Sat 2026-10-10 03:27:55 UTC 1h 29min ago mailu-acme-renew.timer         mailu-acme-renew.service
+
+2 timers listed.
+
+[system timers filtered]
+Sat 2026-10-10 06:56:21 UTC  1h 59min Fri 2026-10-09 06:15:54 UTC      22h ago apt-daily-upgrade.timer      apt-daily-upgrade.service
+Sat 2026-10-10 15:30:17 UTC       10h Fri 2026-10-09 22:35:23 UTC       6h ago apt-daily.timer              apt-daily.service
+-                                   - -                                      - snapd.snap-repair.timer      snapd.snap-repair.service
+
+[user crontab]
+/bin/bash: line 51: crontab: command not found
+
+[host processes filtered]
+   1045       1 Ssl  10-12:17:41  0.0  0.1 unattended-upgr /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+  13133   13109 Ssl   9-23:26:10  3.8  1.1 uvicorn         /usr/local/bin/python3.11 /usr/local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  13466   13133 S     9-23:25:52  0.0  0.0 python3.11      /usr/local/bin/python3.11 -c from multiprocessing.resource_tracker import main;main(9)
+  54269   54225 Ss    9-22:03:48  0.0  0.1 python3         python3 -m http.server 3000 --bind 127.0.0.1
+3100080       1 Ssl   1-17:51:21  0.2  0.2 cloudflared     /usr/bin/cloudflared --no-autoupdate --config /etc/cloudflared/config.yml tunnel run
+3652348   13133 Z       14:35:59  0.0  0.0 python3.11      [python3.11] <defunct>
+3937080 3937056 Ssl     01:38:16  0.0  0.1 python3         python3 /start.py
+3937387 3937358 Ss      01:38:15  0.0  0.1 python3         python3 /start.py
+3937533 3937080 Sl      01:38:14  0.0  0.1 python3         python3 /certwatcher.py
+3937580 3937556 Ssl     01:38:14  0.0  0.1 python3         python3 /start.py
+3937670 3937633 Ssl     01:38:14  0.0  0.1 python3         python3 /start.py
+3937863 3937838 Ss      01:38:12  0.0  0.1 python3         python3 /fetchmail.py
+3937892 3937670 S       01:38:12  0.0  0.1 python3         python3 /start.py
+3937987 3937580 S       01:38:11  0.0  0.1 python3         python3 /start.py
+3937988 3937580 Sl      01:38:11  0.0  0.1 python3         python3 /start.py
+3938187 3937387 S       01:38:10  0.0  0.8 gunicorn        /app/venv/bin/python3 /app/venv/bin/gunicorn --threads 4 -b 0.0.0.0:8080 --logger-class mailu.Logger --log-level INFO --worker-tmp-dir /dev/shm --error-logfile - --preload --access-logfile - mailu:create_app()
+3938315 3938187 Sl      01:38:08  0.0  0.8 gunicorn        /app/venv/bin/python3 /app/venv/bin/gunicorn --threads 4 -b 0.0.0.0:8080 --logger-class mailu.Logger --log-level INFO --worker-tmp-dir /dev/shm --error-logfile - --preload --access-logfile - mailu:create_app()
+4007257 4007061 S          00:00 50.0  0.0 python3         python3 -c import re,sys for line in sys.stdin:  line=re.sub(r"(?i)((?:api[_-]?key|password|passwd|secret|token)\s*[:=]\s*[\"\x27]?)[^\s,;\"\x27]+",r"\1***",line)  print(line,end="")
+
+[repository schedule references]
+./scripts/check_phase8_2.sh:46:    "AI Engineering Reference Pipeline"
+./scripts/add_reference_pipeline_docs.py:4:<!-- AI Engineering Reference Pipeline -->
+./scripts/add_reference_pipeline_docs.py:8:            <h2 style="margin: 0; display: inline-block;">AI Engineering Reference Pipeline</h2>
+./scripts/add_reference_pipeline_docs.py:14:                AI Engineering Reference Pipeline은 BomTS Dev AI를 개인 AI Engineering Knowledge Lab으로 발전시키기 위한 구조입니다.
+./scripts/add_reference_pipeline_docs.py:108:    print("Successfully added the 'AI Engineering Reference Pipeline' section.")
+./scripts/check_r3_briefing.sh:5:echo "R3 Validation: AI Briefing Pipeline"
+./scripts/check_r4_briefing_pipeline.sh:5:echo "R4 Validation: AI Technology Briefing Pipeline"
+./scripts/check_phase8_1.sh:7:echo "== BomTS Dev AI Phase 8.1 Check (Reference Pipeline Stabilization) =="
+./scripts/check_phase8_1.sh:94:echo "✅ Phase 8.1 OK: Reference pipeline is explainable and working."
+./scripts/refactor_html_blocks.py:41:        "old_title": "AI Engineering Reference Pipeline",
+./scripts/refactor_html_blocks.py:42:        "new_title": "AI Engineering Reference Pipeline",
+./scripts/rebuild_chunk_docs.py:117:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">spaCy pipeline 또는 Sentencizer로 문장 경계 감지</td>
+./scripts/rebuild_chunk_docs.py:118:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLP pipeline 기반. 언어 모델 사용 가능</td>
+./scripts/rebuild_chunk_docs.py:119:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLTK보다 pipeline 확장성 좋음. 품사/엔티티 등 확장 가능</td>
+./scripts/rebuild_chunk_docs.py:352:MVP에서 전체 pipeline 검증에 좋다.</div>
+./scripts/rebuild_chunk_docs.py:414:## RAG Pipeline
+./scripts/rebuild_chunk_docs.py:423:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">검색 결과를 이렇게 보여줄 수 있다.<br><code>Document: RAG Pipeline Guide<br>Section: Chunking > Overlap<br>Score: 0.82</code></p>
+./scripts/rebuild_chunk_docs.py:432:  "heading_path": "RAG Pipeline > Chunking",
+./scripts/rebuild_chunk_docs.py:462:Reference Pipeline과 잘 맞는다.</div>
+./scripts/rebuild_chunk_docs.py:473:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>강력 추천.</strong> 특히 현재 <code>AI Engineering Reference Pipeline</code>을 키우려면 metadata-rich 구조가 필요하다.</p>
+./scripts/rebuild_chunk_docs.py:497:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">spaCy는 NLP pipeline을 구성할 수 있는 라이브러리다. sentence boundary detection, tokenization, 품사/개체명 인식 같은 pipeline을 연결할 수 있다. sentence boundary detection 자체는 NLP에서 중요한 기본 전처리이며, 도메인과 언어가 복잡할수록 오류가 downstream 품질에 영향을 준다는 연구도 있다. (<a href="https://arxiv.org/abs/2305.01211" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+./scripts/rebuild_chunk_docs.py:504:NLP pipeline 확장이 가능하다.
+./scripts/rebuild_chunk_docs.py:545:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">고급 개선이다. 지금 당장보다, Reference Pipeline이 어느 정도 안정된 뒤 적용하는 게 좋다.</p>
+./scripts/rebuild_chunk_docs.py:701:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">모델 설치, pipeline 구성</td>
+./scripts/rebuild_chunk_docs.py:709:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunker, embedding pipeline, 비용 관리</td>
+./scripts/rebuild_chunk_docs.py:747:  "title": "RAG Pipeline",
+./scripts/rebuild_chunk_docs.py:757:                        <div class="code-display" style="margin-bottom: 0.5rem;">Source: RAG Pipeline
+./scripts/check_phase8.sh:7:echo "== BomTS Dev AI Phase 8 Check (AI Trend Pipeline) =="
+./scripts/check_phase8.sh:75:echo "✅ Phase 8 OK: AI Trend Pipeline is working!"
+./docs/learning/web-portfolio-page.md:16:- **Agent & Reference Pipeline**: 기존 RAG를 넘어선 LangGraph 의도 분석과 자동 수집 아키텍처 비전 공유.
+./docs/learning/web-crawling-policy.md:3:BomTS Dev AI 시스템은 자동화된 지식 수집(AI Trend Pipeline)을 위해 웹 크롤링을 수행합니다. 
+./docs/learning/embedding-retrieval-generation.md:5:BomTS Dev AI separates the RAG pipeline into two major layers.
+./docs/learning/embedding-retrieval-generation.md:47:Mock embedding is used for local development and pipeline testing.
+./docs/learning/embedding-retrieval-generation.md:92:  "title": "RAG Pipeline",
+./docs/learning/embedding-retrieval-generation.md:157:If `EMBEDDING_MODE=mock`, the system can validate the RAG pipeline, but it cannot validate real semantic search quality.
+./docs/learning/embedding-retrieval-generation.md:208:Mock embedding is only for development and pipeline validation.
+./docs/learning/reference-pipeline-overview.md:1:# Reference Pipeline 개요
+./docs/learning/reference-pipeline-overview.md:7:## 2. Reference Pipeline이 필요한 이유
+./docs/learning/ai-trend-pipeline.md:1:# AI 트렌드 파이프라인 (AI Trend Pipeline)
+./docs/learning/newsletter-rag-pipeline.md:1:# Newsletter RAG Pipeline
+./docs/learning/newsletter-rag-pipeline.md:5:## Pipeline Overview
+./docs/learning/newsletter-rag-pipeline.md:15:## Scheduler
+./docs/learning/newsletter-rag-pipeline.md:17:서버 부하와 외부 사이트의 정책(Rate Limit, Robots.txt)을 고려하여 6시간 단위로 동작하는 스크립트를 크론(cron) 기반으로 등록해 사용합니다.
+./docs/learning/newsletter-rag-pipeline.md:20:# 예시: 6시간 마다 수집 실행
+./docs/decisions/0011-enhance-web-page-for-portfolio-explanation.md:11:3. 화면 최상단에 "Pipeline Step Navigator"를 두어, 단계별 흐름을 한눈에 보고 클릭하여 이동할 수 있게 만들었습니다.
+./docs/decisions/0011-enhance-web-page-for-portfolio-explanation.md:19:- 웹 페이지 스크롤이 상당히 길어졌으나, 상단 네비게이션(Pipeline Step Navigator)을 통해 원하는 기능으로 쉽게 이동할 수 있습니다.
+./docs/decisions/0010-reference-pipeline-stabilization.md:1:# 의사결정: Reference Pipeline 안정화 및 문서화 (Phase 8.1)
+./docs/decisions/0010-reference-pipeline-stabilization.md:4:Phase 8에서 `trafilatura`와 `BeautifulSoup4`를 도입하여 외부 URL을 수집하고 RAG 파이프라인에 연결하는 AI Trend Source Pipeline을 구현했습니다.
+./docs/decisions/0014-add-korean-newsletter-rag-pipeline.md:1:# 0014. Add Korean Newsletter RAG Pipeline
+./docs/decisions/0014-add-korean-newsletter-rag-pipeline.md:11:- 6시간 단위로 외부 소스를 크롤링하는 스케줄러(cron 또는 스크립트 기반)를 도입하여 최신 상태를 유지합니다.
+./docs/decisions/0009-add-ai-trend-source-pipeline.md:19:- MVP에서는 CLI 기반의 수동 실행 스크립트로 동작하지만, 향후 Celery나 APScheduler 등을 통한 자동 스케줄링 배치 작업으로 쉽게 확장할 수 있습니다.
+./docs/02_architecture.md:13:    subgraph RAG Pipeline
+./README.md:26:## RAG 파이프라인 흐름 (RAG Pipeline Overview)
+./README.md:59:- [AI 트렌드 자동 수집 파이프라인 (Phase 8)](docs/learning/ai-trend-pipeline.md)
+./README.md:60:- [Reference Pipeline 안정화 및 문서화](docs/decisions/0010-reference-pipeline-stabilization.md)
+./dev-process/task/20261010-api-health-incident/artifact/prior_art_report.json:4:    "api health timeout web 8000 8771 pipeline"
+./00_dev_guide.md:276:│     ├─ rag-pipeline.md
+./00_dev_guide.md:430:- `docs/learning/rag-pipeline.md`
+./web/test.html:39:        <!-- Pipeline Step Navigator -->
+./app/agent/nodes.py:83:        "- Explain the RAG pipeline.\n"
+./app/api/trend.py:281:@router.post("/auto-update")
+./app/api/trend.py:282:def auto_update_trends(db: Session = Depends(get_db)):
+./app/api/trend.py:385:        print(f"Auto-update error: {e}")
+./app/api/health.py:75:        "reference_pipeline": {
+./app/api/health.py:80:        "scheduler": {
+./web/docs.html:70:                <span class="badge" style="background-color: #fef9c3; color: #854d0e;">AI Engineering Reference Pipeline</span>
+./web/docs.html:84:            <p style="margin-bottom: 1.5rem; line-height: 1.6;">BomTS Dev AI는 이 과정을 직접 구현하며 이해하기 위해 만든 프로젝트입니다. 특히 RAG, Agent Workflow, Local LLM, MCP, Skills, Vibe Coding, 오픈소스 모델, AI Engineering Reference Pipeline 같은 최신 AI 개발 흐름을 개인 학습과 실제 개발 지원 체계로 연결하는 것을 목표로 합니다.</p>
+./web/docs.html:181:        <!-- RAG Pipeline Overview -->
+./web/docs.html:273:        <!-- Reference Pipeline Overview -->
+./web/docs.html:277:                    <h2 style="margin: 0; display: inline-block;">AI Engineering Reference Pipeline</h2>
+./web/docs.html:282:            <p style="margin-bottom: 1rem; line-height: 1.6;">BomTS Dev AI는 AI 개발 트렌드, 공식 문서, 기술 블로그, 모델 릴리스 노트, MCP, Skills, LangGraph, RAG, Local LLM 같은 레퍼런스를 수집하고, 이를 RAG 지식 베이스로 활용하는 Reference Pipeline을 지향합니다.</p>
+./web/docs.html:361:                    <h4 style="margin-bottom: 0.5rem; color: #15803d;">6. Reference Pipeline</h4>
+./web/docs.html:725:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">spaCy pipeline 또는 Sentencizer로 문장 경계 감지</td>
+./web/docs.html:726:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLP pipeline 기반. 언어 모델 사용 가능</td>
+./web/docs.html:727:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">NLTK보다 pipeline 확장성 좋음. 품사/엔티티 등 확장 가능</td>
+./web/docs.html:960:MVP에서 전체 pipeline 검증에 좋다.</div>
+./web/docs.html:1022:## RAG Pipeline
+./web/docs.html:1031:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">검색 결과를 이렇게 보여줄 수 있다.<br><code>Document: RAG Pipeline Guide<br>Section: Chunking > Overlap<br>Score: 0.82</code></p>
+./web/docs.html:1040:  "heading_path": "RAG Pipeline > Chunking",
+./web/docs.html:1070:Reference Pipeline과 잘 맞는다.</div>
+./web/docs.html:1081:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;"><strong>강력 추천.</strong> 특히 현재 <code>AI Engineering Reference Pipeline</code>을 키우려면 metadata-rich 구조가 필요하다.</p>
+./web/docs.html:1105:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">spaCy는 NLP pipeline을 구성할 수 있는 라이브러리다. sentence boundary detection, tokenization, 품사/개체명 인식 같은 pipeline을 연결할 수 있다. sentence boundary detection 자체는 NLP에서 중요한 기본 전처리이며, 도메인과 언어가 복잡할수록 오류가 downstream 품질에 영향을 준다는 연구도 있다. (<a href="https://arxiv.org/abs/2305.01211" target="_blank" rel="noopener noreferrer">arXiv</a>)</p>
+./web/docs.html:1112:NLP pipeline 확장이 가능하다.
+./web/docs.html:1153:                            <p style="margin-bottom: 0.5rem; line-height: 1.6;">고급 개선이다. 지금 당장보다, Reference Pipeline이 어느 정도 안정된 뒤 적용하는 게 좋다.</p>
+./web/docs.html:1309:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">모델 설치, pipeline 구성</td>
+./web/docs.html:1317:                                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border);">chunker, embedding pipeline, 비용 관리</td>
+./web/docs.html:1355:  "title": "RAG Pipeline",
+./web/docs.html:1365:                        <div class="code-display" style="margin-bottom: 0.5rem;">Source: RAG Pipeline
+./web/docs.html:2126:<!-- AI Engineering Reference Pipeline -->
+./web/docs.html:2130:            <h2 style="margin: 0; display: inline-block;">AI Engineering Reference Pipeline</h2>
+./web/docs.html:2136:                AI Engineering Reference Pipeline은 BomTS Dev AI를 개인 AI Engineering Knowledge Lab으로 발전시키기 위한 구조입니다.
+./web/index.html:353:                await fetch('/api/trend/auto-update', { method: 'POST' });
+./web/index.html:355:                console.error("Auto-update failed", e);
+./app/main.py:11:async def auto_update_loop():
+./app/main.py:13:        await asyncio.sleep(6 * 60 * 60) # 6 hours
+./app/main.py:16:            from app.api.trend import auto_update_trends
+./app/main.py:19:                await asyncio.to_thread(auto_update_trends, db)
+./app/main.py:21:                print(f"Background auto update failed: {e}")
+./app/main.py:34:    task = asyncio.create_task(auto_update_loop())
+./web/js/common.js:72:                html += row('등록된 소스(출처) 개수', data.reference_pipeline.source_count);
+./web/js/common.js:73:                html += row('수집된 문서 수', data.reference_pipeline.crawled_page_count);
+./web/js/common.js:76:                html += row('상태', data.scheduler.enabled ? '활성화됨' : '비활성화됨');
+./web/js/common.js:77:                html += row('수집 주기', `${data.scheduler.interval_hours} 시간`);

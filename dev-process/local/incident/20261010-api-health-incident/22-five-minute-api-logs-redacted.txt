@@ -1,0 +1,12 @@
+bomts_api  | INFO:     172.18.0.1:33686 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:36972 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:45848 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:57126 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:33868 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:33466 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:44296 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:48532 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:54670 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:44830 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:54210 - "GET /health HTTP/1.1" 200 OK
+bomts_api  | INFO:     172.18.0.1:54220 - "POST /search HTTP/1.1" 200 OK

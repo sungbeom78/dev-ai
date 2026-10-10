@@ -1,0 +1,6 @@
+2026-10-10T04:57:10+00:00
+NAME           IMAGE                  COMMAND                  SERVICE   CREATED        STATUS                PORTS
+bomts_api      dev_ai-api             "uvicorn app.main:ap…"   api       4 months ago   Up 9 days             0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+bomts_db       postgres:15-alpine     "docker-entrypoint.s…"   db        4 months ago   Up 9 days (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+bomts_qdrant   qdrant/qdrant:latest   "./entrypoint.sh"        qdrant    4 months ago   Up 9 days             0.0.0.0:6333-6334->6333-6334/tcp, [::]:6333-6334->6333-6334/tcp
+bomts_web      nginx:alpine           "/docker-entrypoint.…"   web       4 months ago   Up 9 days             0.0.0.0:8771->80/tcp, [::]:8771->80/tcp

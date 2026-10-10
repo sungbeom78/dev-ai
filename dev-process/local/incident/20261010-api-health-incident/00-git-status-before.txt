@@ -1,0 +1,16 @@
+## main...origin/main [ahead 1]
+ M .env.example
+ M .gitignore
+ M app/api/health.py
+ M app/db/database.py
+ M app/rag/vector_store.py
+ M docker-compose.yml
+ M scripts/check.sh
+?? .dockerignore
+?? db/
+?? dev-process/local/incident/
+?? dev-process/task/
+?? docs/operations/
+?? scripts/apply_db_security.sh
+?? scripts/check_db_security_config.py
+?? scripts/rollback_db_security.sh

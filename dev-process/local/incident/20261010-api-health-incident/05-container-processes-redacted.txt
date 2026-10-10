@@ -1,0 +1,14 @@
+2026-10-10T04:57:13+00:00
+[bomts_api]
+sh: 1: ps: not found
+
+[bomts_web]
+PID   USER     TIME  COMMAND
+    1 root      0:00 nginx: master process nginx -g daemon off;
+   20 nginx     0:00 nginx: worker process
+   21 nginx     0:00 nginx: worker process
+   22 nginx     0:00 nginx: worker process
+   23 nginx     0:00 nginx: worker process
+   24 root      0:00 sh -c ps aux | head -30
+   30 root      0:00 ps aux
+   31 root      0:00 head -30

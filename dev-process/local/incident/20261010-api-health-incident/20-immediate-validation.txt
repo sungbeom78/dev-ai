@@ -1,0 +1,22 @@
+2026-10-10T06:40:03+00:00
+[health]
+http=200 connect=0.000109s total=0.001245s
+exit=0
+
+[real search]
+http=200 connect=0.000108s total=0.136795s
+exit=0
+health_summary={'status': 'ok'}
+search_result_count=1
+
+[container identities after]
+/bomts_api c0f07974805dd38c095185662675ed137049918fd6760e2e0af23a7d472cef30 running 2026-10-10T06:39:36.243427997Z
+/bomts_web 3601e90d24852d9bcd4173a3e6dda0e9487654972425339ae48b45ad0dc08fb9 running 2026-09-30T05:31:04.982698028Z
+/bomts_db d712813f7420ae0ee3bf277a2d504822c99df76e7cc86fb9762dab784cabd464 running 2026-09-30T05:30:50.580589765Z
+/bomts_qdrant d2420a2ce8dc7699baf11924cdbf1a61191ac2d0b132b837780dffb6717e58c3 running 2026-09-30T05:30:50.536366629Z
+
+[api process tree]
+PID                 PPID                STAT                ELAPSED             %CPU                %MEM                COMMAND             COMMAND
+4076136             4076113             Ssl                 00:27               17.3                1.1                 uvicorn             /usr/local/bin/python3.11 /usr/local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+4076216             4076136             S                   00:23               0.0                 0.0                 python3.11          /usr/local/bin/python3.11 -c from multiprocessing.resource_tracker import main;main(8)
+4076217             4076136             Sl                  00:23               16.2                1.1                 python3.11          /usr/local/bin/python3.11 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=12) --multiprocessing-fork

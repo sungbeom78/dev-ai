@@ -1,0 +1,8 @@
+2026-10-10T04:57:14+00:00
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       3.2Gi       667Mi        45Mi        12Gi        12Gi
+Swap:          4.0Gi       780Ki       4.0Gi
+
+[df /var/lib/docker]
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   98G   27G   67G  29% /

@@ -1,0 +1,2 @@
+recreate_elapsed_seconds=3
+health_http=200 attempt=9

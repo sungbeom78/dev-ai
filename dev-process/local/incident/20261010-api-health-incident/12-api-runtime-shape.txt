@@ -1,0 +1,48 @@
+2026-10-10T04:58:00+00:00
+command=["uvicorn","app.main:app","--host","0.0.0.0","--port","8000","--reload"] entrypoint=null log_driver=json-file log_path=/var/lib/docker/containers/a981a01546720208bab7aa0b301b3bccce46532f0edce6df7d41d9dd89927705/a981a01546720208bab7aa0b301b3bccce46532f0edce6df7d41d9dd89927705-json.log
+
+[mounts]
+bind /project/dev_ai/app -> /code/app rw=true
+bind /project/dev_ai/scripts -> /code/scripts rw=true
+
+
+[compose api config selected]
+  api:
+    build:
+      context: /project/dev_ai
+      dockerfile: Dockerfile
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --reload
+    container_name: bomts_api
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+      qdrant:
+        condition: service_started
+        required: true
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8000"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /project/dev_ai/app
+        target: /code/app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /project/dev_ai/scripts
+        target: /code/scripts
+        bind:
+          create_host_path: true
+  db:

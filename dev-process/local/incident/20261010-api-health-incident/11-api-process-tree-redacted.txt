@@ -1,0 +1,11 @@
+2026-10-10T04:58:00+00:00
+[docker top bomts_api]
+PID                 PPID                STAT                STARTED             ELAPSED             %CPU                %MEM                COMMAND             COMMAND
+13133               13109               Ssl                 Wed                 Sep                 30                  05:31:02            2026                9-23:26:56 3.8 1.1 uvicorn /usr/local/bin/python3.11 /usr/local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+13466               13133               S                   Wed                 Sep                 30                  05:31:20            2026                9-23:26:38 0.0 0.0 python3.11 /usr/local/bin/python3.11 -c from multiprocessing.resource_tracker import main;main(9)
+
+[host process tree for container pid namespace]
+container_init_pid=13133
+  13133   13109 Ssl  Wed Sep 30 05:31:02 2026  9-23:26:56  3.8  1.1 -                         \_ uvicorn      \_ /usr/local/bin/python3.11 /usr/local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  13466   13133 S    Wed Sep 30 05:31:20 2026  9-23:26:38  0.0  0.0 -                             \_ python3      \_ /usr/local/bin/python3.11 -c from multiprocessing.resource_tracker import main;main(9)
+3652348   13133 Z    Fri Oct  9 14:21:14 2026    14:36:45  0.0  0.0 -                             \_ python3      \_ [python3.11] <defunct>

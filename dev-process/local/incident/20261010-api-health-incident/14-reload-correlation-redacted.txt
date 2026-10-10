@@ -1,0 +1,134 @@
+2026-10-10T04:58:00+00:00
+[source mtimes]
+2026-05-16 09:22:05.878537536 +0000 app/main.py
+2026-10-09 14:21:14.708985076 +0000 app/api/health.py
+2026-10-09 14:21:14.708985076 +0000 app/db/database.py
+2026-10-09 14:21:14.708985076 +0000 app/rag/vector_store.py
+2026-10-09 14:21:14.707985073 +0000 docker-compose.yml
+
+[auto update loop]
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+
+from app.api import health, documents, ask, search, agent, logs, sources, trend
+from app.db.database import engine
+from app.db.models import Base
+from app.rag.vector_store import QdrantStore
+
+import asyncio
+
+async def auto_update_loop():
+    while True:
+        await asyncio.sleep(6 * 60 * 60) # 6 hours
+        try:
+            from app.db.database import SessionLocal
+            from app.api.trend import auto_update_trends
+            db = SessionLocal()
+            try:
+                await asyncio.to_thread(auto_update_trends, db)
+            except Exception as e:
+                print(f"Background auto update failed: {e}")
+            finally:
+                db.close()
+        except asyncio.CancelledError:
+            break
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    Base.metadata.create_all(bind=engine)
+    vector_store = QdrantStore()
+    vector_store.ensure_collection()
+    
+    task = asyncio.create_task(auto_update_loop())
+    
+    yield
+    # Shutdown
+    task.cancel()
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(
+    title="BomTS Dev AI",
+    description="AI Backend Portfolio MVP",
+    version="0.1.0",
+    lifespan=lifespan
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(health.router, prefix="", tags=["health"])
+app.include_router(documents.router, prefix="/documents", tags=["documents"])
+app.include_router(search.router, prefix="/search", tags=["search"])
+app.include_router(ask.router, prefix="/ask", tags=["ask"])
+app.include_router(trend.router, prefix="/trend", tags=["trend"])
+app.include_router(agent.router, prefix="/agent", tags=["agent"])
+app.include_router(logs.router, prefix="/logs", tags=["logs"])
+app.include_router(sources.router, prefix="/sources", tags=["sources"])
+
+[api compose service source]
+  api:
+    build: .
+    container_name: bomts_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/code/app
+      - ./scripts:/code/scripts
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL in .env}
+      QDRANT_URL: ${QDRANT_URL:?set QDRANT_URL in .env}
+      QDRANT_API_KEY: *** QDRANT_API_KEY in .env}
+      OPENAI_API_KEY: ***
+      EMBEDDING_MODE: ${EMBEDDING_MODE:-mock}
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENCLAW_ENABLED: ${OPENCLAW_ENABLED:-false}
+      OPENCLAW_BASE_URL: ${OPENCLAW_BASE_URL:-}
+      OPENCLAW_DEFAULT_MODEL: ${OPENCLAW_DEFAULT_MODEL:-qwen3:8b}
+      OPENCLAW_TIMEOUT_SECONDS: ${OPENCLAW_TIMEOUT_SECONDS:-5}
+      GOOGLE_API_KEY: ***
+      GOOGLE_PROVIDER_ENABLED: ${GOOGLE_PROVIDER_ENABLED:-false}
+      GOOGLE_TRANSLATION_ENABLED: ${GOOGLE_TRANSLATION_ENABLED:-false}
+      GOOGLE_DEFAULT_MODEL: ${GOOGLE_DEFAULT_MODEL:-gemini-2.0-flash}
+    depends_on:
+      db:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  db:
+    image: postgres:15-alpine
+    container_name: bomts_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:?set POSTGRES_ADMIN_USER in .env}
+      POSTGRES_PASSWORD: *** POSTGRES_ADMIN_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_ADMIN_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: bomts_qdrant
+    environment:
+      QDRANT__SERVICE__API_KEY: *** QDRANT_API_KEY in .env}
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  web:
