@@ -2,8 +2,6 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.api import health, documents, ask, search, agent, logs, sources, trend
-from app.db.database import engine
-from app.db.models import Base
 from app.rag.vector_store import QdrantStore
 
 import asyncio
@@ -27,7 +25,6 @@ async def auto_update_loop():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    Base.metadata.create_all(bind=engine)
     vector_store = QdrantStore()
     vector_store.ensure_collection()
     

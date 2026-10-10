@@ -4,8 +4,10 @@ WORKDIR /code
 
 COPY pyproject.toml .
 # Install basic dependencies right away for faster build during development
-RUN pip install --no-cache-dir fastapi uvicorn pydantic psycopg2-binary 'psycopg[binary]' qdrant-client sqlalchemy openai langgraph langchain-core requests beautifulsoup4 trafilatura
+RUN pip install --no-cache-dir 'alembic>=1.13,<2' fastapi uvicorn pydantic psycopg2-binary 'psycopg[binary]' qdrant-client sqlalchemy openai langgraph langchain-core requests beautifulsoup4 trafilatura
 
 COPY ./app /code/app
+COPY alembic.ini /code/alembic.ini
+COPY ./migrations /code/migrations
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
