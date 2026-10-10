@@ -1,0 +1,2 @@
+/project/backup/bomts-ai/2026-10-10/pre-apply-working/docker-compose.yml.prepared: OK
+/project/backup/bomts-ai/2026-10-10/pre-apply-working/.env.prepared: OK

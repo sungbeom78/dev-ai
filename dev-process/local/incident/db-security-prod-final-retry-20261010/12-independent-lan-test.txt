@@ -1,0 +1,16 @@
+Independent LAN client test
+===========================
+
+Reported by the user on 2026-10-10 UTC from a Windows PC on the same LAN.
+The accompanying screenshot is `12-independent-lan-test.png`.
+
+Source client: 192.168.50.64 (Wi-Fi)
+Target server: 192.168.50.221
+
+Command: Test-NetConnection 192.168.50.221 -Port 5432
+Result: PingSucceeded=True, TcpTestSucceeded=False
+
+Command: Test-NetConnection 192.168.50.221 -Port 6333
+Result: PingSucceeded=True, TcpTestSucceeded=False
+
+Conclusion: the Mini PC is reachable on the LAN, while PostgreSQL and Qdrant are not exposed on the LAN interfaces.

@@ -1,0 +1,2 @@
+apply_exit=3 elapsed_seconds=0
+rollback_exit=0

@@ -1,0 +1,85 @@
+2026-10-10T06:50:43+00:00
+NAME           IMAGE                  COMMAND                  SERVICE   CREATED              STATUS                        PORTS
+bomts_api      dev_ai-api             "uvicorn app.main:ap…"   api       48 seconds ago       Up 45 seconds                 0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+bomts_db       postgres:15-alpine     "docker-entrypoint.s…"   db        About a minute ago   Up About a minute (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+bomts_qdrant   qdrant/qdrant:latest   "./entrypoint.sh"        qdrant    About a minute ago   Up About a minute             0.0.0.0:6333-6334->6333-6334/tcp, [::]:6333-6334->6333-6334/tcp
+bomts_web      nginx:alpine           "/docker-entrypoint.…"   web       About a minute ago   Up About a minute             0.0.0.0:8771->80/tcp, [::]:8771->80/tcp
+
+[api logs]
+bomts_api  | INFO:     Will watch for changes in these directories: ['/code']
+bomts_api  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+bomts_api  | INFO:     Started reloader process [1] using StatReload
+bomts_api  | Process SpawnProcess-1:
+bomts_api  | Traceback (most recent call last):
+bomts_api  |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+bomts_api  |     self.run()
+bomts_api  |   File "/usr/local/lib/python3.11/multiprocessing/process.py", line 108, in run
+bomts_api  |     self._target(*self._args, **self._kwargs)
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+bomts_api  |     target(sockets=sockets)
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 86, in run
+bomts_api  |     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+bomts_api  |     return runner.run(main)
+bomts_api  |            ^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+bomts_api  |     return self._loop.run_until_complete(task)
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+bomts_api  |     return future.result()
+bomts_api  |            ^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 90, in serve
+bomts_api  |     await self._serve(sockets)
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 97, in _serve
+bomts_api  |     config.load()
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 511, in load
+bomts_api  |     self.loaded_app = self.load_app()
+bomts_api  |                       ^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 434, in load_app
+bomts_api  |     return import_from_string(self.app)
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 22, in import_from_string
+bomts_api  |     raise exc from None
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+bomts_api  |     module = importlib.import_module(module_str)
+bomts_api  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+bomts_api  |     return _bootstrap._gcd_import(name[level:], package, level)
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+bomts_api  |   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+bomts_api  |   File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+bomts_api  |   File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+bomts_api  |   File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+bomts_api  |   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+bomts_api  |   File "/code/app/main.py", line 4, in <module>
+bomts_api  |     from app.api import health, documents, ask, search, agent, logs, sources, trend
+bomts_api  |   File "/code/app/api/health.py", line 4, in <module>
+bomts_api  |     from app.db.database import get_db
+bomts_api  |   File "/code/app/db/database.py", line 7, in <module>
+bomts_api  |     engine = create_engine(DATABASE_URL)
+bomts_api  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "<sqlalchemy generated warned() wrapper for sqlalchemy.engine.create.create_engine>", line 2, in create_engine
+bomts_api  |     return target(fn, url, **kwargs)
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/util/deprecations.py", line 281, in warned
+bomts_api  |     return fn(*args, **kwargs)  # type: ignore[no-any-return]
+bomts_api  |            ^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/engine/create.py", line 602, in create_engine
+bomts_api  |     dbapi = dbapi_meth(**dbapi_args)
+bomts_api  |             ^^^^^^^^^^^^^^^^^^^^^^^^
+bomts_api  |   File "/usr/local/lib/python3.11/site-packages/sqlalchemy/dialects/postgresql/psycopg.py", line 497, in import_dbapi
+bomts_api  |     import psycopg
+bomts_api  | ModuleNotFoundError: No module named 'psycopg'
+
+[db readiness]
+/var/run/postgresql:5432 - accepting connections
+
+[qdrant health]
+http=200 total=0.000698s
+
+[roles and owners]
+bomts_app:false:false:false
+postgres:true:true:true
+postgres:8

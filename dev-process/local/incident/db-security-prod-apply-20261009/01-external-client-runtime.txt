@@ -1,0 +1,7 @@
+2026-10-10T05:58:08+00:00
+[pg_stat_activity]
+postgres||
+postgres||psql
+||
+
+[ss ports]

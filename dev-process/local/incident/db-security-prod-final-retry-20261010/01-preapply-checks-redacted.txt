@@ -1,0 +1,38 @@
+[precondition health and search]
+health_http=200
+search_http=200
+[database clients]
+postgres|172.18.0.4/32|
+postgres|local|
+postgres|local|psql
+|local|
+[established protected-port connections]
+[listener baseline]
+LISTEN 0      4096          0.0.0.0:5432  0.0.0.0:*                                            
+LISTEN 0      4096          0.0.0.0:6333  0.0.0.0:*                                            
+LISTEN 0      4096          0.0.0.0:6334  0.0.0.0:*                                            
+LISTEN 0      4096             [::]:5432     [::]:*                                            
+LISTEN 0      4096             [::]:6333     [::]:*                                            
+LISTEN 0      4096             [::]:6334     [::]:*                                            
+[cross-project references: file and line, credentials redacted]
+/project/bomts-mail/docker-compose.yml:36:      - "${MAILU_BIND_IPV4:-192.168.50.221}:80:80"
+/project/bomts-mail/docker-compose.yml:37:      - "${MAILU_BIND_IPV4:-192.168.50.221}:443:443"
+/project/bomts-mail/docker-compose.yml:38:      - "${MAILU_BIND_IPV4:-192.168.50.221}:25:25"
+/project/bomts-mail/docker-compose.yml:39:      - "${MAILU_BIND_IPV4:-192.168.50.221}:465:465"
+/project/bomts-mail/docker-compose.yml:40:      - "${MAILU_BIND_IPV4:-192.168.50.221}:587:587"
+/project/bomts-mail/docker-compose.yml:41:      - "${MAILU_BIND_IPV4:-192.168.50.221}:995:995"
+/project/bomts-mail/docker-compose.yml:42:      - "${MAILU_BIND_IPV4:-192.168.50.221}:993:993"
+/project/bomts-mail/docker-compose.yml:43:      - "${MAILU_BIND_IPV4:-192.168.50.221}:4190:4190"
+/project/dev_ai/docker-compose.yml:40:      - "127.0.0.1:5432:5432"
+/project/dev_ai/docker-compose.yml:55:      - "127.0.0.1:6333:6333"
+/project/dev_ai/.env:6:DATABASE_URL=postgresql://bomts_app:***@db:5432/bomts
+/project/dev_ai/.env:7:QDRANT_URL=http://qdrant:6333
+/project/dev_ai/.env:13:OPENCLAW_BASE_URL=http://host.docker.internal:11434
+[apply/rollback/config invariants]
+PASS: DB security configuration invariants
+docker-compose.yml:40:      - "127.0.0.1:5432:5432"
+docker-compose.yml:53:      QDRANT__SERVICE__API_KEY: ***
+docker-compose.yml:55:      - "127.0.0.1:6333:6333"
+docker-compose.yml:56:      - "127.0.0.1:6334:6334"
+scripts/apply_db_security.sh:46:  'ALTER ROLE %I WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD %L',
+scripts/apply_db_security.sh:100:SELECT format('ALTER ROLE %I WITH PASSWORD %L', : ***

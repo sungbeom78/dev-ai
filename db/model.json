@@ -1,0 +1,2274 @@
+{
+  "project": "BOMTS AI",
+  "version": "1.0",
+  "db": "postgresql",
+  "db_version": "15",
+  "schema": "public",
+  "source": "Reverse-engineered from the running bomts PostgreSQL database on 2026-10-09",
+  "modeling_tool": "pgModeler 1.1 compatible source of truth",
+  "assumptions": [
+    "This model records the existing eight-table production schema without structural redesign.",
+    "The approved target owner is bomts_app; ownership is not applied until the operational restart approval.",
+    "Qdrant collection structure is operational vector storage and is documented separately from relational tables."
+  ],
+  "open_questions": [
+    "Free-text question, answer, feedback, and crawled content may contain personal information; retention and deletion rules need a separate decision.",
+    "Schema migrations currently rely on SQLAlchemy create_all; a versioned migration tool should be considered separately."
+  ],
+  "words": [
+    {
+      "kor": "ai",
+      "abbr": "ai",
+      "full": "ai",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "answer",
+      "abbr": "answer",
+      "full": "answer",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "application",
+      "abbr": "application",
+      "full": "application",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "ask",
+      "abbr": "ask",
+      "full": "ask",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "at",
+      "abbr": "at",
+      "full": "at",
+      "is_class": true,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "author",
+      "abbr": "author",
+      "full": "author",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "base",
+      "abbr": "base",
+      "full": "base",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "briefings",
+      "abbr": "briefings",
+      "full": "briefings",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "category",
+      "abbr": "category",
+      "full": "category",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "caution",
+      "abbr": "caution",
+      "full": "caution",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "changes",
+      "abbr": "changes",
+      "full": "changes",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "char",
+      "abbr": "char",
+      "full": "char",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "chunk",
+      "abbr": "chunk",
+      "full": "chunk",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "chunks",
+      "abbr": "chunks",
+      "full": "chunks",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "clean",
+      "abbr": "clean",
+      "full": "clean",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "collected",
+      "abbr": "collected",
+      "full": "collected",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "comment",
+      "abbr": "comment",
+      "full": "comment",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "content",
+      "abbr": "content",
+      "full": "content",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "count",
+      "abbr": "count",
+      "full": "count",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "crawl",
+      "abbr": "crawl",
+      "full": "crawl",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "crawled",
+      "abbr": "crawled",
+      "full": "crawled",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "created",
+      "abbr": "created",
+      "full": "created",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "dev",
+      "abbr": "dev",
+      "full": "dev",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "document",
+      "abbr": "document",
+      "full": "document",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "documents",
+      "abbr": "documents",
+      "full": "documents",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "enabled",
+      "abbr": "enabled",
+      "full": "enabled",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "end",
+      "abbr": "end",
+      "full": "end",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "endpoint",
+      "abbr": "endpoint",
+      "full": "endpoint",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "error",
+      "abbr": "error",
+      "full": "error",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "feedback",
+      "abbr": "feedback",
+      "full": "feedback",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "freshness",
+      "abbr": "freshness",
+      "full": "freshness",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "hours",
+      "abbr": "hours",
+      "full": "hours",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "id",
+      "abbr": "id",
+      "full": "id",
+      "is_class": true,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "index",
+      "abbr": "index",
+      "full": "index",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "indexed",
+      "abbr": "indexed",
+      "full": "indexed",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "intent",
+      "abbr": "intent",
+      "full": "intent",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "interval",
+      "abbr": "interval",
+      "full": "interval",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "it",
+      "abbr": "it",
+      "full": "it",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "key",
+      "abbr": "key",
+      "full": "key",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "korean",
+      "abbr": "korean",
+      "full": "korean",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "last",
+      "abbr": "last",
+      "full": "last",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "latency",
+      "abbr": "latency",
+      "full": "latency",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "license",
+      "abbr": "license",
+      "full": "license",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "log",
+      "abbr": "log",
+      "full": "log",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "logs",
+      "abbr": "logs",
+      "full": "logs",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "matters",
+      "abbr": "matters",
+      "full": "matters",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "message",
+      "abbr": "message",
+      "full": "message",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "model",
+      "abbr": "model",
+      "full": "model",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "ms",
+      "abbr": "ms",
+      "full": "ms",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "name",
+      "abbr": "name",
+      "full": "name",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "note",
+      "abbr": "note",
+      "full": "note",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "or",
+      "abbr": "or",
+      "full": "or",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "pages",
+      "abbr": "pages",
+      "full": "pages",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "provider",
+      "abbr": "provider",
+      "full": "provider",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "published",
+      "abbr": "published",
+      "full": "published",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "quality",
+      "abbr": "quality",
+      "full": "quality",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "query",
+      "abbr": "query",
+      "full": "query",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "question",
+      "abbr": "question",
+      "full": "question",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "rating",
+      "abbr": "rating",
+      "full": "rating",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "reference",
+      "abbr": "reference",
+      "full": "reference",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "retrieval",
+      "abbr": "retrieval",
+      "full": "retrieval",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "risk",
+      "abbr": "risk",
+      "full": "risk",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "score",
+      "abbr": "score",
+      "full": "score",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "source",
+      "abbr": "source",
+      "full": "source",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "sources",
+      "abbr": "sources",
+      "full": "sources",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "start",
+      "abbr": "start",
+      "full": "start",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "status",
+      "abbr": "status",
+      "full": "status",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "suggested",
+      "abbr": "suggested",
+      "full": "suggested",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "summary",
+      "abbr": "summary",
+      "full": "summary",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "tags",
+      "abbr": "tags",
+      "full": "tags",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "tasks",
+      "abbr": "tasks",
+      "full": "tasks",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "title",
+      "abbr": "title",
+      "full": "title",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "topic",
+      "abbr": "topic",
+      "full": "topic",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "type",
+      "abbr": "type",
+      "full": "type",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "updated",
+      "abbr": "updated",
+      "full": "updated",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "url",
+      "abbr": "url",
+      "full": "url",
+      "is_class": true,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "used",
+      "abbr": "used",
+      "full": "used",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    },
+    {
+      "kor": "why",
+      "abbr": "why",
+      "full": "why",
+      "is_class": false,
+      "desc": "Existing physical-name token"
+    }
+  ],
+  "domains": [
+    {
+      "name": "boolean",
+      "type": "boolean",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "character varying(100)",
+      "type": "character varying(100)",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "character varying(255)",
+      "type": "character varying(255)",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "character varying(50)",
+      "type": "character varying(50)",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "character varying(512)",
+      "type": "character varying(512)",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "double precision",
+      "type": "double precision",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "integer",
+      "type": "integer",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "text",
+      "type": "text",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    },
+    {
+      "name": "timestamp with time zone",
+      "type": "timestamp with time zone",
+      "check": null,
+      "example": null,
+      "desc": "Observed PostgreSQL physical type"
+    }
+  ],
+  "terms": [
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "query",
+      "phys": "query",
+      "word_path": "query",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "clean_title",
+      "phys": "clean_title",
+      "word_path": "clean>title",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "source_url",
+      "phys": "source_url",
+      "word_path": "source>url",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "source_name",
+      "phys": "source_name",
+      "word_path": "source>name",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "topic",
+      "phys": "topic",
+      "word_path": "topic",
+      "domain": "character varying(100)",
+      "desc": null
+    },
+    {
+      "kor": "published_at",
+      "phys": "published_at",
+      "word_path": "published>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "collected_at",
+      "phys": "collected_at",
+      "word_path": "collected>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "freshness_status",
+      "phys": "freshness_status",
+      "word_path": "freshness>status",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "korean_summary",
+      "phys": "korean_summary",
+      "word_path": "korean>summary",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "key_changes",
+      "phys": "key_changes",
+      "word_path": "key>changes",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "why_it_matters",
+      "phys": "why_it_matters",
+      "word_path": "why>it>matters",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "dev_ai_application_note",
+      "phys": "dev_ai_application_note",
+      "word_path": "dev>ai>application>note",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "suggested_tasks",
+      "phys": "suggested_tasks",
+      "word_path": "suggested>tasks",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "risk_or_caution",
+      "phys": "risk_or_caution",
+      "word_path": "risk>or>caution",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "tags",
+      "phys": "tags",
+      "word_path": "tags",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "provider_used",
+      "phys": "provider_used",
+      "word_path": "provider>used",
+      "domain": "character varying(100)",
+      "desc": null
+    },
+    {
+      "kor": "quality_score",
+      "phys": "quality_score",
+      "word_path": "quality>score",
+      "domain": "double precision",
+      "desc": null
+    },
+    {
+      "kor": "status",
+      "phys": "status",
+      "word_path": "status",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "indexed_at",
+      "phys": "indexed_at",
+      "word_path": "indexed>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "document_id",
+      "phys": "document_id",
+      "word_path": "document>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "question",
+      "phys": "question",
+      "word_path": "question",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "endpoint_type",
+      "phys": "endpoint_type",
+      "word_path": "endpoint>type",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "intent",
+      "phys": "intent",
+      "word_path": "intent",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "answer",
+      "phys": "answer",
+      "word_path": "answer",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "provider",
+      "phys": "provider",
+      "word_path": "provider",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "model",
+      "phys": "model",
+      "word_path": "model",
+      "domain": "character varying(100)",
+      "desc": null
+    },
+    {
+      "kor": "latency_ms",
+      "phys": "latency_ms",
+      "word_path": "latency>ms",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "retrieval_count",
+      "phys": "retrieval_count",
+      "word_path": "retrieval>count",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "ask_log_id",
+      "phys": "ask_log_id",
+      "word_path": "ask>log>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "document_id",
+      "phys": "document_id",
+      "word_path": "document>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "chunk_id",
+      "phys": "chunk_id",
+      "word_path": "chunk>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "title",
+      "phys": "title",
+      "word_path": "title",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "content",
+      "phys": "content",
+      "word_path": "content",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "score",
+      "phys": "score",
+      "word_path": "score",
+      "domain": "double precision",
+      "desc": null
+    },
+    {
+      "kor": "source",
+      "phys": "source",
+      "word_path": "source",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "name",
+      "phys": "name",
+      "word_path": "name",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "base_url",
+      "phys": "base_url",
+      "word_path": "base>url",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "source_type",
+      "phys": "source_type",
+      "word_path": "source>type",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "category",
+      "phys": "category",
+      "word_path": "category",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "enabled",
+      "phys": "enabled",
+      "word_path": "enabled",
+      "domain": "boolean",
+      "desc": null
+    },
+    {
+      "kor": "crawl_interval_hours",
+      "phys": "crawl_interval_hours",
+      "word_path": "crawl>interval>hours",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "last_crawled_at",
+      "phys": "last_crawled_at",
+      "word_path": "last>crawled>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "source_id",
+      "phys": "source_id",
+      "word_path": "source>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "url",
+      "phys": "url",
+      "word_path": "url",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "title",
+      "phys": "title",
+      "word_path": "title",
+      "domain": "character varying(512)",
+      "desc": null
+    },
+    {
+      "kor": "content",
+      "phys": "content",
+      "word_path": "content",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "summary",
+      "phys": "summary",
+      "word_path": "summary",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "author",
+      "phys": "author",
+      "word_path": "author",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "published_at",
+      "phys": "published_at",
+      "word_path": "published>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "crawled_at",
+      "phys": "crawled_at",
+      "word_path": "crawled>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "status",
+      "phys": "status",
+      "word_path": "status",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "error_message",
+      "phys": "error_message",
+      "word_path": "error>message",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "document_id",
+      "phys": "document_id",
+      "word_path": "document>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "document_id",
+      "phys": "document_id",
+      "word_path": "document>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "chunk_index",
+      "phys": "chunk_index",
+      "word_path": "chunk>index",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "content",
+      "phys": "content",
+      "word_path": "content",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "char_start",
+      "phys": "char_start",
+      "word_path": "char>start",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "char_end",
+      "phys": "char_end",
+      "word_path": "char>end",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "title",
+      "phys": "title",
+      "word_path": "title",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "content",
+      "phys": "content",
+      "word_path": "content",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "source",
+      "phys": "source",
+      "word_path": "source",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "license",
+      "phys": "license",
+      "word_path": "license",
+      "domain": "character varying(255)",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "updated_at",
+      "phys": "updated_at",
+      "word_path": "updated>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    },
+    {
+      "kor": "id",
+      "phys": "id",
+      "word_path": "id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "ask_log_id",
+      "phys": "ask_log_id",
+      "word_path": "ask>log>id",
+      "domain": "integer",
+      "desc": null
+    },
+    {
+      "kor": "rating",
+      "phys": "rating",
+      "word_path": "rating",
+      "domain": "character varying(50)",
+      "desc": null
+    },
+    {
+      "kor": "comment",
+      "phys": "comment",
+      "word_path": "comment",
+      "domain": "text",
+      "desc": null
+    },
+    {
+      "kor": "created_at",
+      "phys": "created_at",
+      "word_path": "created>at",
+      "domain": "timestamp with time zone",
+      "desc": null
+    }
+  ],
+  "tables": [
+    {
+      "name": "ai_reference_briefings",
+      "kor": "AI 참고 브리핑",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table ai_reference_briefings",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('ai_reference_briefings_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "query",
+          "kor": "query",
+          "type": "character varying(512)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "clean_title",
+          "kor": "clean_title",
+          "type": "character varying(512)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "source_url",
+          "kor": "source_url",
+          "type": "character varying(512)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "source_name",
+          "kor": "source_name",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "topic",
+          "kor": "topic",
+          "type": "character varying(100)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "published_at",
+          "kor": "published_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "collected_at",
+          "kor": "collected_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        },
+        {
+          "name": "freshness_status",
+          "kor": "freshness_status",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "korean_summary",
+          "kor": "korean_summary",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "key_changes",
+          "kor": "key_changes",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "why_it_matters",
+          "kor": "why_it_matters",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "dev_ai_application_note",
+          "kor": "dev_ai_application_note",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "suggested_tasks",
+          "kor": "suggested_tasks",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "risk_or_caution",
+          "kor": "risk_or_caution",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "tags",
+          "kor": "tags",
+          "type": "character varying(512)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "provider_used",
+          "kor": "provider_used",
+          "type": "character varying(100)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "quality_score",
+          "kor": "quality_score",
+          "type": "double precision",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "status",
+          "kor": "status",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        },
+        {
+          "name": "indexed_at",
+          "kor": "indexed_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "document_id",
+          "kor": "document_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "documents",
+            "column": "id",
+            "on_delete": "SET NULL",
+            "on_update": "NO ACTION",
+            "constraint": "ai_reference_briefings_document_id_fkey"
+          }
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "ai_reference_briefings_pkey",
+          "definition": "CREATE UNIQUE INDEX ai_reference_briefings_pkey ON public.ai_reference_briefings USING btree (id)"
+        },
+        {
+          "name": "ix_ai_reference_briefings_id",
+          "definition": "CREATE INDEX ix_ai_reference_briefings_id ON public.ai_reference_briefings USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "ask_logs",
+      "kor": "질문 로그",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table ask_logs",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('ask_logs_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "question",
+          "kor": "question",
+          "type": "text",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "endpoint_type",
+          "kor": "endpoint_type",
+          "type": "character varying(50)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "intent",
+          "kor": "intent",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "answer",
+          "kor": "answer",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "provider",
+          "kor": "provider",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "model",
+          "kor": "model",
+          "type": "character varying(100)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "latency_ms",
+          "kor": "latency_ms",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "retrieval_count",
+          "kor": "retrieval_count",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "ask_logs_pkey",
+          "definition": "CREATE UNIQUE INDEX ask_logs_pkey ON public.ask_logs USING btree (id)"
+        },
+        {
+          "name": "ix_ask_logs_id",
+          "definition": "CREATE INDEX ix_ask_logs_id ON public.ask_logs USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "ask_source_logs",
+      "kor": "질문 출처 로그",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table ask_source_logs",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('ask_source_logs_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "ask_log_id",
+          "kor": "ask_log_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "ask_logs",
+            "column": "id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION",
+            "constraint": "ask_source_logs_ask_log_id_fkey"
+          }
+        },
+        {
+          "name": "document_id",
+          "kor": "document_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "chunk_id",
+          "kor": "chunk_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "title",
+          "kor": "title",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "kor": "content",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "score",
+          "kor": "score",
+          "type": "double precision",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "source",
+          "kor": "source",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "ask_source_logs_pkey",
+          "definition": "CREATE UNIQUE INDEX ask_source_logs_pkey ON public.ask_source_logs USING btree (id)"
+        },
+        {
+          "name": "ix_ask_source_logs_id",
+          "definition": "CREATE INDEX ix_ask_source_logs_id ON public.ask_source_logs USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "content_sources",
+      "kor": "콘텐츠 출처",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table content_sources",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('content_sources_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "name",
+          "kor": "name",
+          "type": "character varying(255)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "base_url",
+          "kor": "base_url",
+          "type": "character varying(255)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "source_type",
+          "kor": "source_type",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "category",
+          "kor": "category",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "enabled",
+          "kor": "enabled",
+          "type": "boolean",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "crawl_interval_hours",
+          "kor": "crawl_interval_hours",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "last_crawled_at",
+          "kor": "last_crawled_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "content_sources_pkey",
+          "definition": "CREATE UNIQUE INDEX content_sources_pkey ON public.content_sources USING btree (id)"
+        },
+        {
+          "name": "ix_content_sources_id",
+          "definition": "CREATE INDEX ix_content_sources_id ON public.content_sources USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "crawled_pages",
+      "kor": "수집 페이지",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table crawled_pages",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('crawled_pages_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "source_id",
+          "kor": "source_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "content_sources",
+            "column": "id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION",
+            "constraint": "crawled_pages_source_id_fkey"
+          }
+        },
+        {
+          "name": "url",
+          "kor": "url",
+          "type": "character varying(512)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "title",
+          "kor": "title",
+          "type": "character varying(512)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "kor": "content",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "summary",
+          "kor": "summary",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "author",
+          "kor": "author",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "published_at",
+          "kor": "published_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "crawled_at",
+          "kor": "crawled_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        },
+        {
+          "name": "status",
+          "kor": "status",
+          "type": "character varying(50)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "error_message",
+          "kor": "error_message",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "document_id",
+          "kor": "document_id",
+          "type": "integer",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "documents",
+            "column": "id",
+            "on_delete": "SET NULL",
+            "on_update": "NO ACTION",
+            "constraint": "crawled_pages_document_id_fkey"
+          }
+        }
+      ],
+      "uniques": [
+        {
+          "name": "crawled_pages_url_key",
+          "columns": [
+            "url"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "crawled_pages_pkey",
+          "definition": "CREATE UNIQUE INDEX crawled_pages_pkey ON public.crawled_pages USING btree (id)"
+        },
+        {
+          "name": "crawled_pages_url_key",
+          "definition": "CREATE UNIQUE INDEX crawled_pages_url_key ON public.crawled_pages USING btree (url)"
+        },
+        {
+          "name": "ix_crawled_pages_id",
+          "definition": "CREATE INDEX ix_crawled_pages_id ON public.crawled_pages USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "document_chunks",
+      "kor": "문서 청크",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table document_chunks",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('document_chunks_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "document_id",
+          "kor": "document_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "documents",
+            "column": "id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION",
+            "constraint": "document_chunks_document_id_fkey"
+          }
+        },
+        {
+          "name": "chunk_index",
+          "kor": "chunk_index",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "kor": "content",
+          "type": "text",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "char_start",
+          "kor": "char_start",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "char_end",
+          "kor": "char_end",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "document_chunks_pkey",
+          "definition": "CREATE UNIQUE INDEX document_chunks_pkey ON public.document_chunks USING btree (id)"
+        },
+        {
+          "name": "ix_document_chunks_id",
+          "definition": "CREATE INDEX ix_document_chunks_id ON public.document_chunks USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "kor": "문서",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table documents",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('documents_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "title",
+          "kor": "title",
+          "type": "character varying(255)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "content",
+          "kor": "content",
+          "type": "text",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "source",
+          "kor": "source",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "license",
+          "kor": "license",
+          "type": "character varying(255)",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        },
+        {
+          "name": "updated_at",
+          "kor": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "documents_pkey",
+          "definition": "CREATE UNIQUE INDEX documents_pkey ON public.documents USING btree (id)"
+        },
+        {
+          "name": "ix_documents_id",
+          "definition": "CREATE INDEX ix_documents_id ON public.documents USING btree (id)"
+        }
+      ]
+    },
+    {
+      "name": "feedback_logs",
+      "kor": "피드백 로그",
+      "schema": "public",
+      "kind": "거래",
+      "is_pi": false,
+      "description": "Reverse-engineered existing table feedback_logs",
+      "owner": "bomts_app",
+      "columns": [
+        {
+          "name": "id",
+          "kor": "id",
+          "type": "integer",
+          "nullable": false,
+          "pk": true,
+          "default": "nextval('feedback_logs_id_seq'::regclass)",
+          "description": null
+        },
+        {
+          "name": "ask_log_id",
+          "kor": "ask_log_id",
+          "type": "integer",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null,
+          "fk": {
+            "table": "ask_logs",
+            "column": "id",
+            "on_delete": "CASCADE",
+            "on_update": "NO ACTION",
+            "constraint": "feedback_logs_ask_log_id_fkey"
+          }
+        },
+        {
+          "name": "rating",
+          "kor": "rating",
+          "type": "character varying(50)",
+          "nullable": false,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "comment",
+          "kor": "comment",
+          "type": "text",
+          "nullable": true,
+          "pk": false,
+          "default": null,
+          "description": null
+        },
+        {
+          "name": "created_at",
+          "kor": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "pk": false,
+          "default": "now()",
+          "description": null
+        }
+      ],
+      "uniques": [],
+      "indexes": [
+        {
+          "name": "feedback_logs_pkey",
+          "definition": "CREATE UNIQUE INDEX feedback_logs_pkey ON public.feedback_logs USING btree (id)"
+        },
+        {
+          "name": "ix_feedback_logs_id",
+          "definition": "CREATE INDEX ix_feedback_logs_id ON public.feedback_logs USING btree (id)"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "ai_reference_briefings_document_id_fkey",
+      "from": "ai_reference_briefings",
+      "from_columns": [
+        "document_id"
+      ],
+      "to": "documents",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "SET NULL",
+      "on_update": "NO ACTION",
+      "meaning": "ai_reference_briefings references documents"
+    },
+    {
+      "name": "ask_source_logs_ask_log_id_fkey",
+      "from": "ask_source_logs",
+      "from_columns": [
+        "ask_log_id"
+      ],
+      "to": "ask_logs",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "meaning": "ask_source_logs references ask_logs"
+    },
+    {
+      "name": "crawled_pages_document_id_fkey",
+      "from": "crawled_pages",
+      "from_columns": [
+        "document_id"
+      ],
+      "to": "documents",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "SET NULL",
+      "on_update": "NO ACTION",
+      "meaning": "crawled_pages references documents"
+    },
+    {
+      "name": "crawled_pages_source_id_fkey",
+      "from": "crawled_pages",
+      "from_columns": [
+        "source_id"
+      ],
+      "to": "content_sources",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "meaning": "crawled_pages references content_sources"
+    },
+    {
+      "name": "document_chunks_document_id_fkey",
+      "from": "document_chunks",
+      "from_columns": [
+        "document_id"
+      ],
+      "to": "documents",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "meaning": "document_chunks references documents"
+    },
+    {
+      "name": "feedback_logs_ask_log_id_fkey",
+      "from": "feedback_logs",
+      "from_columns": [
+        "ask_log_id"
+      ],
+      "to": "ask_logs",
+      "to_columns": [
+        "id"
+      ],
+      "type": "N:1",
+      "optional": true,
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "meaning": "feedback_logs references ask_logs"
+    }
+  ],
+  "security": {
+    "owner_role": "bomts_app",
+    "role_attributes": [
+      "LOGIN",
+      "NOSUPERUSER",
+      "NOCREATEDB",
+      "NOCREATEROLE"
+    ],
+    "admin_role": "postgres",
+    "network_bindings": [
+      "127.0.0.1:5432"
+    ],
+    "secrets_source": ".env (ignored; values are not part of this model)"
+  },
+  "external_stores": [
+    {
+      "name": "documents",
+      "engine": "qdrant",
+      "ports": [
+        "127.0.0.1:6333",
+        "127.0.0.1:6334"
+      ],
+      "authentication": "API key from ignored .env",
+      "backup": "Qdrant collection snapshot"
+    }
+  ],
+  "pi_suggestions": [
+    "Treat free-text questions, answers, feedback comments, crawled content, and source URLs as potential personal-data carriers."
+  ],
+  "dq_notes": [
+    "Existing constraints and indexes are recorded as observed; no new logical constraint is applied by this security task."
+  ]
+}

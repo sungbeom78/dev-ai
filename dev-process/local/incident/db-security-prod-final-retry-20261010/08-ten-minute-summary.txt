@@ -1,0 +1,6 @@
+monitor_seconds=600
+health_samples=21
+final_search_http=200
+api_log_lines=22
+auth_connection_errors=0
+RESULT=PASS

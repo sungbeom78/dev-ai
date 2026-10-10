@@ -1,0 +1,78 @@
+BEGIN
+CREATE ROLE
+ALTER ROLE
+ALTER DATABASE
+ALTER SCHEMA
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+REVOKE
+GRANT
+ALTER ROLE
+COMMIT
+#1 [internal] load local bake definitions
+#1 reading from stdin 469B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 452B done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 1.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 157B done
+#4 DONE 0.1s
+
+#5 [1/5] FROM docker.io/library/python:3.11-slim@sha256:e88e9763f943ec1834f992a4b51e0f24500486803e8bc534e5767af9ea65f6ce
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 3.65kB 0.0s done
+#6 DONE 0.1s
+
+#7 [2/5] WORKDIR /code
+#7 CACHED
+
+#8 [3/5] COPY pyproject.toml .
+#8 CACHED
+
+#9 [4/5] RUN pip install --no-cache-dir fastapi uvicorn pydantic psycopg2-binary 'psycopg[binary]' qdrant-client sqlalchemy openai langgraph langchain-core requests beautifulsoup4 trafilatura
+#9 CACHED
+
+#10 [5/5] COPY ./app /code/app
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 writing image sha256:055172a0d596aa0e88e6125cd9ed2cfd337c2497405378f04313ee7013277617 0.0s done
+#11 naming to docker.io/library/dev_ai-api 0.0s done
+#11 DONE 0.1s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ dev_ai-api  Built
+ Container bomts_qdrant  Recreate
+ Container bomts_db  Recreate
+ Container bomts_qdrant  Recreated
+ Container bomts_db  Recreated
+ Container bomts_api  Recreate
+ Container bomts_api  Recreated
+ Container bomts_web  Recreate
+ Container bomts_web  Recreated
+ Container bomts_db  Starting
+ Container bomts_qdrant  Starting
+ Container bomts_db  Started
+ Container bomts_qdrant  Started
+ Container bomts_db  Waiting
+ Container bomts_db  Healthy
+ Container bomts_api  Starting
+ Container bomts_api  Started
+ Container bomts_web  Starting
+ Container bomts_web  Started

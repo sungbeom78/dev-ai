@@ -31,7 +31,7 @@ async def system_status(db: Session = Depends(get_db)):
 
     for url in qdrant_urls_to_try:
         try:
-            client = QdrantClient(url=url)
+            client = QdrantClient(url=url, api_key=os.environ["QDRANT_API_KEY"])
             # 1. Check if Qdrant itself is online
             collections_response = client.get_collections()
             qdrant_status = "online"

@@ -1,0 +1,21 @@
+[listeners]
+LISTEN 0      4096        127.0.0.1:6334  0.0.0.0:*                                            
+LISTEN 0      4096        127.0.0.1:6333  0.0.0.0:*                                            
+LISTEN 0      4096        127.0.0.1:5432  0.0.0.0:*                                            
+[roles]
+bomts_app|f|f|f
+postgres|t|t|t
+[table owners]
+bomts_app|8
+old_password_connect=failed_expected
+new_admin_password_connect=success
+bomts_app_password_connect=success
+qdrant_no_key_http=401
+qdrant_with_key_http=200
+health_http=200
+search_http=200
+search_result_count=1
+[application DB activity]
+bomts_app|172.18.0.4/32|1
+postgres|local|1
+RESULT=PASS

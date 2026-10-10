@@ -1,0 +1,14 @@
+2026-10-10T05:58:08+00:00
+/project/bomts-mail/docker-compose.yml:36:      - "${MAILU_BIND_IPV4:-192.168.50.221}:80:80"
+/project/bomts-mail/docker-compose.yml:37:      - "${MAILU_BIND_IPV4:-192.168.50.221}:443:443"
+/project/bomts-mail/docker-compose.yml:38:      - "${MAILU_BIND_IPV4:-192.168.50.221}:25:25"
+/project/bomts-mail/docker-compose.yml:39:      - "${MAILU_BIND_IPV4:-192.168.50.221}:465:465"
+/project/bomts-mail/docker-compose.yml:40:      - "${MAILU_BIND_IPV4:-192.168.50.221}:587:587"
+/project/bomts-mail/docker-compose.yml:41:      - "${MAILU_BIND_IPV4:-192.168.50.221}:995:995"
+/project/bomts-mail/docker-compose.yml:42:      - "${MAILU_BIND_IPV4:-192.168.50.221}:993:993"
+/project/bomts-mail/docker-compose.yml:43:      - "${MAILU_BIND_IPV4:-192.168.50.221}:4190:4190"
+/project/dev_ai/docker-compose.yml:40:      - "127.0.0.1:5432:5432"
+/project/dev_ai/docker-compose.yml:55:      - "127.0.0.1:6333:6333"
+/project/dev_ai/.env:6:DATABASE_URL=***
+/project/dev_ai/.env:7:QDRANT_URL=http://qdrant:6333
+/project/dev_ai/.env:13:OPENCLAW_BASE_URL=http://host.docker.internal:11434

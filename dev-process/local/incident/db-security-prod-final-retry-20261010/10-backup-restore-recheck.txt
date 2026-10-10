@@ -1,0 +1,7 @@
+postgresql_dump_checksum=OK
+qdrant_snapshot_checksum=OK
+source_tables=8
+restored_tables=8
+row_counts_match=true
+temporary_restore_container_removed=true
+backup_root=/project/backup/bomts-ai/2026-10-09/pre-db-security

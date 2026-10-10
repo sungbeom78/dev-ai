@@ -1,0 +1,6 @@
+CREATE ROLE
+ALTER ROLE
+ALTER DATABASE
+ALTER SCHEMA
+ERROR:  cannot change owner of sequence "ai_reference_briefings_id_seq"
+DETAIL:  Sequence "ai_reference_briefings_id_seq" is linked to table "ai_reference_briefings".

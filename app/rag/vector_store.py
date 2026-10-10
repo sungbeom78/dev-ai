@@ -10,13 +10,13 @@ class QdrantStore:
         url_to_try = QDRANT_URL
         try:
             # First try the configured URL
-            self.client = QdrantClient(url=url_to_try)
+            self.client = QdrantClient(url=url_to_try, api_key=os.environ["QDRANT_API_KEY"])
             self.client.get_collections() # test connection
         except Exception:
             if "qdrant" in url_to_try:
                 # Fallback to localhost for PM2 host execution
                 url_to_try = url_to_try.replace("qdrant", "localhost")
-                self.client = QdrantClient(url=url_to_try)
+                self.client = QdrantClient(url=url_to_try, api_key=os.environ["QDRANT_API_KEY"])
             else:
                 raise
                 

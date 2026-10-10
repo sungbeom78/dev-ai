@@ -1,0 +1,10 @@
+2026-10-10T05:58:08+00:00
+[T0 health]
+curl: (28) Operation timed out after 5002 milliseconds with 0 bytes received
+http=000 connect=0.000117s total=5.002059s
+exit=28
+
+[T0 real search]
+curl: (28) Operation timed out after 8002 milliseconds with 0 bytes received
+http=000 connect=0.000151s total=8.002991s
+exit=28

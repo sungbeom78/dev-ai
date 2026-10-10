@@ -1,0 +1,13 @@
+.git
+.gitmodules
+.env
+.env.*
+.venv
+venv
+__pycache__
+*.py[cod]
+dev-process
+dev-process-framework
+glossary
+db/out
+dist

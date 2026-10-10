@@ -1,0 +1,4 @@
+ Container bomts_api  Recreate
+ Container bomts_api  Recreated
+ Container bomts_api  Starting
+ Container bomts_api  Started

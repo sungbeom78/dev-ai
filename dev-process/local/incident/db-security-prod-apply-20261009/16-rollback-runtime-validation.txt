@@ -1,0 +1,26 @@
+2026-10-10T06:52:22+00:00
+[ports]
+LISTEN 0      4096          0.0.0.0:5432       0.0.0.0:*                                               
+LISTEN 0      4096          0.0.0.0:6333       0.0.0.0:*                                               
+LISTEN 0      4096          0.0.0.0:6334       0.0.0.0:*                                               
+LISTEN 0      4096             [::]:5432          [::]:*                                               
+LISTEN 0      4096             [::]:6333          [::]:*                                               
+LISTEN 0      4096             [::]:6334          [::]:*                                               
+
+[roles]
+bomts_app:false:false:false
+postgres:true:true:true
+
+[owners]
+postgres:8
+
+[activity]
+postgres:172.18.0.4/32:
+postgres:local:psql
+
+[qdrant without key]
+http=200 total=0.000559s
+
+[api]
+health_http=200 total=0.001395s
+search_http=200 total=0.008247s

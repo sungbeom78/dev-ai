@@ -1,0 +1,199 @@
+2026-10-10T05:58:08+00:00
+[apply script]
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${APPLY_DB_SECURITY:-}" != "YES" ]]; then
+  echo "Set APPLY_DB_SECURITY=YES only after the operational approval." >&2
+  exit 2
+fi
+
+set -a
+# shellcheck disable=SC1091
+source .env
+set +a
+
+: "${POSTGRES_DB:?}"
+: "${POSTGRES_ADMIN_USER:?}"
+: "${POSTGRES_ADMIN_PASSWORD:***"
+: "${POSTGRES_APP_USER:?}"
+: "${POSTGRES_APP_PASSWORD:***"
+: "${QDRANT_API_KEY:***"
+
+if [[ "$POSTGRES_APP_USER" != "bomts_app" ]]; then
+  echo "POSTGRES_APP_USER must be bomts_app" >&2
+  exit 2
+fi
+
+# The local container connection uses PostgreSQL's trusted Unix socket. Passwords
+# are passed as psql variables and are never written to SQL files or command output.
+docker exec -i bomts_db psql \
+  -v ON_ERROR_STOP=1 \
+  -v app_user="$POSTGRES_APP_USER" \
+  -v app_password="***" \
+  -v admin_user="$POSTGRES_ADMIN_USER" \
+  -v admin_password="***" \
+  -v database_name="$POSTGRES_DB" \
+  -U postgres -d "$POSTGRES_DB" <<'SQL'
+SELECT format(
+  'CREATE ROLE %I LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD %L',
+  :'app_user', :'app_password'
+)
+WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = :'app_user')
+\gexec
+
+SELECT format(
+  'ALTER ROLE %I WITH LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE PASSWORD %L',
+  :'app_user', :'app_password'
+)
+\gexec
+
+SELECT format('ALTER DATABASE %I OWNER TO %I', :'database_name', :'app_user')
+\gexec
+SELECT format('ALTER SCHEMA public OWNER TO %I', :'app_user')
+\gexec
+
+SELECT format(
+  'ALTER %s %I.%I OWNER TO %I',
+  CASE c.relkind
+    WHEN 'S' THEN 'SEQUENCE'
+    WHEN 'v' THEN 'VIEW'
+    WHEN 'm' THEN 'MATERIALIZED VIEW'
+    ELSE 'TABLE'
+  END,
+  n.nspname, c.relname, :'app_user'
+)
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public'
+  AND c.relkind IN ('r', 'p', 'S', 'v', 'm', 'f')
+ORDER BY c.relkind, c.relname
+\gexec
+
+SELECT format('ALTER FUNCTION %s OWNER TO %I', p.oid::regprocedure, :'app_user')
+FROM pg_proc p
+JOIN pg_namespace n ON n.oid = p.pronamespace
+WHERE n.nspname = 'public'
+ORDER BY p.oid::regprocedure::text
+\gexec
+
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+SELECT format('GRANT USAGE, CREATE ON SCHEMA public TO %I', :'app_user')
+\gexec
+SELECT format('ALTER ROLE %I WITH PASSWORD %L', :'admin_user', :'admin_password')
+\gexec
+SQL
+
+docker compose up -d --build --force-recreate
+
+[rollback script]
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${ROLLBACK_DB_SECURITY:-}" != "YES" ]]; then
+  echo "Set ROLLBACK_DB_SECURITY=YES only after rollback approval." >&2
+  exit 2
+fi
+
+backup_dir=${1:-/project/backup/bomts-ai/2026-10-09/pre-db-security/rollback}
+previous_compose="$backup_dir/docker-compose.yml.before"
+previous_env="$backup_dir/.env.before"
+[[ -f "$previous_compose" && -f "$previous_env" ]] || {
+  echo "Rollback files are missing under $backup_dir" >&2
+  exit 2
+}
+
+previous_admin_password=*** - "$previous_env" <<'PY'
+from pathlib import Path
+from urllib.parse import urlparse
+import sys
+url=''
+for line in Path(sys.argv[1]).read_text().splitlines():
+    if line.startswith('DATABASE_URL='***
+        url=line.split('=',1)[1]
+        break
+password=***
+if not password:
+    raise SystemExit('DATABASE_URL password not found in rollback environment')
+print(password)
+PY
+)
+
+docker exec -i bomts_db psql \
+  -v ON_ERROR_STOP=1 \
+  -v previous_admin_password="***" \
+  -U postgres -d bomts <<'SQL'
+ALTER DATABASE bomts OWNER TO postgres;
+ALTER SCHEMA public OWNER TO postgres;
+SELECT format(
+  'ALTER %s %I.%I OWNER TO postgres',
+  CASE c.relkind
+    WHEN 'S' THEN 'SEQUENCE'
+    WHEN 'v' THEN 'VIEW'
+    WHEN 'm' THEN 'MATERIALIZED VIEW'
+    ELSE 'TABLE'
+  END,
+  n.nspname, c.relname
+)
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public'
+  AND c.relkind IN ('r', 'p', 'S', 'v', 'm', 'f')
+ORDER BY c.relkind, c.relname
+\gexec
+SELECT format('ALTER FUNCTION %s OWNER TO postgres', p.oid::regprocedure)
+FROM pg_proc p
+JOIN pg_namespace n ON n.oid = p.pronamespace
+WHERE n.nspname = 'public'
+ORDER BY p.oid::regprocedure::text
+\gexec
+ALTER ROLE postgres WITH PASSWORD :'***';
+SQL
+
+install -m 644 "$previous_compose" docker-compose.yml
+install -m 600 "$previous_env" .env
+docker compose up -d --build --force-recreate
+
+[compose port declarations]
+  db:
+    image: postgres:15-alpine
+    container_name: bomts_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:?set POSTGRES_ADMIN_USER in .env}
+      POSTGRES_PASSWORD: *** POSTGRES_ADMIN_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_ADMIN_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: bomts_qdrant
+    environment:
+      QDRANT__SERVICE__API_KEY: *** QDRANT_API_KEY in .env}
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  web:
+    image: nginx:alpine
+    container_name: bomts_web
+    ports:
+      - "8771:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  qdrant_data:
