@@ -1,0 +1,1288 @@
+{
+  "acceptance": [
+    {
+      "no": 1,
+      "note": "5분간 30초 간격 11회 모두 /health HTTP 200; dev-process/local/incident/20261010-api-health-incident/21-five-minute-health-samples.txt",
+      "status": "met",
+      "text": "health 200",
+      "updated_at": "2026-10-10T06:47:25.529381+00:00"
+    },
+    {
+      "no": 2,
+      "note": "복구 직후와 5분 관찰 종료 시 실제 /search 질의 HTTP 200, 결과 1건",
+      "status": "met",
+      "text": "실제 검색 질의 200",
+      "updated_at": "2026-10-10T06:47:25.762881+00:00"
+    },
+    {
+      "no": 3,
+      "note": "diagnosis.md와 recovery-result.md에 worker zombie, bind mount reload, 누락 환경변수의 인과관계 기록",
+      "status": "met",
+      "text": "원인 기록",
+      "updated_at": "2026-10-10T06:47:26.001133+00:00"
+    }
+  ],
+  "approvals": [
+    {
+      "basis": "ops action 'bomts_api 컨테이너만 재생성' not in delegation.ops.allowed.",
+      "decided_at": "2026-10-10T04:59:44.588575+00:00",
+      "decision": "deferred",
+      "grants_host_permission": false,
+      "kind": "ops_action",
+      "policy_version": "sha256:04c9f35de7167f7a",
+      "request_id": "api-container-recreate-20261010",
+      "required_checks": [],
+      "rule_id": "solo.ops.not_delegated",
+      "scope_fingerprint": "21994954009abb78088a01f5292f5ffa0a1cdcacd4f1dd64951b7beec7d6aa17",
+      "tier": null,
+      "user_quote": null
+    },
+    {
+      "basis": "bomts_api 컨테이너만 재생성",
+      "decided_at": "2026-10-10T06:39:17.818531+00:00",
+      "decision": "user_approved",
+      "grants_host_permission": false,
+      "kind": "ops_action",
+      "policy_version": "sha256:04c9f35de7167f7a",
+      "request_id": "api-container-recreate-20261010",
+      "required_checks": [],
+      "rule_id": "user.explicit",
+      "scope_fingerprint": "21994954009abb78088a01f5292f5ffa0a1cdcacd4f1dd64951b7beec7d6aa17",
+      "tier": null,
+      "user_quote": "api-container-recreate-20261010 운영 적용을 승인한다."
+    }
+  ],
+  "baseline_commit": "e303970efc8fb725f020b6fd2aae57e88c954a34",
+  "change_kind": {
+    "history": [],
+    "kind": "fix",
+    "reason": "장애 복구, 사용법 같음",
+    "set_at": "2026-10-10T04:56:30.996795+00:00"
+  },
+  "completion": {
+    "changes_summary": "fix: record API health incident recovery",
+    "commit": "6030ad64d7513a94510cc79f93a306378da4776e",
+    "deploy": "not_in_scope",
+    "push": "not_requested",
+    "release_scope": "in_scope",
+    "work": "done"
+  },
+  "created_at": "2026-10-10T04:56:30.996795+00:00",
+  "events": [
+    {
+      "check_name": "prior_art",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "verdict=clear",
+      "ts": "2026-10-10T04:56:35.238466+00:00",
+      "verification": "reported_only",
+      "verified": false
+    },
+    {
+      "check_name": "lint",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "/usr/bin/python3",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "syntax",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:45:44.742735+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_e7610c128228.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_e7610c128228.receipt.json",
+        "returncode": 0,
+        "run_id": "e7610c128228",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)",
+      "ts": "2026-10-10T06:45:44.749403+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "unit_or_regression",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:45:44.922708+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_dd94ec99c8c2.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_dd94ec99c8c2.receipt.json",
+        "returncode": 0,
+        "run_id": "dd94ec99c8c2",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:45:44.929755+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "encoding",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "/usr/bin/python3",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:45:45.011732+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_4b41d71762ce.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_4b41d71762ce.receipt.json",
+        "returncode": 0,
+        "run_id": "4b41d71762ce",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "ts": "2026-10-10T06:45:45.018787+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "identifier_audit",
+      "evidence_fingerprint": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3",
+      "execution": {
+        "command": [
+          "/usr/bin/python3",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "identifier_audit",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:45:45.294087+00:00",
+        "input_snapshot": {
+          "after": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3",
+          "before": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_936b8a5fbb48.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_936b8a5fbb48.receipt.json",
+        "returncode": 1,
+        "run_id": "936b8a5fbb48",
+        "sealed": true,
+        "stderr_tail": "tifier_audit(root, inputs, a.task_id)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py\", line 206, in check_identifier_audit\n    g = gl.load(root, policy)\n        ^^^^^^^^^^^^^^^^^^^^^\n  File \"/project/dev_ai/dev-process-framework/runtime/src/devprocess/glossary.py\", line 161, in load\n    auditor_mod, _ = _import_api(project_root, root)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/project/dev_ai/dev-process-framework/runtime/src/devprocess/glossary.py\", line 152, in _import_api\n    raise GlossaryError(f\"사전 API import 실패: {exc} (서브모듈 초기화 및 사전 의존성(httpx) 확인)\") from exc\ndevprocess.glossary.GlossaryError: 사전 API import 실패: No module named 'httpx' (서브모듈 초기화 및 사전 의존성(httpx) 확인)\n",
+        "stdout_tail": ""
+      },
+      "gate_outcome": "deny",
+      "kind": "check",
+      "reason_code": "FAIL: t 실패: {exc} (서브모듈 초기화 및 사전 의존성(httpx) 확인)\") from exc\ndevprocess.glossary.GlossaryError: 사전 API import 실패: No module named 'httpx' (서브모듈 초기화 및 사전 의존성(httpx) 확인)",
+      "ts": "2026-10-10T06:45:45.294562+00:00",
+      "verification": "deny",
+      "verified": false
+    },
+    {
+      "check_name": "qa_quick",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:45:45.467907+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_7b46e1352f6c.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_7b46e1352f6c.receipt.json",
+        "returncode": 0,
+        "run_id": "7b46e1352f6c",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:45:45.474989+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "lint",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "syntax",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:46:12.751779+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_a824a27f96c4.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_a824a27f96c4.receipt.json",
+        "returncode": 0,
+        "run_id": "a824a27f96c4",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)",
+      "ts": "2026-10-10T06:46:12.758775+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "unit_or_regression",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:46:12.938453+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_764c5ee6522c.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_764c5ee6522c.receipt.json",
+        "returncode": 0,
+        "run_id": "764c5ee6522c",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:46:12.945199+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "encoding",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:46:13.047485+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_b1aa7afec76b.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_b1aa7afec76b.receipt.json",
+        "returncode": 0,
+        "run_id": "b1aa7afec76b",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "ts": "2026-10-10T06:46:13.054145+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "identifier_audit",
+      "evidence_fingerprint": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "identifier_audit",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:46:13.378966+00:00",
+        "input_snapshot": {
+          "after": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3",
+          "before": "sha256:f3d9f21de8a53ad27020e60d090f4dddf8c1384aa033a71751d27744ba593ac3"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_659a7dc578f0.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_659a7dc578f0.receipt.json",
+        "returncode": 1,
+        "run_id": "659a7dc578f0",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "   \"unregistered\": [\n    \"answer\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"out_of_scope_answer_node\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/nodes.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: answer\"\n    }\n   ]\n  },\n  {\n   \"identifier\": \"clarification_answer_node\",\n   \"file\": \"app/agent/nodes.py\",\n   \"unregistered\": [\n    \"answer\",\n    \"clarification\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"clarification_answer_node\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/nodes.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: answer, clarification\"\n    }\n   ]\n  },\n\nFAIL: identifier_audit\n"
+      },
+      "gate_outcome": "deny",
+      "kind": "check",
+      "reason_code": "FAIL: ar\",\n     \"source\": \"app/agent/nodes.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: answer, clarification\"\n    }\n   ]\n  },\n\nFAIL: identifier_audit",
+      "ts": "2026-10-10T06:46:13.379789+00:00",
+      "verification": "deny",
+      "verified": false
+    },
+    {
+      "check_name": "qa_quick",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:46:13.646751+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3cee17e7ac31.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3cee17e7ac31.receipt.json",
+        "returncode": 0,
+        "run_id": "3cee17e7ac31",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:46:13.653635+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "acceptance#1",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "5분간 30초 간격 11회 모두 /health HTTP 200; dev-process/local/incident/20261010-api-health-incident/21-five-minute-health-samples.txt",
+      "ts": "2026-10-10T06:47:25.529405+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "acceptance#2",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "복구 직후와 5분 관찰 종료 시 실제 /search 질의 HTTP 200, 결과 1건",
+      "ts": "2026-10-10T06:47:25.762904+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "acceptance#3",
+      "evidence_fingerprint": null,
+      "execution": null,
+      "gate_outcome": "met",
+      "kind": "acceptance",
+      "reason_code": "diagnosis.md와 recovery-result.md에 worker zombie, bind mount reload, 누락 환경변수의 인과관계 기록",
+      "ts": "2026-10-10T06:47:26.001154+00:00",
+      "verification": null,
+      "verified": false
+    },
+    {
+      "check_name": "qa_quick",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "curl",
+          "-fsS",
+          "--max-time",
+          "5",
+          "http://127.0.0.1:8000/health",
+          ">/dev/null",
+          "&&",
+          "curl",
+          "-fsS",
+          "--max-time",
+          "30",
+          "-H",
+          "Content-Type: application/json",
+          "--data",
+          "{\"query\":\"RAG pipeline\",\"limit\":1}",
+          "http://127.0.0.1:8000/search",
+          ">/dev/null"
+        ],
+        "executed_at": "2026-10-10T06:53:55.239140+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_f8c8d0bc1209.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_f8c8d0bc1209.receipt.json",
+        "returncode": 3,
+        "run_id": "f8c8d0bc1209",
+        "sealed": true,
+        "stderr_tail": "curl: (22) The requested URL returned error: 405\ncurl: (3) URL rejected: Bad hostname\ncurl: (3) URL rejected: Bad hostname\ncurl: (6) Could not resolve host: curl\ncurl: (3) URL rejected: Bad hostname\n",
+        "stdout_tail": "{\"results\":[{\"score\":0.9981619,\"document_id\":610,\"chunk_id\":610001,\"chunk_text\":\".\",\"title\":\"Qwen3-Max와 LangGraph의 결합: 로컬-클라우드 하이브리드 에이전트 아키텍처\"}]}"
+      },
+      "gate_outcome": "deny",
+      "kind": "check",
+      "reason_code": "FAIL: rror: 405\ncurl: (3) URL rejected: Bad hostname\ncurl: (3) URL rejected: Bad hostname\ncurl: (6) Could not resolve host: curl\ncurl: (3) URL rejected: Bad hostname",
+      "ts": "2026-10-10T06:53:55.239605+00:00",
+      "verification": "deny",
+      "verified": false
+    },
+    {
+      "check_name": "qa_quick",
+      "evidence_fingerprint": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+      "execution": {
+        "command": [
+          "dev-process/local/incident/20261010-api-health-incident/verify-runtime.sh"
+        ],
+        "executed_at": "2026-10-10T06:54:27.181171+00:00",
+        "input_snapshot": {
+          "after": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf",
+          "before": "sha256:6519d60d52df44bc07daa20f1744a586fe248e94c13dba256f51b410406b81bf"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_aa62d1571075.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_aa62d1571075.receipt.json",
+        "returncode": 0,
+        "run_id": "aa62d1571075",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: ok",
+      "ts": "2026-10-10T06:54:27.187823+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "lint",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "syntax",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.025662+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_c66752728a5b.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_c66752728a5b.receipt.json",
+        "returncode": 0,
+        "run_id": "c66752728a5b",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)",
+      "ts": "2026-10-10T06:56:55.038811+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "unit_or_regression",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:56:55.271642+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_a94bbc921460.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_a94bbc921460.receipt.json",
+        "returncode": 0,
+        "run_id": "a94bbc921460",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:56:55.282645+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "encoding",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.398400+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_80cbf9b30f78.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_80cbf9b30f78.receipt.json",
+        "returncode": 0,
+        "run_id": "80cbf9b30f78",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "ts": "2026-10-10T06:56:55.406655+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "identifier_audit",
+      "evidence_fingerprint": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9",
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "identifier_audit",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.735767+00:00",
+        "input_snapshot": {
+          "after": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9",
+          "before": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_bb58abc8cb4f.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_bb58abc8cb4f.receipt.json",
+        "returncode": 0,
+        "run_id": "bb58abc8cb4f",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "pp/agent/nodes.py\",\n   \"unregistered\": [\n    \"answer\",\n    \"clarification\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"clarification_answer_node\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/nodes.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: answer, clarification\"\n    }\n   ]\n  },\n  {\n   \"identifier\": \"AgentState\",\n   \"file\": \"app/agent/state.py\",\n   \"unregistered\": [\n    \"agent\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"AgentState\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/state.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: agent\"\n    }\n   ]\n  },\n  {\n   \"ide\nPASS: identifier_audit\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: ule_var\",\n     \"source\": \"app/agent/state.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: agent\"\n    }\n   ]\n  },\n  {\n   \"ide\nPASS: identifier_audit",
+      "ts": "2026-10-10T06:56:55.749477+00:00",
+      "verification": "verified",
+      "verified": true
+    },
+    {
+      "check_name": "qa_quick",
+      "evidence_fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:56:55.937365+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3f1e1d32e610.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3f1e1d32e610.receipt.json",
+        "returncode": 0,
+        "run_id": "3f1e1d32e610",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "kind": "check",
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "ts": "2026-10-10T06:56:55.944287+00:00",
+      "verification": "verified",
+      "verified": true
+    }
+  ],
+  "glossary_rev": null,
+  "goal": "API·웹 응답 없음 복구",
+  "incidents": {
+    "api-rollback-psycopg-driver": {
+      "closed_at": "2026-10-10T06:54:27.698878+00:00",
+      "created_at": "2026-10-10T06:51:24.107217+00:00",
+      "error_signature": "rollback rebuild: ModuleNotFoundError No module named psycopg",
+      "incident_id": "api-rollback-psycopg-driver",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-api-health-incident",
+      "rounds": [
+        {
+          "action": "API DATABASE_URL의 dialect를 postgresql+psycopg2로 명시해 API만 재생성한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "API traceback은 psycopg import 실패, rollback build 로그는 SQLAlchemy 2.1과 psycopg2-binary 설치를 보인다",
+          "expected_result": "API worker가 기동하고 health와 실제 검색이 200이 된다",
+          "hypothesis": "rollback 재빌드가 SQLAlchemy 2.1을 설치해 postgresql 기본 dialect가 psycopg를 요구하지만 이미지에는 psycopg2-binary만 있다",
+          "hypothesis_hash": "691fd1db10ab1147",
+          "phase": "environment",
+          "proposed_by_task": "20261010-api-health-incident",
+          "result": "postgresql+psycopg2 dialect를 명시해 API worker 기동, health 200과 실제 검색 200 확인",
+          "result_ts": "2026-10-10T06:53:55.476320+00:00",
+          "round_no": 1,
+          "status": "confirmed",
+          "ts": "2026-10-10T06:51:24.409382+00:00",
+          "verification_check": "qa_quick",
+          "verification_run_id": "f8c8d0bc1209",
+          "verification_task": "20261010-api-health-incident",
+          "verified": true
+        },
+        {
+          "action": "health와 검색을 순서대로 실행하는 단일 실행 파일 verify-runtime.sh를 check-run command로 사용한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "receipt는 실제 검색 결과를 받았지만 추가 인자를 URL로 해석해 405와 bad hostname으로 종료했다",
+          "expected_result": "qa_quick receipt가 returncode 0과 verified로 봉인된다",
+          "hypothesis": "check-run은 복합 셸 문자열을 shell로 실행하지 않고 인자 목록으로 분리하므로 curl 두 개가 한 명령으로 합쳐졌다",
+          "hypothesis_hash": "c032dc89cd7c8dea",
+          "phase": "environment",
+          "proposed_by_task": "20261010-api-health-incident",
+          "result": "독립 검증 스크립트로 health와 실제 검색을 실행해 qa_quick returncode 0 verified",
+          "result_ts": "2026-10-10T06:54:27.445802+00:00",
+          "round_no": 2,
+          "status": "confirmed",
+          "ts": "2026-10-10T06:54:19.918462+00:00",
+          "verification_check": "qa_quick",
+          "verification_run_id": "aa62d1571075",
+          "verification_task": "20261010-api-health-incident",
+          "verified": true
+        }
+      ],
+      "rounds_used": 2,
+      "status": "resolved"
+    },
+    "identifier-audit-missing-httpx": {
+      "closed_at": "2026-10-10T06:57:04.710439+00:00",
+      "created_at": "2026-10-10T06:46:08.891273+00:00",
+      "error_signature": "identifier_audit: No module named httpx under system python",
+      "incident_id": "identifier-audit-missing-httpx",
+      "linked_tasks": [],
+      "max_rounds": 3,
+      "owner_task_id": "20261010-api-health-incident",
+      "rounds": [
+        {
+          "action": "프로젝트 .venv Python으로 verify를 다시 실행한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": ".venv/bin/python에는 httpx 0.28.1이 있고 /usr/bin/python3에는 없다",
+          "expected_result": "identifier_audit를 포함한 필수 검사가 모두 verified 된다",
+          "hypothesis": "검증을 프로젝트 가상환경이 아닌 시스템 Python으로 실행해 프레임워크 의존성 httpx를 찾지 못했다",
+          "hypothesis_hash": "1f0ec7c63abaeb23",
+          "phase": "environment",
+          "proposed_by_task": "20261010-api-health-incident",
+          "result": "가상환경 사용으로 httpx import 오류는 해소됐으나, 별도 db-security 준비 변경의 DATABASE_URL 식별자 사전 위반이 드러나 전체 검증은 아직 실패",
+          "result_ts": "2026-10-10T06:47:25.290843+00:00",
+          "round_no": 1,
+          "status": "partially_confirmed",
+          "ts": "2026-10-10T06:46:09.201069+00:00",
+          "verification_check": null,
+          "verification_run_id": null,
+          "verification_task": "20261010-api-health-incident",
+          "verified": false
+        },
+        {
+          "action": "동일 환경변수를 create_engine에서 직접 읽어 새 모듈 식별자를 제거하고 가상환경으로 verify한다",
+          "budget_exception": null,
+          "diff_ref": null,
+          "evidence": "identifier_audit 로그의 유일한 신규 위반은 app/db/database.py DATABASE_URL이었다",
+          "expected_result": "identifier_audit를 포함한 전체 필수 검사가 verified 된다",
+          "hypothesis": "httpx 환경 문제 해소 후 남은 실패는 db-security 준비 코드가 DATABASE_URL을 변경된 모듈 선언으로 만든 데서 발생했다",
+          "hypothesis_hash": "19aca39d3c5f28f0",
+          "phase": "connected_flow",
+          "proposed_by_task": "20261010-api-health-incident",
+          "result": "DATABASE_URL 중간 모듈 변수를 제거한 뒤 identifier_audit와 전체 필수 검사가 verified",
+          "result_ts": "2026-10-10T06:57:04.439912+00:00",
+          "round_no": 2,
+          "status": "confirmed",
+          "ts": "2026-10-10T06:56:54.243861+00:00",
+          "verification_check": "identifier_audit",
+          "verification_run_id": "bb58abc8cb4f",
+          "verification_task": "20261010-api-health-incident",
+          "verified": true
+        }
+      ],
+      "rounds_used": 2,
+      "status": "resolved"
+    }
+  },
+  "last_host": {
+    "host": "unknown",
+    "surface": "unknown",
+    "version": "unknown"
+  },
+  "linked_incidents": [],
+  "open_waits": [],
+  "policy_version": "sha256:04c9f35de7167f7a",
+  "revision": 43,
+  "rollbacks": [],
+  "schema_version": "1",
+  "stage": "report",
+  "stages": {
+    "encoding": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "encoding",
+        "computed_at": "2026-10-10T06:56:55.326583+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+        "input_paths": [
+          "app",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.398400+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_80cbf9b30f78.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/encoding_80cbf9b30f78.receipt.json",
+        "returncode": 0,
+        "run_id": "80cbf9b30f78",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "recorded_at": "2026-10-10T06:56:55.406655+00:00",
+      "verification": "verified"
+    },
+    "identifier_audit": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "identifier_audit",
+        "computed_at": "2026-10-10T06:56:55.452990+00:00",
+        "file_count": 47,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "glossary/dictionary/areas.json": "d53d9f69b6e35f03257adaad3e524f2b36e66a0d0940666e703268ebfe10bd2c",
+          "glossary/dictionary/banned.json": "dd202b9aeda9c61cf59001295c3813aaa84a229308dbbaafbc3ede5129e866fd",
+          "glossary/dictionary/compounds.json": "fc0c5d5688bb7cf289c23443fc24a416ff97ca6340686c8b4730e99d503280ac",
+          "glossary/dictionary/drafts.json": "c59effa1d6f42d1426ed919a5f02643229e23ee018e5252a68acc9c18c53a35b",
+          "glossary/dictionary/pending_words.json": "e52f0d0a7eb548de632aa2282b5ce1b5c21bbfb3433220a77dc086ffd047fe1e",
+          "glossary/dictionary/tech_abbreviations.json": "bcbd3292e0affd52abe551ee8c3dc0145853f7b57b28c587037b7d7351379d28",
+          "glossary/dictionary/terms.json": "a5d5b4a0c766128f2c4a3d5b679cbf107f66f57088af6f3d2b9778368368e142",
+          "glossary/dictionary/terms_legacy.json": "b04da63a1213456df7552364c2e10945d4531d6c73e5a7090576bb537e6470ac",
+          "glossary/dictionary/unit_tokens.json": "f5b12bc6445c04cd6ceca6b78f02047c0e09f95b3a4631615dfb3b0b6c65b48a",
+          "glossary/dictionary/words.json": "ec18782a7a5f641bcd3bb446957f89f205bc235fbc62a57d6faa8fa20a211032",
+          "glossary/dictionary/words__derived_terms.json": "e5fd7aa65fb825e0bce9c786c3769f6ca699437e8c266b064538ba545ee993bc",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9",
+        "input_paths": [
+          "app",
+          "glossary/dictionary",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "identifier_audit",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.735767+00:00",
+        "input_snapshot": {
+          "after": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9",
+          "before": "sha256:0bf2c89ab1874841995fa1c3ee61be29b1e95b99b65e643cfadbf238968260a9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_bb58abc8cb4f.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/identifier_audit_bb58abc8cb4f.receipt.json",
+        "returncode": 0,
+        "run_id": "bb58abc8cb4f",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "pp/agent/nodes.py\",\n   \"unregistered\": [\n    \"answer\",\n    \"clarification\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"clarification_answer_node\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/nodes.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: answer, clarification\"\n    }\n   ]\n  },\n  {\n   \"identifier\": \"AgentState\",\n   \"file\": \"app/agent/state.py\",\n   \"unregistered\": [\n    \"agent\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"AgentState\",\n     \"kind\": \"module_var\",\n     \"source\": \"app/agent/state.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: agent\"\n    }\n   ]\n  },\n  {\n   \"ide\nPASS: identifier_audit\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: ule_var\",\n     \"source\": \"app/agent/state.py\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: agent\"\n    }\n   ]\n  },\n  {\n   \"ide\nPASS: identifier_audit",
+      "recorded_at": "2026-10-10T06:56:55.749477+00:00",
+      "verification": "verified"
+    },
+    "lint": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "lint",
+        "computed_at": "2026-10-10T06:56:54.784242+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+        "input_paths": [
+          "app",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "syntax",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-api-health-incident"
+        ],
+        "executed_at": "2026-10-10T06:56:55.025662+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_c66752728a5b.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/lint_c66752728a5b.receipt.json",
+        "returncode": 0,
+        "run_id": "c66752728a5b",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: {\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)",
+      "recorded_at": "2026-10-10T06:56:55.038811+00:00",
+      "verification": "verified"
+    },
+    "prior_art": {
+      "detail": {
+        "artifact": "dev-process/task/20261010-api-health-incident/artifact/prior_art_report.json",
+        "findings": 0,
+        "frozen_overlap": 0
+      },
+      "evidence_record": null,
+      "execution": null,
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "verdict=clear",
+      "recorded_at": "2026-10-10T04:56:35.238466+00:00",
+      "verification": "reported_only"
+    },
+    "qa_quick": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "qa_quick",
+        "computed_at": "2026-10-10T06:56:55.785613+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+        "input_paths": [
+          "app",
+          "tests",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:56:55.937365+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3f1e1d32e610.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/qa_quick_3f1e1d32e610.receipt.json",
+        "returncode": 0,
+        "run_id": "3f1e1d32e610",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 5,
+      "input_independent": false,
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "recorded_at": "2026-10-10T06:56:55.944287+00:00",
+      "verification": "verified"
+    },
+    "unit_or_regression": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "unit_or_regression",
+        "computed_at": "2026-10-10T06:56:55.084739+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "618559e9ee3f6c60ebe85a115dddd08acaa22e5d33d04a571d03fbee909ffd83",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+        "input_paths": [
+          "app",
+          "tests",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T06:56:55.271642+00:00",
+        "input_snapshot": {
+          "after": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1",
+          "before": "sha256:ff76098b46edfac102164576641cd4bfb07c481981db14b4e669e4d8f4c64fb1"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_a94bbc921460.log",
+        "policy_scope_hash": "sha256:ab09114a61fe7931",
+        "receipt_ref": "dev-process/task/20261010-api-health-incident/evidence/unit_or_regression_a94bbc921460.receipt.json",
+        "returncode": 0,
+        "run_id": "a94bbc921460",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: PASS: DB security configuration invariants",
+      "recorded_at": "2026-10-10T06:56:55.282645+00:00",
+      "verification": "verified"
+    }
+  },
+  "status": "done",
+  "task_id": "20261010-api-health-incident",
+  "updated_at": "2026-10-10T06:57:05.329980+00:00",
+  "work_type": "code"
+}

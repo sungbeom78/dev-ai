@@ -1,0 +1,20 @@
+{
+  "task_id": "20261010-api-health-incident",
+  "keywords": [
+    "api health timeout web 8000 8771 pipeline"
+  ],
+  "files": [
+    "dev-process/local/incident/20261010-api-health-incident"
+  ],
+  "days": 30,
+  "checked_at": "2026-10-10T04:56:35.238094+00:00",
+  "sources": {
+    "change_log": "CHANGELOG.md",
+    "sot": null,
+    "module_index": null
+  },
+  "findings": [],
+  "frozen_overlap": [],
+  "active_task_overlap": [],
+  "verdict": "clear"
+}
