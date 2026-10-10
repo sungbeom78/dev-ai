@@ -1,6 +1,6 @@
 # 최종 보고서 — 20261009-db-security
 
-- 생성 시각: 2026-10-10T09:16:24.169144+00:00
+- 생성 시각: 2026-10-10T09:18:39.295233+00:00
 - **최종 판정**: `completed`
 
 ## 1. 업무 의미
@@ -24,7 +24,7 @@ db_security_runtime=allow[verified]; db_security_sequence_recovery=allow[verifie
 db-security-linked-sequence-owner(owner=20261009-db-security): 2/3 rounds, status=resolved; db-security-old-password-check-source(owner=20261009-db-security): 1/3 rounds, status=resolved
 
 ## 5. 운영 상태
-work=done, commit=87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0, push=not_requested, deploy=not_in_scope
+work=done, commit=87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0, push=pushed, deploy=not_in_scope
 
 ## 사용설명서
 해당 없음 -- 버그 수정(사용법 같음): 운영 보안, 사용법 같음

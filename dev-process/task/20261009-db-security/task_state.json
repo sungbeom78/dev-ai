@@ -140,7 +140,8 @@
     "changes_summary": "PostgreSQL과 Qdrant를 loopback으로 제한하고 앱 전용 DB role, 외부 비밀값, Qdrant API 키, 백업·복구 및 운영 증거를 적용",
     "commit": "87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0",
     "deploy": "not_in_scope",
-    "push": "not_requested",
+    "push": "pushed",
+    "release_reason": "ordinary push to https://github.com/sungbeom78/dev-ai.git main; no force",
     "release_scope": "in_scope",
     "work": "done"
   },
@@ -907,7 +908,7 @@
   "linked_incidents": [],
   "open_waits": [],
   "policy_version": "sha256:04c9f35de7167f7a",
-  "revision": 48,
+  "revision": 49,
   "rollbacks": [],
   "schema_version": "1",
   "stage": "report",
@@ -1465,6 +1466,6 @@
   },
   "status": "done",
   "task_id": "20261009-db-security",
-  "updated_at": "2026-10-10T09:16:24.107781+00:00",
+  "updated_at": "2026-10-10T09:18:39.022341+00:00",
   "work_type": "code"
 }

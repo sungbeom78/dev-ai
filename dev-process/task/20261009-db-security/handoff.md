@@ -1,6 +1,6 @@
 # Handoff — 20261009-db-security
 
-- 생성 시각: 2026-10-10T09:16:24.208939+00:00
+- 생성 시각: 2026-10-10T09:18:39.545353+00:00
 - 마지막 host: {'host': 'unknown', 'surface': 'unknown', 'version': 'unknown'}
 - Resume hint: stage=report, status=done, verdict=completed 부터 재개. 미해결 incident 없음.
 - 공통 판정: `completed`
@@ -23,7 +23,7 @@
 ## 미커밋 파일
 - dev-process/report/final/20261009-db-security_final_report.json
 - dev-process/report/final/20261009-db-security_final_report.md
-- dev-process/task/20261009-db-security/
+- dev-process/task/20261009-db-security/task_state.json
 
 ## stale 증거
 - (없음)

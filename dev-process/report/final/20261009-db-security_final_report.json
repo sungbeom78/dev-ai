@@ -139,11 +139,12 @@
     "changes_summary": "PostgreSQL과 Qdrant를 loopback으로 제한하고 앱 전용 DB role, 외부 비밀값, Qdrant API 키, 백업·복구 및 운영 증거를 적용",
     "commit": "87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0",
     "deploy": "not_in_scope",
-    "push": "not_requested",
+    "push": "pushed",
+    "release_reason": "ordinary push to https://github.com/sungbeom78/dev-ai.git main; no force",
     "release_scope": "in_scope",
     "work": "done"
   },
-  "generated_at": "2026-10-10T09:16:24.169144+00:00",
+  "generated_at": "2026-10-10T09:18:39.295233+00:00",
   "incidents": [
     {
       "incident_id": "db-security-linked-sequence-owner",
@@ -745,7 +746,7 @@
     "actual_changes": "PostgreSQL과 Qdrant를 loopback으로 제한하고 앱 전용 DB role, 외부 비밀값, Qdrant API 키, 백업·복구 및 운영 증거를 적용",
     "business_meaning": "DB 노출·권한·비밀값 정리",
     "change_and_recovery_history": "db-security-linked-sequence-owner(owner=20261009-db-security): 2/3 rounds, status=resolved; db-security-old-password-check-source(owner=20261009-db-security): 1/3 rounds, status=resolved",
-    "operational_status": "work=done, commit=87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0, push=not_requested, deploy=not_in_scope",
+    "operational_status": "work=done, commit=87dc823b4d3ad94714ad329cf4a4dc86c97c3dc0, push=pushed, deploy=not_in_scope",
     "remaining_issues": "없음",
     "user_manual": "해당 없음 -- 버그 수정(사용법 같음): 운영 보안, 사용법 같음",
     "verification_evidence": "db_security_runtime=allow[verified]; db_security_sequence_recovery=allow[verified]; encoding=allow[verified]; identifier_audit=allow[verified]; lint=allow[verified]; prior_art=allow[reported_only]; qa_quick=allow[verified]; unit_or_regression=allow[verified]"
