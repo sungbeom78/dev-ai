@@ -770,13 +770,62 @@
       "status": "resolved"
     },
     "identifier-audit-missing-httpx": {
-      "closed_at": "2026-10-10T06:57:04.710439+00:00",
+      "cause": "environment",
+      "cause_history": [
+        {
+          "cause": "environment",
+          "evidence": "/usr/bin/python3에는 httpx가 없고 /project/dev_ai/.venv/bin/python에는 httpx 0.28.1이 있다. 실패 로그도 builtin_checks.py가 /usr/bin/python3로 실행됐음을 명시한다.",
+          "investigation": {
+            "data_changes": "해당 없음: 식별자 감사가 glossary API import 전에 실패했고 사전 데이터·애플리케이션 DB·Qdrant를 쓰지 않았다.",
+            "logs": "dev-process/task/20261010-alembic-baseline/evidence/identifier_audit_1b8dae36b97a.log: 첫 오류 glossary/core/token_rules.py:8 ModuleNotFoundError: No module named httpx",
+            "recent_changes": "T5 pyproject 변경은 Alembic 추가뿐이며 httpx 선언을 제거하지 않았다. framework init_project는 .venv 의존성을 설치했지만 이번 verify 호출만 /usr/bin/python3를 사용했다.",
+            "search": "이전 task 20261010-api-health-incident에 동일 error_signature와 incident-id identifier-audit-missing-httpx가 있으며 .venv 실행으로 해소한 기록을 확인했다.",
+            "system_state": "dev-process/task/20261010-alembic-baseline/artifact/identifier-audit-httpx-investigation.txt: 시스템 Python httpx 없음, 프로젝트 .venv httpx 0.28.1 있음; glossary와 framework 작업 트리 깨끗함"
+          },
+          "ts": "2026-10-10T13:13:46.569788+00:00"
+        }
+      ],
+      "closed_at": "2026-10-10T13:14:35.229985+00:00",
       "created_at": "2026-10-10T06:46:08.891273+00:00",
       "error_signature": "identifier_audit: No module named httpx under system python",
+      "events": [
+        {
+          "by_task": "20261010-alembic-baseline",
+          "kind": "classify_",
+          "ts": "2026-10-10T13:13:46.569807+00:00"
+        },
+        {
+          "by_task": "20261010-alembic-baseline",
+          "kind": "retry_",
+          "ts": "2026-10-10T13:14:34.856865+00:00"
+        }
+      ],
       "incident_id": "identifier-audit-missing-httpx",
-      "linked_tasks": [],
+      "linked_tasks": [
+        "20261010-alembic-baseline"
+      ],
       "max_rounds": 3,
       "owner_task_id": "20261010-api-health-incident",
+      "recurrences": [
+        {
+          "reported_by": "20261010-alembic-baseline",
+          "signature": "identifier_audit: No module named httpx under system python",
+          "ts": "2026-10-10T13:13:46.338111+00:00"
+        }
+      ],
+      "retries": [
+        {
+          "no": 1,
+          "note": "프로젝트 .venv로 identifier_audit를 다시 실행해 httpx 0.28.1을 사용했고 PASS를 봉인했다.",
+          "result": "ok",
+          "since": "2026-10-10T13:13:46.569788+00:00",
+          "ts": "2026-10-10T13:14:34.856843+00:00",
+          "verification_check": "identifier_audit",
+          "verification_run_id": "8fda05858f03",
+          "verification_task": "20261010-alembic-baseline",
+          "waited_seconds": 30
+        }
+      ],
       "rounds": [
         {
           "action": "프로젝트 .venv Python으로 verify를 다시 실행한다",
@@ -831,7 +880,7 @@
   "linked_incidents": [],
   "open_waits": [],
   "policy_version": "sha256:04c9f35de7167f7a",
-  "revision": 43,
+  "revision": 48,
   "rollbacks": [],
   "schema_version": "1",
   "stage": "report",
@@ -1283,6 +1332,6 @@
   },
   "status": "done",
   "task_id": "20261010-api-health-incident",
-  "updated_at": "2026-10-10T06:57:05.329980+00:00",
+  "updated_at": "2026-10-10T13:14:35.229995+00:00",
   "work_type": "code"
 }
