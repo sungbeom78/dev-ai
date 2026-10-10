@@ -1,0 +1,76 @@
+## container and port state
+bomts_api	Up 5 hours	0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+bomts_qdrant	Up 5 hours	127.0.0.1:6333-6334->6333-6334/tcp
+## image
+sha256:a34c452be588c76bacba5c8dc671cc6918e264a99c230b9d5b02a240e826ad2c 2026-10-10T12:54:03.528345412Z
+## env key names only
+QDRANT_API_KEY
+QDRANT_URL
+## preview app diff
+diff --git a/app/main.py b/project/dev_ai-t5-preview/app/main.py
+index 5353a8b..7fb474b 100644
+--- a/app/main.py
++++ b/project/dev_ai-t5-preview/app/main.py
+@@ -2,8 +2,6 @@ from fastapi import FastAPI
+ from contextlib import asynccontextmanager
+ 
+ from app.api import health, documents, ask, search, agent, logs, sources, trend
+-from app.db.database import engine
+-from app.db.models import Base
+ from app.rag.vector_store import QdrantStore
+ 
+ import asyncio
+@@ -27,7 +25,6 @@ async def auto_update_loop():
+ @asynccontextmanager
+ async def lifespan(app: FastAPI):
+     # Startup
+-    Base.metadata.create_all(bind=engine)
+     vector_store = QdrantStore()
+     vector_store.ensure_collection()
+     
+## relevant source locations
+/project/dev_ai-t5-preview/app/api/trend.py:15:from app.rag.vector_store import QdrantStore
+/project/dev_ai-t5-preview/app/api/trend.py:20:vector_store = QdrantStore()
+/project/dev_ai-t5-preview/app/api/search.py:4:from app.rag.vector_store import QdrantStore
+/project/dev_ai-t5-preview/app/api/search.py:8:vector_store = QdrantStore()
+/project/dev_ai-t5-preview/app/api/documents.py:11:from app.rag.vector_store import QdrantStore
+/project/dev_ai-t5-preview/app/api/documents.py:80:    vector_store = QdrantStore()
+/project/dev_ai-t5-preview/app/api/health.py:11:QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+/project/dev_ai-t5-preview/app/api/health.py:27:    # Check if QDRANT_URL contains 'qdrant' hostname, we might be running on PM2 host
+/project/dev_ai-t5-preview/app/api/health.py:28:    qdrant_urls_to_try = [QDRANT_URL]
+/project/dev_ai-t5-preview/app/api/health.py:29:    if "qdrant" in QDRANT_URL:
+/project/dev_ai-t5-preview/app/api/health.py:30:        qdrant_urls_to_try.append(QDRANT_URL.replace("qdrant", "localhost"))
+/project/dev_ai-t5-preview/app/api/health.py:36:            collections_response = client.get_collections()
+/project/dev_ai-t5-preview/app/main.py:5:from app.rag.vector_store import QdrantStore
+/project/dev_ai-t5-preview/app/main.py:28:    vector_store = QdrantStore()
+/project/dev_ai-t5-preview/app/rag/vector_store.py:6:QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+/project/dev_ai-t5-preview/app/rag/vector_store.py:8:class QdrantStore:
+/project/dev_ai-t5-preview/app/rag/vector_store.py:10:        url_to_try = QDRANT_URL
+/project/dev_ai-t5-preview/app/rag/vector_store.py:14:            self.client.get_collections() # test connection
+/project/dev_ai-t5-preview/app/rag/vector_store.py:27:        collections = self.client.get_collections().collections
+/project/dev_ai-t5-preview/app/rag/answer_generator.py:4:from app.rag.vector_store import QdrantStore
+/project/dev_ai-t5-preview/app/rag/answer_generator.py:12:        self.vector_store = QdrantStore()
+app/api/trend.py:15:from app.rag.vector_store import QdrantStore
+app/api/trend.py:20:vector_store = QdrantStore()
+app/api/search.py:4:from app.rag.vector_store import QdrantStore
+app/api/search.py:8:vector_store = QdrantStore()
+app/api/documents.py:11:from app.rag.vector_store import QdrantStore
+app/api/documents.py:80:    vector_store = QdrantStore()
+app/api/health.py:11:QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+app/api/health.py:27:    # Check if QDRANT_URL contains 'qdrant' hostname, we might be running on PM2 host
+app/api/health.py:28:    qdrant_urls_to_try = [QDRANT_URL]
+app/api/health.py:29:    if "qdrant" in QDRANT_URL:
+app/api/health.py:30:        qdrant_urls_to_try.append(QDRANT_URL.replace("qdrant", "localhost"))
+app/api/health.py:36:            collections_response = client.get_collections()
+app/main.py:7:from app.rag.vector_store import QdrantStore
+app/main.py:31:    vector_store = QdrantStore()
+app/rag/vector_store.py:6:QDRANT_URL = os.getenv("QDRANT_URL", "http://qdrant:6333")
+app/rag/vector_store.py:8:class QdrantStore:
+app/rag/vector_store.py:10:        url_to_try = QDRANT_URL
+app/rag/vector_store.py:14:            self.client.get_collections() # test connection
+app/rag/vector_store.py:27:        collections = self.client.get_collections().collections
+## related incident records
+## filesystem and docker storage
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   98G   28G   66G  30% /
+/dev/mapper/ubuntu--vg-ubuntu--lv   98G   28G   66G  30% /

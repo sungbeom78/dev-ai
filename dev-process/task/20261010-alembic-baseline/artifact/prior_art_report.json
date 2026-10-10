@@ -1,0 +1,37 @@
+{
+  "task_id": "20261010-alembic-baseline",
+  "keywords": [
+    "Alembic",
+    "create_all",
+    "migration",
+    "baseline"
+  ],
+  "files": [
+    "app/main.py",
+    "app/db",
+    "alembic.ini",
+    "migrations",
+    "requirements.txt",
+    "docker-compose.yml"
+  ],
+  "days": 30,
+  "checked_at": "2026-10-10T12:47:14.809137+00:00",
+  "sources": {
+    "change_log": "CHANGELOG.md",
+    "sot": null,
+    "module_index": null
+  },
+  "findings": [
+    {
+      "source": "CHANGELOG.md",
+      "line": "- 2026-10-10 docs(data): baseline production PostgreSQL schema and generated model artifacts (task 20261010-model-baseline)",
+      "keywords": [
+        "baseline"
+      ],
+      "relation": "related"
+    }
+  ],
+  "frozen_overlap": [],
+  "active_task_overlap": [],
+  "verdict": "caution"
+}

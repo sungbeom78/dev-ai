@@ -1,0 +1,7 @@
+--- app/main.py (current production-mounted source)
++++ app/main.py (prepared T5 source)
+@@
+-from app.db.database import engine
+-from app.db.models import Base
+@@
+-Base.metadata.create_all(bind=engine)

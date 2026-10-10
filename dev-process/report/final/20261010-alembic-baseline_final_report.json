@@ -1,0 +1,971 @@
+{
+  "acceptance": [
+    {
+      "no": 1,
+      "note": "alembic_schema run 0bf0162a9725: head 20261010_01, tables=8, columns=80, foreign_keys=6, production diff lines=0",
+      "status": "met",
+      "text": "Alembic baseline revision이 T4 정본의 8개 테이블·80개 컬럼·6개 관계를 재현",
+      "updated_at": "2026-10-10T13:15:13.715990+00:00"
+    },
+    {
+      "no": 2,
+      "note": "scripts/check.sh와 live_apply_smoke run 06aea2021f9a에서 app/main.py create_all 및 engine/Base 불필요 import 부재 확인",
+      "status": "met",
+      "text": "애플리케이션 기동 경로에서 Base.metadata.create_all 호출 제거",
+      "updated_at": "2026-10-10T13:15:13.957898+00:00"
+    },
+    {
+      "no": 3,
+      "note": "빈 UUID 임시 PostgreSQL에서 alembic upgrade head 후 운영 schema-only 정규화 diff 0, downgrade 후 앱 테이블 0 (run 0bf0162a9725)",
+      "status": "met",
+      "text": "빈 임시 PostgreSQL에 alembic upgrade head 후 정본 DDL과 스키마 차이 0",
+      "updated_at": "2026-10-10T13:15:14.217186+00:00"
+    },
+    {
+      "no": 4,
+      "note": "production_db_untouched run e5fba9d5bcf8: alembic_version absent, public tables 8, DDL/stamp 미실행. db/MIGRATIONS.md에 stamp·upgrade·rollback 절차 기록",
+      "status": "met",
+      "text": "운영 DB에는 migration을 실행하지 않고 기존 DB stamp·upgrade 절차와 rollback을 기록",
+      "updated_at": "2026-10-10T13:15:14.453454+00:00"
+    },
+    {
+      "no": 5,
+      "note": "전체 verify verified: lint 68581436330e, regression 820d3ebf4e18, encoding 93ae00dc510a, identifier 041779c45aec, qa d732dea3f2eb; live health/search 200",
+      "status": "met",
+      "text": "기존 검사와 애플리케이션 테스트 통과",
+      "updated_at": "2026-10-10T13:15:14.713943+00:00"
+    }
+  ],
+  "approvals": [
+    {
+      "basis": "ops action '운영 API의 bind-mounted app/main.py에서 기동 시 create_all 호출 제거' not in delegation.ops.allowed.",
+      "decided_at": "2026-10-10T12:57:54.620594+00:00",
+      "decision": "deferred",
+      "grants_host_permission": false,
+      "kind": "ops_action",
+      "policy_version": "sha256:adf5b002a9d0ed8a",
+      "request_id": "alembic-createall-removal-prod-apply-20261010",
+      "required_checks": [],
+      "rule_id": "solo.ops.not_delegated",
+      "scope_fingerprint": "sha256:aa3e583b8203f549",
+      "tier": null,
+      "user_quote": null
+    },
+    {
+      "basis": "운영 API의 bind-mounted app/main.py에서 기동 시 create_all 호출 제거",
+      "decided_at": "2026-10-10T13:12:05.736973+00:00",
+      "decision": "user_approved",
+      "grants_host_permission": false,
+      "kind": "ops_action",
+      "policy_version": "sha256:adf5b002a9d0ed8a",
+      "request_id": "alembic-createall-removal-prod-apply-20261010",
+      "required_checks": [],
+      "rule_id": "user.explicit",
+      "scope_fingerprint": "sha256:aa3e583b8203f549",
+      "tier": null,
+      "user_quote": "`alembic-createall-removal-prod-apply-20261010 운영 적용을 승인한다.`"
+    }
+  ],
+  "change_kind": {
+    "history": [],
+    "kind": "refactor",
+    "reason": "운영 DB 구조와 사용자 사용법은 그대로이며 스키마 변경 관리 방식만 버전형 migration으로 전환",
+    "set_at": "2026-10-10T12:47:04.470593+00:00"
+  },
+  "completion": {
+    "changes_summary": "Alembic baseline 도입, startup create_all 제거, 빈 임시 PostgreSQL 스키마 diff 0, 운영 DB 미변경, live health·검색 200 및 전체 필수 검사 통과",
+    "commit": "be369b6a00e0969cc3f929b0e96208e0329eb22e",
+    "deploy": "not_in_scope",
+    "push": "pushed",
+    "release_scope": "in_scope",
+    "work": "done"
+  },
+  "generated_at": "2026-10-10T13:16:18.220938+00:00",
+  "incidents": [
+    {
+      "cause": "environment",
+      "disposition": null,
+      "incident_id": "alembic-psycopg2-missing",
+      "linked": false,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-alembic-baseline",
+      "plans": 1,
+      "retries": 1,
+      "rounds": [],
+      "rounds_used": 0,
+      "status": "resolved",
+      "waiting": null
+    },
+    {
+      "cause": "own_change",
+      "disposition": null,
+      "incident_id": "app-main-patch-context",
+      "linked": false,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-alembic-baseline",
+      "plans": 1,
+      "retries": 0,
+      "rounds": [
+        {
+          "hypothesis": "첫 패치는 실제 app/main.py의 import 순서와 lifespan 내부 호출 위치를 반영하지 않은 문맥을 사용했다",
+          "result": "실제 파일 문맥으로 승인 범위 3줄만 제거. live_apply_smoke에서 health 200, 실제 검색 200/결과 1건, 최근 로그 20줄, auth/connection 오류 0건.",
+          "round_no": 1,
+          "status": "confirmed",
+          "verified": true
+        }
+      ],
+      "rounds_used": 1,
+      "status": "resolved",
+      "waiting": null
+    },
+    {
+      "cause": "environment",
+      "disposition": null,
+      "incident_id": "host-pycache-permission",
+      "linked": false,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-alembic-baseline",
+      "plans": 1,
+      "retries": 1,
+      "rounds": [],
+      "rounds_used": 0,
+      "status": "resolved",
+      "waiting": null
+    },
+    {
+      "cause": "own_change",
+      "disposition": null,
+      "incident_id": "mark-work-done-missing-summary",
+      "linked": false,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-alembic-baseline",
+      "plans": 1,
+      "retries": 0,
+      "rounds": [
+        {
+          "hypothesis": "필수 --summary 인자 누락이 유일한 실패 원인이다",
+          "result": "필수 summary를 포함해 work=done 전환. work_state_ready에서 completion done 및 acceptance 5건 met 확인.",
+          "round_no": 1,
+          "status": "confirmed",
+          "verified": true
+        }
+      ],
+      "rounds_used": 1,
+      "status": "resolved",
+      "waiting": null
+    },
+    {
+      "cause": "own_change",
+      "disposition": null,
+      "incident_id": "preview-import-qdrant-endpoint",
+      "linked": false,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-alembic-baseline",
+      "plans": 1,
+      "retries": 0,
+      "rounds": [
+        {
+          "hypothesis": "격리 컨테이너가 bridge namespace의 loopback을 호스트 Qdrant로 오인했다",
+          "result": "host network로 preview image import 성공. image sha256:a34c452b..., create_all 부재 단언 성공, Qdrant 인증 연결 성공. credential 값 출력 없음.",
+          "round_no": 1,
+          "status": "confirmed",
+          "verified": true
+        }
+      ],
+      "rounds_used": 1,
+      "status": "resolved",
+      "waiting": null
+    },
+    {
+      "cause": "environment",
+      "disposition": null,
+      "incident_id": "identifier-audit-missing-httpx",
+      "linked": true,
+      "max_rounds": 3,
+      "owner_task_id": "20261010-api-health-incident",
+      "plans": 1,
+      "retries": 1,
+      "rounds": [
+        {
+          "hypothesis": "검증을 프로젝트 가상환경이 아닌 시스템 Python으로 실행해 프레임워크 의존성 httpx를 찾지 못했다",
+          "result": "가상환경 사용으로 httpx import 오류는 해소됐으나, 별도 db-security 준비 변경의 DATABASE_URL 식별자 사전 위반이 드러나 전체 검증은 아직 실패",
+          "round_no": 1,
+          "status": "partially_confirmed",
+          "verified": false
+        },
+        {
+          "hypothesis": "httpx 환경 문제 해소 후 남은 실패는 db-security 준비 코드가 DATABASE_URL을 변경된 모듈 선언으로 만든 데서 발생했다",
+          "result": "DATABASE_URL 중간 모듈 변수를 제거한 뒤 identifier_audit와 전체 필수 검사가 verified",
+          "round_no": 2,
+          "status": "confirmed",
+          "verified": true
+        }
+      ],
+      "rounds_used": 2,
+      "status": "resolved",
+      "waiting": null
+    }
+  ],
+  "result_state": "completed",
+  "rollbacks": [],
+  "stages": {
+    "alembic_schema": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "alembic_schema",
+        "computed_at": "2026-10-10T12:51:08.518324+00:00",
+        "file_count": 7,
+        "files": {
+          "alembic.ini": "47647861fb66a77954bc96b0a1fe24fac4308039d6062064df551d071ab41096",
+          "db/model.json": "e7fa0da5dd7c7db20ee077497a2c3fbee1f8e67b0ddf2d2051178d94c5d78388",
+          "db/out/02_ddl_postgresql.sql": "84b109ff081a17114f9ab042de363c3f9dcf49092601bbc1b585bd07388632af",
+          "db/tools/validate_alembic.py": "219ab225628f75426e4a6294aee5c917cdb2de724a2ab5ca74839aaa544009e2",
+          "migrations/env.py": "24ff8591957ce985bd4e54da5f4caef3117e0d4ea98512052e92f0f6ca3e86c9",
+          "migrations/script.py.mako": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e",
+          "migrations/versions/20261010_01_production_baseline.py": "4b54969a9245b149b67d8ac09e5cc232418efb9cf37a6081a6590ec4f23dcd60"
+        },
+        "fingerprint": "sha256:496f5b0fe1878cdbb883824f0e559149ad380bedc91257ac51a8a1677a74c6ac",
+        "input_paths": [
+          "alembic.ini",
+          "db/model.json",
+          "db/out/02_ddl_postgresql.sql",
+          "db/tools/validate_alembic.py",
+          "migrations"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "db/tools/validate_alembic.py"
+        ],
+        "executed_at": "2026-10-10T12:51:14.780991+00:00",
+        "input_snapshot": {
+          "after": "sha256:496f5b0fe1878cdbb883824f0e559149ad380bedc91257ac51a8a1677a74c6ac",
+          "before": "sha256:496f5b0fe1878cdbb883824f0e559149ad380bedc91257ac51a8a1677a74c6ac"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/alembic_schema_0bf0162a9725.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/alembic_schema_0bf0162a9725.receipt.json",
+        "returncode": 0,
+        "run_id": "0bf0162a9725",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "alembic_upgrade_head=20261010_01 tables=8 columns=80 foreign_keys=6\nproduction_pg_dump_vs_alembic_pg_dump_diff_lines=0\nalembic_downgrade_base_application_tables=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: mbic_upgrade_head=20261010_01 tables=8 columns=80 foreign_keys=6\nproduction_pg_dump_vs_alembic_pg_dump_diff_lines=0\nalembic_downgrade_base_application_tables=0",
+      "recorded_at": "2026-10-10T12:51:14.783553+00:00",
+      "verification": "verified"
+    },
+    "encoding": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "encoding",
+        "computed_at": "2026-10-10T13:14:45.016916+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+        "input_paths": [
+          "app",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "encoding",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-alembic-baseline"
+        ],
+        "executed_at": "2026-10-10T13:14:45.079884+00:00",
+        "input_snapshot": {
+          "after": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+          "before": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/encoding_93ae00dc510a.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/encoding_93ae00dc510a.receipt.json",
+        "returncode": 0,
+        "run_id": "93ae00dc510a",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: {\n \"check\": \"encoding\",\n \"status\": \"PASS\",\n \"checked_files\": 36,\n \"require_lf\": true,\n \"problems\": []\n}\nPASS: encoding (36)",
+      "recorded_at": "2026-10-10T13:14:45.086489+00:00",
+      "verification": "verified"
+    },
+    "identifier_audit": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "identifier_audit",
+        "computed_at": "2026-10-10T13:14:45.123177+00:00",
+        "file_count": 47,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "glossary/dictionary/areas.json": "d53d9f69b6e35f03257adaad3e524f2b36e66a0d0940666e703268ebfe10bd2c",
+          "glossary/dictionary/banned.json": "dd202b9aeda9c61cf59001295c3813aaa84a229308dbbaafbc3ede5129e866fd",
+          "glossary/dictionary/compounds.json": "fc0c5d5688bb7cf289c23443fc24a416ff97ca6340686c8b4730e99d503280ac",
+          "glossary/dictionary/drafts.json": "c59effa1d6f42d1426ed919a5f02643229e23ee018e5252a68acc9c18c53a35b",
+          "glossary/dictionary/pending_words.json": "e52f0d0a7eb548de632aa2282b5ce1b5c21bbfb3433220a77dc086ffd047fe1e",
+          "glossary/dictionary/tech_abbreviations.json": "bcbd3292e0affd52abe551ee8c3dc0145853f7b57b28c587037b7d7351379d28",
+          "glossary/dictionary/terms.json": "a1ad9b59c5ebf5f3445b60106bb8dfa6207ab8207f13ea275d59fc5e0a7f4a34",
+          "glossary/dictionary/terms_legacy.json": "016f83e3f56b787cc9f6b000fd4b97739ac1a9f33c604e15b37753eb0d1400e4",
+          "glossary/dictionary/unit_tokens.json": "f5b12bc6445c04cd6ceca6b78f02047c0e09f95b3a4631615dfb3b0b6c65b48a",
+          "glossary/dictionary/words.json": "d03bd4d63a1d46ad3e91d329c3233a6a9ae41be44300f3ee2a64001ffdc39d7f",
+          "glossary/dictionary/words__derived_terms.json": "e5fd7aa65fb825e0bce9c786c3769f6ca699437e8c266b064538ba545ee993bc",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:574defdf6910549b36aba3cfe5499eb75ea73146c16a5c970eea90f7116286f5",
+        "input_paths": [
+          "app",
+          "glossary/dictionary",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "identifier_audit",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web,glossary/dictionary",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-alembic-baseline"
+        ],
+        "executed_at": "2026-10-10T13:14:45.403359+00:00",
+        "input_snapshot": {
+          "after": "sha256:574defdf6910549b36aba3cfe5499eb75ea73146c16a5c970eea90f7116286f5",
+          "before": "sha256:574defdf6910549b36aba3cfe5499eb75ea73146c16a5c970eea90f7116286f5"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/identifier_audit_041779c45aec.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/identifier_audit_041779c45aec.receipt.json",
+        "returncode": 0,
+        "run_id": "041779c45aec",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "   }\n   ]\n  },\n  {\n   \"identifier\": \"statusBtn\",\n   \"file\": \"web/js/common.js\",\n   \"unregistered\": [\n    \"btn\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"statusBtn\",\n     \"kind\": \"module_var\",\n     \"source\": \"web/js/common.js\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: btn\"\n    }\n   ]\n  },\n  {\n   \"identifier\": \"closeBtn\",\n   \"file\": \"web/js/common.js\",\n   \"unregistered\": [\n    \"btn\"\n   ],\n   \"banned\": [],\n   \"issues\": [\n    {\n     \"severity\": \"FATAL\",\n     \"code\": \"UNREGISTERED_WORD\",\n     \"identifier\": \"closeBtn\",\n     \"kind\": \"module_var\",\n     \"source\": \"web/js/common.js\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: btn\"\n    }\n   ]\n  }\n ],\n \"verdict\": \"PASS\"\n}\nPASS: identifier_audit\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 3,
+      "input_independent": false,
+      "reason_code": "PASS: ,\n     \"source\": \"web/js/common.js\",\n     \"detail\": \"로컬 glossary에 미등록된 단어입니다. 대체 용어로 수정하세요: btn\"\n    }\n   ]\n  }\n ],\n \"verdict\": \"PASS\"\n}\nPASS: identifier_audit",
+      "recorded_at": "2026-10-10T13:14:45.417136+00:00",
+      "verification": "verified"
+    },
+    "lint": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "lint",
+        "computed_at": "2026-10-10T13:14:44.561342+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+        "input_paths": [
+          "app",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "/project/dev_ai/.venv/bin/python",
+          "/project/dev_ai/dev-process-framework/runtime/src/devprocess/builtin_checks.py",
+          "syntax",
+          "--project-root",
+          "/project/dev_ai",
+          "--inputs",
+          "app,web",
+          "--require-lf",
+          "true",
+          "--task-id",
+          "20261010-alembic-baseline"
+        ],
+        "executed_at": "2026-10-10T13:14:44.748790+00:00",
+        "input_snapshot": {
+          "after": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+          "before": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/lint_68581436330e.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/lint_68581436330e.receipt.json",
+        "returncode": 0,
+        "run_id": "68581436330e",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "{\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: {\n \"check\": \"syntax\",\n \"status\": \"PASS\",\n \"checked_files\": 35,\n \"errors\": [],\n \"unchecked_js\": [],\n \"note\": \"\"\n}\nPASS: syntax (35)",
+      "recorded_at": "2026-10-10T13:14:44.756280+00:00",
+      "verification": "verified"
+    },
+    "live_apply_smoke": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "live_apply_smoke",
+        "computed_at": "2026-10-10T13:12:57.389286+00:00",
+        "file_count": 1,
+        "files": {
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d"
+        },
+        "fingerprint": "sha256:2f6942d30a937aa1409f9986082cbf112b406535b8b079330f484edb27d19728",
+        "input_paths": [
+          "app/main.py"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "dev-process/task/20261010-alembic-baseline/artifact/verify_live_apply.sh"
+        ],
+        "executed_at": "2026-10-10T13:12:57.569036+00:00",
+        "input_snapshot": {
+          "after": "sha256:2f6942d30a937aa1409f9986082cbf112b406535b8b079330f484edb27d19728",
+          "before": "sha256:2f6942d30a937aa1409f9986082cbf112b406535b8b079330f484edb27d19728"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/live_apply_smoke_06aea2021f9a.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/live_apply_smoke_06aea2021f9a.receipt.json",
+        "returncode": 0,
+        "run_id": "06aea2021f9a",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "source_check=ok create_all=absent\nhealth_http=200 search_http=200 search_results=1 recent_log_lines=20 auth_connection_errors=0\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: source_check=ok create_all=absent\nhealth_http=200 search_http=200 search_results=1 recent_log_lines=20 auth_connection_errors=0",
+      "recorded_at": "2026-10-10T13:12:57.569762+00:00",
+      "verification": "verified"
+    },
+    "preview_image_import": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "preview_image_import",
+        "computed_at": "2026-10-10T12:56:39.478636+00:00",
+        "file_count": 5,
+        "files": {
+          "Dockerfile": "d2aa7b795a4dcd4fc1e528d61f04474c6f5bd84459ecb1cc5baae80612e3fc00",
+          "migrations/env.py": "24ff8591957ce985bd4e54da5f4caef3117e0d4ea98512052e92f0f6ca3e86c9",
+          "migrations/script.py.mako": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e",
+          "migrations/versions/20261010_01_production_baseline.py": "4b54969a9245b149b67d8ac09e5cc232418efb9cf37a6081a6590ec4f23dcd60",
+          "pyproject.toml": "acaff609798f8063636030cbe84928d3fdf743fc83dae239d3d5b685a9591216"
+        },
+        "fingerprint": "sha256:d918ca614efdef8e8f4b2a752a5a70ee3dc4e282e3f5997f14bba47d9a4c1394",
+        "input_paths": [
+          "Dockerfile",
+          "dev-process/task/20261010-alembic-baseline/artifact/check_preview_import.sh",
+          "dev-process/task/20261010-alembic-baseline/artifact/intended-app-main.diff",
+          "migrations",
+          "pyproject.toml"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "dev-process/task/20261010-alembic-baseline/artifact/check_preview_import.sh"
+        ],
+        "executed_at": "2026-10-10T12:56:44.581520+00:00",
+        "input_snapshot": {
+          "after": "sha256:d918ca614efdef8e8f4b2a752a5a70ee3dc4e282e3f5997f14bba47d9a4c1394",
+          "before": "sha256:d918ca614efdef8e8f4b2a752a5a70ee3dc4e282e3f5997f14bba47d9a4c1394"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/preview_image_import_3ea258c04b55.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/preview_image_import_3ea258c04b55.receipt.json",
+        "returncode": 0,
+        "run_id": "3ea258c04b55",
+        "sealed": true,
+        "stderr_tail": "/code/app/rag/vector_store.py:13: UserWarning: Api key is used with an insecure connection.\n  self.client = QdrantClient(url=url_to_try, api_key=os.environ[\"QDRANT_API_KEY\"])\n/code/app/rag/vector_store.py:13: UserWarning: Api key is used with an insecure connection.\n  self.client = QdrantClient(url=url_to_try, api_key=os.environ[\"QDRANT_API_KEY\"])\n/code/app/rag/vector_store.py:13: UserWarning: Api key is used with an insecure connection.\n  self.client = QdrantClient(url=url_to_try, api_key=os.environ[\"QDRANT_API_KEY\"])\n/code/app/rag/vector_store.py:13: UserWarning: Api key is used with an insecure connection.\n  self.client = QdrantClient(url=url_to_try, api_key=os.environ[\"QDRANT_API_KEY\"])\n",
+        "stdout_tail": "preview_image=sha256:a34c452be588c76bacba5c8dc671cc6918e264a99c230b9d5b02a240e826ad2c\npreview_import=ok create_all=absent\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: ector_store.py:13: UserWarning: Api key is used with an insecure connection.\n  self.client = QdrantClient(url=url_to_try, api_key=os.environ[\"QDRANT_API_KEY\"])",
+      "recorded_at": "2026-10-10T12:56:44.586584+00:00",
+      "verification": "verified"
+    },
+    "prior_art": {
+      "detail": {
+        "artifact": "dev-process/task/20261010-alembic-baseline/artifact/prior_art_report.json",
+        "findings": 1,
+        "frozen_overlap": 0
+      },
+      "evidence_record": null,
+      "execution": null,
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "verdict=caution",
+      "recorded_at": "2026-10-10T12:47:14.809552+00:00",
+      "verification": "reported_only"
+    },
+    "production_db_untouched": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "production_db_untouched",
+        "computed_at": "2026-10-10T13:15:05.391317+00:00",
+        "file_count": 5,
+        "files": {
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "db/MIGRATIONS.md": "8d4f0f120c56fb0bce127e4202dc5207a48c2f21be846bfcf57ebdbfc59ad061",
+          "migrations/env.py": "24ff8591957ce985bd4e54da5f4caef3117e0d4ea98512052e92f0f6ca3e86c9",
+          "migrations/script.py.mako": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e",
+          "migrations/versions/20261010_01_production_baseline.py": "4b54969a9245b149b67d8ac09e5cc232418efb9cf37a6081a6590ec4f23dcd60"
+        },
+        "fingerprint": "sha256:c53bcd23f72126264504774d39bd9242d61582a924a0ddb12a3c2d7fac237c4e",
+        "input_paths": [
+          "app/main.py",
+          "db/MIGRATIONS.md",
+          "migrations"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "dev-process/task/20261010-alembic-baseline/artifact/check_production_db_untouched.sh"
+        ],
+        "executed_at": "2026-10-10T13:15:05.600651+00:00",
+        "input_snapshot": {
+          "after": "sha256:c53bcd23f72126264504774d39bd9242d61582a924a0ddb12a3c2d7fac237c4e",
+          "before": "sha256:c53bcd23f72126264504774d39bd9242d61582a924a0ddb12a3c2d7fac237c4e"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/production_db_untouched_e5fba9d5bcf8.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/production_db_untouched_e5fba9d5bcf8.receipt.json",
+        "returncode": 0,
+        "run_id": "e5fba9d5bcf8",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "production_alembic_version=absent public_tables=8 ddl_or_stamp_executed=no\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: production_alembic_version=absent public_tables=8 ddl_or_stamp_executed=no",
+      "recorded_at": "2026-10-10T13:15:05.602200+00:00",
+      "verification": "verified"
+    },
+    "python_compile": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "python_compile",
+        "computed_at": "2026-10-10T12:52:12.712559+00:00",
+        "file_count": 9,
+        "files": {
+          "db/tools/check_exports.py": "0476e68696b7d70a12e65b9929659313dbaecc577fb276733c2a06de401083fc",
+          "db/tools/check_model.py": "2ee987a9a686f3b5c5d04182e46f7b1c9cfc1e2264cb3dd8f98fdc6b7b2e5fa0",
+          "db/tools/export_all.py": "0121d3802936ccdfb19691c642edca93865579631e3943bdb499e88f65dff9c7",
+          "db/tools/validate_alembic.py": "219ab225628f75426e4a6294aee5c917cdb2de724a2ab5ca74839aaa544009e2",
+          "db/tools/validate_ddl.py": "2812e520fae612161a99d0c54ac1f40eb3e3f469210d5e03a764adc2ab76e49c",
+          "migrations/env.py": "24ff8591957ce985bd4e54da5f4caef3117e0d4ea98512052e92f0f6ca3e86c9",
+          "migrations/script.py.mako": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e",
+          "migrations/versions/20261010_01_production_baseline.py": "4b54969a9245b149b67d8ac09e5cc232418efb9cf37a6081a6590ec4f23dcd60",
+          "scripts/check_alembic_baseline.py": "655d28953c50bcce46d22aa0751ca15f24c404a7aa8e96e766e43d086220e0e8"
+        },
+        "fingerprint": "sha256:b40cae160ae27c0e9e52d34d3691af2cdaa383a2d2de5ae2dcbe9d83a18e959e",
+        "input_paths": [
+          "db/tools",
+          "migrations",
+          "scripts/check_alembic_baseline.py"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "env",
+          "PYTHONPYCACHEPREFIX=/tmp/dev-ai-pycache",
+          ".venv/bin/python",
+          "-m",
+          "compileall",
+          "-q",
+          "migrations",
+          "db/tools",
+          "scripts/check_alembic_baseline.py"
+        ],
+        "executed_at": "2026-10-10T12:52:12.828025+00:00",
+        "input_snapshot": {
+          "after": "sha256:b40cae160ae27c0e9e52d34d3691af2cdaa383a2d2de5ae2dcbe9d83a18e959e",
+          "before": "sha256:b40cae160ae27c0e9e52d34d3691af2cdaa383a2d2de5ae2dcbe9d83a18e959e"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/python_compile_0807a409585b.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/python_compile_0807a409585b.receipt.json",
+        "returncode": 0,
+        "run_id": "0807a409585b",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: ok",
+      "recorded_at": "2026-10-10T12:52:12.830237+00:00",
+      "verification": "verified"
+    },
+    "qa_quick": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "qa_quick",
+        "computed_at": "2026-10-10T13:14:45.449589+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+        "input_paths": [
+          "app",
+          "tests",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T13:14:45.634362+00:00",
+        "input_snapshot": {
+          "after": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+          "before": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/qa_quick_d732dea3f2eb.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/qa_quick_d732dea3f2eb.receipt.json",
+        "returncode": 0,
+        "run_id": "d732dea3f2eb",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\nPASS: alembic baseline revision=20261010_01 statements=55 create_all=absent\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: PASS: DB security configuration invariants\nPASS: alembic baseline revision=20261010_01 statements=55 create_all=absent",
+      "recorded_at": "2026-10-10T13:14:45.641107+00:00",
+      "verification": "verified"
+    },
+    "unit_or_regression": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "unit_or_regression",
+        "computed_at": "2026-10-10T13:14:44.791072+00:00",
+        "file_count": 36,
+        "files": {
+          "app/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/agent/__init__.py": "834aa2dd74e4acdf9ff77112f657d8cbfe5da4df61418cfbc4be63d41e05886e",
+          "app/agent/classifier.py": "b46f61612436c9de279872781bc4dbcefd9c1d580135e452de2261b6258b0921",
+          "app/agent/nodes.py": "a5ee482afc3859fb0bd37caf53b0cd6fdd875f9ad2ca582b0d92ef8b9738271c",
+          "app/agent/schemas.py": "c61210dcd9c5a0fa1fed1275b78e4103ebba659471048b53b22780cd8877cd98",
+          "app/agent/state.py": "6dbf99fbe6cd95e9806d0754482419cba9c635b037ff89f9759b32ff7e9d1c75",
+          "app/agent/workflow.py": "efbc07b0058fcc76cb58e77e0bcdcafcf08900c5a63ff7b13b9f56d261ed42bd",
+          "app/api/__init__.py": "ff159057ecd06fecc5e96147eb95091c8176c3fc546117799e4c5580b132e987",
+          "app/api/agent.py": "4daeaf1f1ec1e6f49624f0e5cf7f3b39d848f8f5569ab266bf18250ce6756ab4",
+          "app/api/ask.py": "cf625325e4dfd04f6a490df6d7f490b82bcf6c585dd4e1fd99cfd6b984336576",
+          "app/api/documents.py": "d514128a083a3e22a5849e8ed084ec6f9f4e393ceb4e5421c956bb79f4994b69",
+          "app/api/health.py": "e049a5e3ee5cd3f796ba5e8113a70daadf6dc6255049e242f3b5363b31e1fcb0",
+          "app/api/logs.py": "035cef291e0c0c5c0a0b47e3ba1e2c6bbc845342e82460773576244dd89b234d",
+          "app/api/search.py": "2bfc345996c4a9f4c1fe7926d85d9db18da678febffb1095dce56a4caebc7b96",
+          "app/api/sources.py": "2b03a83e58d09cb978ec4b7ca811dc47c6b594e12d4e96be84f722eb6fca9763",
+          "app/api/trend.py": "3515d9e2e1b1cdb50e98123587c2315b2d95e46192a7e12e4cadc782abd6353c",
+          "app/db/database.py": "118d1aae161cef2ef16cb107be6e27eae3d7e3b0af30614746ea40af8ae85189",
+          "app/db/models.py": "245578cd6de33a2a7bea40471732cf3df32db38782eddec28eb750330b727822",
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "app/rag/answer_generator.py": "757507847eb18788d9b290dde04ffde5d96618cbe9a9c7d097997cf2f6bf80f1",
+          "app/rag/chunker.py": "a03315e2b624f0369f839e4532ce217816654a08f359663459d0398ae07fa831",
+          "app/rag/embeddings.py": "60f88d3fec11d70843be431086c98d6ea95e08823b56b78c5c704b29a4c75e07",
+          "app/rag/llm_provider.py": "b6602f868629b966e41025b69cc24995ff34e5c08a3203de92b91b12bc2b937f",
+          "app/rag/prompt_builder.py": "1ec6f0b59ac4f166ff5d3df7967ea1ac327e7092c5bf6ba246ce173e9a26edd9",
+          "app/rag/vector_store.py": "eff26695343807cc1eb5099684e4095446fd94dd28a33897dd64892b771360a0",
+          "app/schemas/ask.py": "1e2d0e4c6d72aa4385fa2af0ea64ce9fad803635c94696364343826205e0457d",
+          "app/schemas/document.py": "002b963b2e0145bd2b465d77a883fd9161025663bb98ff834cb7dec9b50f1ab7",
+          "app/schemas/search.py": "3c04d6eec5de086b750728d870329c2cb235f0ac1fddb1b474bcbe1836ec9f91",
+          "app/services/__init__.py": "09c1a5a35657fc1644b41df919c35cbfaf4328d66605695c5f0efd6c6967e7a1",
+          "app/services/log_service.py": "46cad90ff7f1ccc30bfc72f4e07be960f7178f19d3f17e2999c922e6150f239b",
+          "web/app.js": "e70fd40a4adce883ec89079f9261a09d108dda25e3077261ae5eee2790281b95",
+          "web/docs.html": "42977e6affc2ae514caaf885deab2666651e535cc33d25c04716fecdde33874a",
+          "web/index.html": "e6ed4ac9ff85205a509703995866fcc0a50bd82ce300057d796be47aa937fdbd",
+          "web/js/common.js": "fac6c5256037cf9dde15a8e80d310583fd0873d1872e05d893f35de817741bf0",
+          "web/style.css": "c80cb076408a615b828c2412bfe9941e3453b77c346786eca1fccc4cddf2cf4b",
+          "web/test.html": "d5f22397b75e8ca24f9c12f6c294ef166a6ff10b7adbf58c1f82724b2a4decc8"
+        },
+        "fingerprint": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+        "input_paths": [
+          "app",
+          "tests",
+          "web"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          "./scripts/check.sh"
+        ],
+        "executed_at": "2026-10-10T13:14:44.976673+00:00",
+        "input_snapshot": {
+          "after": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9",
+          "before": "sha256:91a35e15d5a2d150ec731a296399ce75ab5ce46a80fae9320d4508d8296fbaa9"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/unit_or_regression_820d3ebf4e18.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/unit_or_regression_820d3ebf4e18.receipt.json",
+        "returncode": 0,
+        "run_id": "820d3ebf4e18",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "PASS: DB security configuration invariants\nPASS: alembic baseline revision=20261010_01 statements=55 create_all=absent\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 2,
+      "input_independent": false,
+      "reason_code": "PASS: PASS: DB security configuration invariants\nPASS: alembic baseline revision=20261010_01 statements=55 create_all=absent",
+      "recorded_at": "2026-10-10T13:14:44.983408+00:00",
+      "verification": "verified"
+    },
+    "work_state_ready": {
+      "detail": {},
+      "evidence_record": {
+        "check_name": "work_state_ready",
+        "computed_at": "2026-10-10T13:15:53.274431+00:00",
+        "file_count": 6,
+        "files": {
+          "app/main.py": "764c27d7035de880a71b3bfba40fa918b3f6da672db3560de1a2659b44bffe4d",
+          "db/MIGRATIONS.md": "8d4f0f120c56fb0bce127e4202dc5207a48c2f21be846bfcf57ebdbfc59ad061",
+          "migrations/env.py": "24ff8591957ce985bd4e54da5f4caef3117e0d4ea98512052e92f0f6ca3e86c9",
+          "migrations/script.py.mako": "c20f6ab92d4ed36d77fbccb82bc410cd2ced42f2c162eebb43ddd45ae93dd90e",
+          "migrations/versions/20261010_01_production_baseline.py": "4b54969a9245b149b67d8ac09e5cc232418efb9cf37a6081a6590ec4f23dcd60",
+          "scripts/check_alembic_baseline.py": "2b17c13a9917c8bc4513701dcbb8f51ba46246bdc1fef23fd941d7c0764f608a"
+        },
+        "fingerprint": "sha256:4dcbc627e5eb29a58612fa9adebab572136b58355d2d56644c761786479613bd",
+        "input_paths": [
+          "app/main.py",
+          "db/MIGRATIONS.md",
+          "migrations",
+          "scripts/check_alembic_baseline.py"
+        ],
+        "missing_paths": []
+      },
+      "execution": {
+        "command": [
+          ".venv/bin/python",
+          "dev-process/task/20261010-alembic-baseline/artifact/check_work_state.py"
+        ],
+        "executed_at": "2026-10-10T13:15:53.303207+00:00",
+        "input_snapshot": {
+          "after": "sha256:4dcbc627e5eb29a58612fa9adebab572136b58355d2d56644c761786479613bd",
+          "before": "sha256:4dcbc627e5eb29a58612fa9adebab572136b58355d2d56644c761786479613bd"
+        },
+        "inputs_changed_during_run": false,
+        "log_ref": "dev-process/task/20261010-alembic-baseline/evidence/work_state_ready_0b626cc07d77.log",
+        "policy_scope_hash": "sha256:5a362aebf058a258",
+        "receipt_ref": "dev-process/task/20261010-alembic-baseline/evidence/work_state_ready_0b626cc07d77.receipt.json",
+        "returncode": 0,
+        "run_id": "0b626cc07d77",
+        "sealed": true,
+        "stderr_tail": "",
+        "stdout_tail": "work_state=done acceptance_met=5\n"
+      },
+      "gate_outcome": "allow",
+      "history_count": 1,
+      "input_independent": false,
+      "reason_code": "PASS: work_state=done acceptance_met=5",
+      "recorded_at": "2026-10-10T13:15:53.304872+00:00",
+      "verification": "verified"
+    }
+  },
+  "summary": {
+    "actual_changes": "Alembic baseline 도입, startup create_all 제거, 빈 임시 PostgreSQL 스키마 diff 0, 운영 DB 미변경, live health·검색 200 및 전체 필수 검사 통과",
+    "business_meaning": "Alembic baseline을 도입하고 애플리케이션 기동 시 create_all 의존을 제거",
+    "change_and_recovery_history": "alembic-psycopg2-missing(owner=20261010-alembic-baseline): 원인=environment, 계획 1, 라운드 0, 재시도 1, status=resolved; app-main-patch-context(owner=20261010-alembic-baseline): 원인=own_change, 계획 1, 라운드 1, 재시도 0, status=resolved; host-pycache-permission(owner=20261010-alembic-baseline): 원인=environment, 계획 1, 라운드 0, 재시도 1, status=resolved; mark-work-done-missing-summary(owner=20261010-alembic-baseline): 원인=own_change, 계획 1, 라운드 1, 재시도 0, status=resolved; preview-import-qdrant-endpoint(owner=20261010-alembic-baseline): 원인=own_change, 계획 1, 라운드 1, 재시도 0, status=resolved; identifier-audit-missing-httpx(owner=20261010-api-health-incident, linked): 원인=environment, 계획 1, 라운드 2, 재시도 1, status=resolved",
+    "operational_status": "work=done, commit=be369b6a00e0969cc3f929b0e96208e0329eb22e, push=pushed, deploy=not_in_scope",
+    "remaining_issues": "없음",
+    "user_manual": "해당 없음 -- 내부 정리: 운영 DB 구조와 사용자 사용법은 그대로이며 스키마 변경 관리 방식만 버전형 migration으로 전환",
+    "verification_evidence": "alembic_schema=allow[verified]; encoding=allow[verified]; identifier_audit=allow[verified]; lint=allow[verified]; live_apply_smoke=allow[verified]; preview_image_import=allow[verified]; prior_art=allow[reported_only]; production_db_untouched=allow[verified]; python_compile=allow[verified]; qa_quick=allow[verified]; unit_or_regression=allow[verified]; work_state_ready=allow[verified]"
+  },
+  "task_id": "20261010-alembic-baseline",
+  "verdict": {
+    "open_incidents": [],
+    "open_waits": [],
+    "stale_checks": [],
+    "unverified_checks": []
+  }
+}
